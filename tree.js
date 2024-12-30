@@ -8,7 +8,7 @@ document.body.appendChild(renderer.domElement);
 // Load GLTF model
 const loader = new THREE.GLTFLoader();
 loader.load(
-    'assets/model.glb', // 모델 경로
+    'assets/Rock.glb', // 모델 경로
     (gltf) => {
         const model = gltf.scene;
         scene.add(model); // 모델을 씬에 추가
