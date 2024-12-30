@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanggeon Kim</title>
+    <title>Works</title>
     <style>
         body, h1, h2, nav a {
     font-family: 'Roboto', sans-serif;
@@ -45,14 +45,6 @@
             font-weight: 300;
             cursor: pointer;
         }
-        header h1::after {
-            content: "";
-            display: block;
-            width: calc(100% + 10px);
-            height: 1px;
-            background-color: #000;
-            margin: 5px -5px 0 -5px;
-        }
         nav {
             display: flex;
             gap: 1rem;
@@ -74,12 +66,12 @@
             align-items: center;
             text-align: center;
         }
-        .home h2 {
-            font-size: 36px;
-            font-weight: 300;
+        .works-box {
+            width: 500px;
+            height: 500px;
+            background-color: yellow;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -87,15 +79,12 @@
             <h1 onclick="window.location.href='index.html'">Sanggeon Kim</h1>
             <nav>
                 <a href="about.html">About me</a>
-                <a href="works.html">Works</a>
+                <a href="works.html" class="active">Works</a>
             </nav>
         </div>
     </header>
     <main>
-        <section id="home" class="home">
-            <h2>Welcome to Sanggeon Kim's Portfolio</h2>
-        </section>
+        <div class="works-box"></div>
     </main>
 </body>
 </html>
-
