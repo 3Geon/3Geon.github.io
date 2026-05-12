@@ -1,0 +1,18 @@
+{
+  "name": "wedding-invitation",
+  "version": "1.0.0",
+  "main": "upload-server.js",
+  "scripts": {
+    "start": "node upload-server.js",
+    "dev": "node upload-server.js"
+  },
+  "keywords": ["wedding", "invitation", "photo-upload"],
+  "author": "",
+  "license": "ISC",
+  "description": "Wedding invitation with parallax effects and photo upload",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "multer": "^2.1.1"
+  }
+}
