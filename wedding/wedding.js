@@ -40,6 +40,66 @@ document.addEventListener('DOMContentLoaded', function() {
         return rect.top <= windowHeight - offset && rect.bottom >= 0;
     }
 
+    // ====== 0. ENVELOPE INTRO ANIMATION ======
+    const envelopeOverlay = document.getElementById('envelopeOverlay');
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+    const envelopeHint = document.getElementById('envelopeHint');
+    const mainContent = document.getElementById('mainContent');
+
+    let isEnvelopeOpen = false;
+    let isTransitioning = false;
+
+    if (envelope) {
+        envelope.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isTransitioning) return;
+            if (isEnvelopeOpen) return;
+
+            // Step 1: Click → Scale pop animation
+            envelopeWrapper.classList.add('clicked');
+
+            // Hide hint
+            if (envelopeHint) {
+                envelopeHint.style.opacity = '0';
+                envelopeHint.style.transition = 'opacity 0.3s ease';
+            }
+
+            // Step 2: After scale animation, open the flap
+            setTimeout(() => {
+                envelopeWrapper.classList.remove('clicked');
+                isEnvelopeOpen = true;
+                envelope.classList.add('open');
+
+                // Step 3: After flap opens and letter shows, transition to website
+                setTimeout(() => {
+                    isTransitioning = true;
+                    
+                    // Fade envelope away
+                    envelopeOverlay.classList.add('open-transition');
+                    
+                    // Step 4: Show main content
+                    setTimeout(() => {
+                        if (mainContent) {
+                            mainContent.classList.remove('hidden');
+                            void mainContent.offsetWidth;
+                            mainContent.classList.add('visible');
+                        }
+                        
+                        envelopeOverlay.classList.add('fade-out');
+                        
+                        setTimeout(() => {
+                            envelopeOverlay.style.display = 'none';
+                            if (typeof updateHeroParallax === 'function') updateHeroParallax();
+                            if (typeof checkRevealElements === 'function') checkRevealElements();
+                        }, 800);
+                    }, 800);
+                }, 1500);
+            }, 500); // Wait for scale animation to complete
+        });
+    }
+
     // ====== 1. HERO PARALLAX - Image Zoom Effect ======
     const heroImage = document.getElementById('heroImage');
     if (heroImage) {
