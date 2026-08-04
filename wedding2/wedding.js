@@ -460,17 +460,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!galleryGrid) return;
 
         try {
-            const response = await fetch('https://api.github.com/repos/3Geon/3Geon.github.io/contents/wedding2/photos');
+            // Fetch photo list from album folder via GitHub API
+            const response = await fetch('https://api.github.com/repos/3Geon/3Geon.github.io/contents/wedding2/album');
             if (!response.ok) throw new Error('Failed to fetch photo list');
 
             const files = await response.json();
             const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-            const excludeFiles = ['coming-soon.png', 'a5-28.png'];
 
             const photos = files
                 .filter(file => {
                     const ext = '.' + file.name.split('.').pop().toLowerCase();
-                    return imageExtensions.includes(ext) && !excludeFiles.includes(file.name);
+                    return imageExtensions.includes(ext);
                 })
                 .map(file => file.name)
                 .sort();
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.setAttribute('data-delay', (index * 100).toString());
 
                 const img = document.createElement('img');
-                img.src = 'photos/' + filename;
+                img.src = 'album/' + filename;
                 img.alt = '사진 ' + (index + 1);
                 img.loading = 'lazy';
 
