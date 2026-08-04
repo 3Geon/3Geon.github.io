@@ -18,12 +18,16 @@
                 <img src="photos/coming-soon.png" alt="메인 사진">
             </div>
             <div class="hero-overlay">
-                <div class="hero-text">
-                    <div class="hero-subtitle">WEDDING INVITATION</div>
-                    <div class="hero-names">
-                        상건 <span class="hero-ampersand">&</span> 기정
+                <!-- Overlay image (사랑의계절) -->
+                <img src="photos/사랑의계절.png" alt="사랑의 계절" class="hero-overlay-image">
+                <!-- 3D tilt text container -->
+                <div class="hero-text-wrapper" id="heroTextWrapper">
+                    <div class="hero-text">
+                        <div class="hero-names">
+                            상건 <span class="hero-ampersand">&</span> 기정
+                        </div>
+                        <div class="hero-date">2026 . 10 . 10 SAT</div>
                     </div>
-                    <div class="hero-date">2026 . 10 . 10 SAT</div>
                 </div>
             </div>
         </section>
@@ -34,12 +38,10 @@
                 <h2 class="section-title text-fade-in">초대합니다</h2>
                 <div class="divider"></div>
                 <p class="invitation-text text-fade-in" data-delay="200">
-                    새로운 시작을 함께 축하해 주시는<br>
-                    여러분을 진심으로 초대합니다.<br><br>
-                    저희 두 사람이 한 가족이 되어<br>
-                    서로의 이름으로 살아가고자 합니다.<br><br>
-                    따뜻한 마음으로 자리를 빛내주시면<br>
-                    더없이 큰 기쁨이 되겠습니다.
+                    우릴 하나로 모아주신 주님,<br>
+                    이제 주님 품 안에서 한 가정을 이루어<br>
+                    사랑의 계절을 함께 걸어나가려 합니다.<br><br>
+                    기쁨 가득한 이 날, 함께 축복해주세요.
                 </p>
             </div>
         </section>
@@ -87,6 +89,59 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Account section inside details -->
+                <div class="account-section text-fade-in" data-delay="300">
+                    <h3 class="account-section-title">마음 전하실 곳</h3>
+                    <p class="account-section-desc">버튼을 누르면 계좌번호가 나타납니다</p>
+
+                    <div class="account-list">
+                        <div class="account-group">
+                            <button class="account-toggle" type="button" data-target="groomAccounts">
+                                <span>신랑측</span>
+                                <span class="account-toggle-icon">▼</span>
+                            </button>
+                            <div class="account-content" id="groomAccounts">
+                                <div class="account-item">
+                                    <div class="account-info">
+                                        <span class="account-bank">신한은행</span>
+                                        <span class="account-number">110-000-000000</span>
+                                        <span class="account-name">이상건</span>
+                                    </div>
+                                    <button class="copy-btn" type="button" data-copy="110-000-000000">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="account-group">
+                            <button class="account-toggle" type="button" data-target="brideAccounts">
+                                <span>신부측</span>
+                                <span class="account-toggle-icon">▼</span>
+                            </button>
+                            <div class="account-content" id="brideAccounts">
+                                <div class="account-item">
+                                    <div class="account-info">
+                                        <span class="account-bank">국민은행</span>
+                                        <span class="account-number">220-000-000000</span>
+                                        <span class="account-name">김기정</span>
+                                    </div>
+                                    <button class="copy-btn" type="button" data-copy="220-000-000000">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -97,63 +152,6 @@
                 <div class="divider"></div>
                 <div class="gallery-grid" id="galleryGrid">
                     <div class="loading-photos">사진을 불러오는 중...</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ====== ACCOUNT SECTION ====== -->
-        <section class="section" id="account">
-            <div class="section-inner">
-                <h2 class="section-title text-fade-in">마음 전하실 곳</h2>
-                <div class="divider"></div>
-                <p class="section-desc text-fade-in" data-delay="100">
-                    버튼을 누르면 계좌번호가 나타납니다
-                </p>
-
-                <div class="account-list">
-                    <div class="account-group text-fade-in" data-delay="200">
-                        <button class="account-toggle" type="button" data-target="groomAccounts">
-                            <span>신랑측</span>
-                            <span class="account-toggle-icon">▼</span>
-                        </button>
-                        <div class="account-content" id="groomAccounts">
-                            <div class="account-item">
-                                <div class="account-info">
-                                    <span class="account-bank">신한은행</span>
-                                    <span class="account-number">110-000-000000</span>
-                                    <span class="account-name">이상건</span>
-                                </div>
-                                <button class="copy-btn" type="button" data-copy="110-000-000000">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="account-group text-fade-in" data-delay="300">
-                        <button class="account-toggle" type="button" data-target="brideAccounts">
-                            <span>신부측</span>
-                            <span class="account-toggle-icon">▼</span>
-                        </button>
-                        <div class="account-content" id="brideAccounts">
-                            <div class="account-item">
-                                <div class="account-info">
-                                    <span class="account-bank">국민은행</span>
-                                    <span class="account-number">220-000-000000</span>
-                                    <span class="account-name">김기정</span>
-                                </div>
-                                <button class="copy-btn" type="button" data-copy="220-000-000000">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                                        <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

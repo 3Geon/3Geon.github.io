@@ -124,6 +124,67 @@ document.addEventListener('DOMContentLoaded', function() {
         updateHeroParallax();
     }
 
+    // ====== 1b. 3D TILT EFFECT (Device Orientation) ======
+    const heroTextWrapper = document.getElementById('heroTextWrapper');
+    if (heroTextWrapper) {
+        let tiltX = 0;
+        let tiltY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        function handleDeviceOrientation(e) {
+            // beta: front-back tilt (-180 to 180)
+            // gamma: left-right tilt (-90 to 90)
+            const beta = e.beta || 0;
+            const gamma = e.gamma || 0;
+
+            // Normalize and limit
+            targetX = Math.max(-15, Math.min(15, gamma * 0.3));
+            targetY = Math.max(-15, Math.min(15, beta * 0.3 - 5));
+        }
+
+        function updateTilt() {
+            // Smooth interpolation
+            tiltX += (targetX - tiltX) * 0.1;
+            tiltY += (targetY - tiltY) * 0.1;
+
+            heroTextWrapper.style.transform = `rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+
+            requestAnimationFrame(updateTilt);
+        }
+
+        // Request permission for iOS 13+
+        function requestOrientationPermission() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && 
+                typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleDeviceOrientation);
+                            updateTilt();
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // Non-iOS or older iOS
+                window.addEventListener('deviceorientation', handleDeviceOrientation);
+                updateTilt();
+            }
+        }
+
+        // Try to add listener directly (works on Android)
+        window.addEventListener('deviceorientation', handleDeviceOrientation);
+        updateTilt();
+
+        // Also request permission on first touch (for iOS)
+        document.body.addEventListener('touchstart', function() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && 
+                typeof DeviceOrientationEvent.requestPermission === 'function') {
+                requestOrientationPermission();
+            }
+        }, { once: true });
+    }
+
     // ====== 2. SCROLL REVEAL ANIMATIONS ======
     let revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
 
