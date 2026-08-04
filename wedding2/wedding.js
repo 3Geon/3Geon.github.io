@@ -126,11 +126,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ====== 1b. 3D TILT EFFECT (Device Orientation) ======
     const heroTextWrapper = document.getElementById('heroTextWrapper');
+    
+    // 기울기 효과를 받는 레이어들 (BG 제외)
+    // 각 레이어의 data-depth 값이 클수록 기울기에 더 크게 반응
+    const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
+    
     if (heroTextWrapper) {
         let tiltX = 0;
         let tiltY = 0;
         let targetX = 0;
         let targetY = 0;
+
+        // 각 레이어의 현재 위치 저장 (기울기 효과를 위한 기본값)
+        const layerStates = {};
+        tiltLayers.forEach(layer => {
+            const depth = parseFloat(layer.getAttribute('data-depth')) || 0.5;
+            layerStates[layer.className] = {
+                depth: depth,
+                currentX: 0,
+                currentY: 0,
+                targetX: 0,
+                targetY: 0
+            };
+        });
 
         function handleDeviceOrientation(e) {
             // beta: front-back tilt (-180 to 180)
@@ -141,14 +159,35 @@ document.addEventListener('DOMContentLoaded', function() {
             // Normalize and limit
             targetX = Math.max(-15, Math.min(15, gamma * 0.3));
             targetY = Math.max(-15, Math.min(15, beta * 0.3 - 5));
+
+            // 각 레이어의 target을 depth에 따라 설정
+            tiltLayers.forEach(layer => {
+                const state = layerStates[layer.className];
+                if (state) {
+                    state.targetX = targetX * state.depth;
+                    state.targetY = targetY * state.depth;
+                }
+            });
         }
 
         function updateTilt() {
-            // Smooth interpolation
+            // Smooth interpolation for main wrapper
             tiltX += (targetX - tiltX) * 0.1;
             tiltY += (targetY - tiltY) * 0.1;
 
             heroTextWrapper.style.transform = `rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+
+            // Smooth interpolation for each layer
+            tiltLayers.forEach(layer => {
+                const state = layerStates[layer.className];
+                if (state) {
+                    state.currentX += (state.targetX - state.currentX) * 0.1;
+                    state.currentY += (state.targetY - state.currentY) * 0.1;
+
+                    // 각 레이어를 기울기 방향으로 이동 (공간감)
+                    layer.style.transform = `translate3d(${state.currentX * 2}px, ${state.currentY * 2}px, 0)`;
+                }
+            });
 
             requestAnimationFrame(updateTilt);
         }

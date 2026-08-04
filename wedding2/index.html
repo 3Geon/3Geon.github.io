@@ -14,22 +14,58 @@
 
         <!-- ====== HERO SECTION ====== -->
         <section class="hero-section" id="hero">
-            <div class="hero-image" id="heroImage">
-                <img src="photos/coming-soon.png" alt="메인 사진">
+
+            <!-- ============================================================
+                 HERO LAYER 구조 (아래에서 위로 배치)
+                 
+                 레이어 순서 (뒤 → 앞):
+                 1. BG.png          - 배경 (수정 필요)
+                 2. 사랑의계절.png   - 배경 + 장식 (수정 필요)
+                 3. Model.png       - 중간 레이어 (수정 필요)
+                 4. 상건 1.png      - 앞쪽 (수정 필요)
+                 5. 기정 1.png      - 앞쪽 (수정 필요)
+
+                 ★ 위치/스케일 조정 방법:
+                 - 각 레이어의 CSS 클래스에서 아래 값을 수정하세요:
+                   - `top` / `left` / `right` / `bottom` : 위치 (px, %, vh 사용 가능)
+                   - `width` / `height` : 크기 (px, %, vw 사용 가능)
+                   - `transform: translate(...)` : 추가 위치 조정
+                   - `z-index` : 레이어 순서 (낮을수록 뒤)
+                 - wedding.css 에서 해당 클래스명을 검색해 수정하세요.
+                 ============================================================ -->
+
+            <!-- Layer 1: BG (배경 - 기울기 효과 없음) -->
+            <div class="hero-layer hero-bg">
+                <img src="photos/BG.png" alt="배경">
             </div>
-            <div class="hero-overlay">
-                <!-- Overlay image (사랑의계절) -->
-                <img src="photos/사랑의계절.png" alt="사랑의 계절" class="hero-overlay-image">
-                <!-- 3D tilt text container -->
-                <div class="hero-text-wrapper" id="heroTextWrapper">
-                    <div class="hero-text">
-                        <div class="hero-names">
-                            상건 <span class="hero-ampersand">&</span> 기정
-                        </div>
-                        <div class="hero-date">2026 . 10 . 10 SAT</div>
-                    </div>
+
+            <!-- Layer 2: 사랑의계절 (기울기 효과 있음) -->
+            <div class="hero-layer hero-season" data-depth="0.3">
+                <img src="photos/사랑의계절.png" alt="사랑의 계절">
+            </div>
+
+            <!-- Layer 3: Model (기울기 효과 있음) -->
+            <div class="hero-layer hero-model" data-depth="0.5">
+                <img src="photos/Model.png" alt="모델">
+            </div>
+
+            <!-- Layer 4: 상건 (기울기 효과 있음) -->
+            <div class="hero-layer hero-groom" data-depth="0.7">
+                <img src="photos/상건 1.png" alt="상건">
+            </div>
+
+            <!-- Layer 5: 기정 (기울기 효과 있음) -->
+            <div class="hero-layer hero-bride" data-depth="0.9">
+                <img src="photos/기정 1.png" alt="기정">
+            </div>
+
+            <!-- 3D tilt wrapper (기울기 효과를 받는 레이어들을 감싸는 영역) -->
+            <div class="hero-text-wrapper" id="heroTextWrapper">
+                <div class="hero-text">
+                    <div class="hero-date">2026 . 10 . 10 SAT</div>
                 </div>
             </div>
+
         </section>
 
         <!-- ====== INVITATION SECTION ====== -->
@@ -51,7 +87,7 @@
             <div class="section-inner">
                 <h2 class="section-title text-fade-in">안내사항</h2>
                 <div class="divider"></div>
-                <div class="details-grid details-grid-2">
+                <div class="details-grid details-grid-1">
                     <div class="detail-card text-fade-in" data-delay="100">
                         <div class="detail-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">

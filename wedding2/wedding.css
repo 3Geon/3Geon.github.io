@@ -414,95 +414,133 @@ img {
     overflow: hidden;
 }
 
-.hero-image {
+/* ============================================================
+   HERO LAYER 스타일
+   - 각 레이어의 위치/스케일을 조정하려면 아래 값을 수정하세요.
+   - top / left / right / bottom : 위치
+   - width / height : 크기
+   - transform: translate(...) : 추가 위치 조정
+   - z-index : 레이어 순서 (낮을수록 뒤)
+   ============================================================ */
+
+/* 공통 레이어 스타일 */
+.hero-layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 120vh; /* Extra height for parallax zoom effect */
+    height: 100%;
+    pointer-events: none;
     will-change: transform;
-    transform-origin: center center;
 }
 
-.hero-image img {
+/* Layer 1: BG (배경 - 기울기 효과 없음)
+   ★ 위치/스케일 조정: top, left, width, height, transform 수정 */
+.hero-bg {
+    z-index: 0;
+}
+
+.hero-bg img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.hero-overlay {
+/* Layer 2: 사랑의계절 (기울기 효과 있음)
+   ★ 위치/스케일 조정: top, left, width, height, transform 수정
+   예) 사진을 위쪽으로 올리려면: top: -5%;
+       사진을 크게 하려면: width: 90%; */
+.hero-season {
+    z-index: 1;
+}
+
+.hero-season img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.15) 40%,
-        rgba(0, 0, 0, 0.4) 100%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    object-fit: contain;
 }
 
-/* 3D tilt wrapper */
+/* Layer 3: Model (기울기 효과 있음)
+   ★ 위치/스케일 조정: top, left, width, height, transform 수정
+   예) 모델을 아래로 내리려면: top: 10%;
+       모델을 작게 하려면: width: 70%; */
+.hero-model {
+    z-index: 2;
+}
+
+.hero-model img {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Layer 4: 상건 (기울기 효과 있음)
+   ★ 위치/스케일 조정: top, left, width, height, transform 수정
+   예) 왼쪽에 배치: left: 5%;
+       크기 조절: width: 40%; */
+.hero-groom {
+    z-index: 3;
+}
+
+.hero-groom img {
+    position: absolute;
+    left: 5%;
+    bottom: 8%;
+    width: 40%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Layer 5: 기정 (기울기 효과 있음)
+   ★ 위치/스케일 조정: top, left, width, height, transform 수정
+   예) 오른쪽에 배치: right: 5%;
+       크기 조절: width: 40%; */
+.hero-bride {
+    z-index: 4;
+}
+
+.hero-bride img {
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+    width: 40%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* 3D tilt wrapper (기울기 효과를 받는 레이어들을 감싸는 영역) */
 .hero-text-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
     perspective: 1000px;
     transform-style: preserve-3d;
     will-change: transform;
     transition: transform 0.1s ease-out;
+    z-index: 5;
+    pointer-events: none;
 }
 
 .hero-text {
+    position: absolute;
+    bottom: 20vh;
+    left: 0;
+    width: 100%;
     text-align: center;
     color: #fff;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 1.2s ease forwards;
     animation-delay: 0.3s;
-    padding-top: 35vh;
-}
-
-/* Overlay image (사랑의계절) */
-.hero-overlay-image {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 80%;
-    max-height: 60%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0;
-    animation: fadeInOverlay 2s ease forwards;
-    animation-delay: 0.5s;
-}
-
-@keyframes fadeInOverlay {
-    to {
-        opacity: 1;
-    }
-}
-
-.hero-names {
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.1em;
-    margin-bottom: 25px;
-}
-
-.hero-ampersand {
-    font-size: 22px;
-    display: inline-block;
-    color: #ffffff;
-    font-weight: 300;
 }
 
 .hero-date {
@@ -956,9 +994,9 @@ img {
     background: #b8934e;
 }
 
-/* ====== DETAILS GRID 2 COLUMNS ====== */
-.details-grid-2 {
-    grid-template-columns: 1fr 1fr;
+/* ====== DETAILS GRID 1 COLUMN ====== */
+.details-grid-1 {
+    grid-template-columns: 1fr;
 }
 
 /* ====== ACCOUNT SECTION (inside details) ====== */
