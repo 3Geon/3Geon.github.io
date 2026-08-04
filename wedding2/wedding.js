@@ -215,13 +215,18 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('deviceorientation', handleDeviceOrientation);
         updateTilt();
 
-        // Also request permission on first touch (for iOS)
-        document.body.addEventListener('touchstart', function() {
+        // iOS: request permission on every touch (not just first)
+        // iOS 13+ requires user gesture to request permission
+        function handleTouchForPermission() {
             if (typeof DeviceOrientationEvent !== 'undefined' && 
                 typeof DeviceOrientationEvent.requestPermission === 'function') {
                 requestOrientationPermission();
             }
-        }, { once: true });
+        }
+
+        document.body.addEventListener('touchstart', handleTouchForPermission);
+        document.body.addEventListener('click', handleTouchForPermission);
+        document.addEventListener('scroll', handleTouchForPermission, { passive: true });
     }
 
     // ====== 2. SCROLL REVEAL ANIMATIONS ======
