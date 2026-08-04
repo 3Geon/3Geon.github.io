@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====== 2. SCROLL REVEAL ANIMATIONS ======
-    const revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
+    let revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
 
     function checkRevealElements() {
         revealElements.forEach(el => {
@@ -358,102 +358,156 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ====== 7. LIGHTBOX FOR GALLERY ======
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (!img) return;
+    // ====== 7. LIGHTBOX FOR GALLERY (Event Delegation) ======
+    document.addEventListener('click', function(e) {
+        const galleryItem = e.target.closest('.gallery-item');
+        if (!galleryItem) return;
 
-            // Create lightbox
-            const lightbox = document.createElement('div');
-            lightbox.className = 'lightbox';
-            lightbox.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.9);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                cursor: pointer;
-                padding: 20px;
-            `;
+        const img = galleryItem.querySelector('img');
+        if (!img) return;
 
-            const lightboxImg = document.createElement('img');
-            lightboxImg.src = img.src;
-            lightboxImg.style.cssText = `
-                max-width: 100%;
-                max-height: 90vh;
-                border-radius: 8px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-                transform: scale(0.9);
-                transition: transform 0.3s ease;
-            `;
+        // Create lightbox
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        lightbox.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            padding: 20px;
+        `;
 
-            const closeBtn = document.createElement('button');
-            closeBtn.innerHTML = '&times;';
-            closeBtn.style.cssText = `
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
-                color: #fff;
-                font-size: 40px;
-                cursor: pointer;
-                opacity: 0.7;
-                transition: opacity 0.3s;
-                z-index: 10000;
-            `;
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeLightbox();
-            });
+        const lightboxImg = document.createElement('img');
+        lightboxImg.src = img.src;
+        lightboxImg.style.cssText = `
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        `;
 
-            lightbox.appendChild(closeBtn);
-            lightbox.appendChild(lightboxImg);
-            document.body.appendChild(lightbox);
-
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-
-            // Animate in
-            requestAnimationFrame(() => {
-                lightbox.style.opacity = '1';
-                lightboxImg.style.transform = 'scale(1)';
-            });
-
-            // Click to close
-            lightbox.addEventListener('click', closeLightbox);
-
-            function closeLightbox() {
-                lightbox.style.opacity = '0';
-                lightboxImg.style.transform = 'scale(0.9)';
-                document.body.style.overflow = '';
-                setTimeout(() => {
-                    if (lightbox.parentNode) {
-                        lightbox.parentNode.removeChild(lightbox);
-                    }
-                }, 300);
-            }
-
-            // Close on escape key
-            function handleEscape(e) {
-                if (e.key === 'Escape') {
-                    closeLightbox();
-                    document.removeEventListener('keydown', handleEscape);
-                }
-            }
-            document.addEventListener('keydown', handleEscape);
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.style.cssText = `
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            z-index: 10000;
+        `;
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            closeLightbox();
         });
+
+        lightbox.appendChild(closeBtn);
+        lightbox.appendChild(lightboxImg);
+        document.body.appendChild(lightbox);
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
+        // Animate in
+        requestAnimationFrame(() => {
+            lightbox.style.opacity = '1';
+            lightboxImg.style.transform = 'scale(1)';
+        });
+
+        // Click to close
+        lightbox.addEventListener('click', closeLightbox);
+
+        function closeLightbox() {
+            lightbox.style.opacity = '0';
+            lightboxImg.style.transform = 'scale(0.9)';
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                if (lightbox.parentNode) {
+                    lightbox.parentNode.removeChild(lightbox);
+                }
+            }, 300);
+        }
+
+        // Close on escape key
+        function handleEscape(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        }
+        document.addEventListener('keydown', handleEscape);
     });
+
+    // ====== 9. DYNAMIC GALLERY LOADING ======
+    async function loadGalleryPhotos() {
+        const galleryGrid = document.getElementById('galleryGrid');
+        if (!galleryGrid) return;
+
+        try {
+            const response = await fetch('https://api.github.com/repos/3Geon/3Geon.github.io/contents/wedding2/photos');
+            if (!response.ok) throw new Error('Failed to fetch photo list');
+
+            const files = await response.json();
+            const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+            const excludeFiles = ['coming-soon.png', 'a5-28.png'];
+
+            const photos = files
+                .filter(file => {
+                    const ext = '.' + file.name.split('.').pop().toLowerCase();
+                    return imageExtensions.includes(ext) && !excludeFiles.includes(file.name);
+                })
+                .map(file => file.name)
+                .sort();
+
+            if (photos.length === 0) {
+                galleryGrid.innerHTML = '<div class="loading-photos">표시할 사진이 없습니다.</div>';
+                return;
+            }
+
+            galleryGrid.innerHTML = '';
+
+            photos.forEach((filename, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item image-fade-in';
+                item.setAttribute('data-delay', (index * 100).toString());
+
+                const img = document.createElement('img');
+                img.src = 'photos/' + filename;
+                img.alt = '사진 ' + (index + 1);
+                img.loading = 'lazy';
+
+                item.appendChild(img);
+                galleryGrid.appendChild(item);
+            });
+
+            // Update reveal elements and check
+            revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
+            checkRevealElements();
+
+        } catch (error) {
+            console.log('Could not load gallery photos from API:', error);
+            galleryGrid.innerHTML = '<div class="loading-photos">사진을 불러올 수 없습니다.<br>잠시 후 다시 시도해 주세요.</div>';
+        }
+    }
+
+    // Load gallery photos on page load
+    loadGalleryPhotos();
 
     // ====== 8. RESPONSIVE RE-CHECK ON RESIZE ======
     window.addEventListener('resize', debounce(function() {

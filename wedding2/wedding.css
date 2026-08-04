@@ -931,6 +931,70 @@ img {
     background: #b8934e;
 }
 
+/* ====== MAP BUTTONS ====== */
+.map-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #f5f5f5;
+}
+
+.map-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.map-btn-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.map-btn-naver {
+    color: #03C75A;
+}
+
+.map-btn-naver .map-btn-letter {
+    background: #03C75A;
+}
+
+.map-btn-kakao {
+    color: #333;
+}
+
+.map-btn-kakao .map-btn-letter {
+    background: #FEE500;
+    color: #333;
+}
+
+.map-btn-tmap {
+    color: #0085FF;
+}
+
+.map-btn-tmap .map-btn-letter {
+    background: #0085FF;
+}
+
 /* ====== PARALLAX SCROLL STRIPE ====== */
 .parallax-stripe {
     position: absolute;

@@ -3,66 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>신랑 신부 결혼합니다</title>
+    <title>상건 · 기정 결혼합니다</title>
     <link rel="stylesheet" href="wedding.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- ====== ENVELOPE INTRO OVERLAY ====== -->
-    <div class="envelope-overlay" id="envelopeOverlay">
-        <div class="envelope-wrapper" id="envelopeWrapper">
-            <div class="envelope" id="envelope">
-                
-                <!-- Envelope body (back) -->
-                <div class="envelope-body">
-                    <div class="envelope-content">
-                        <div class="envelope-heart">♥</div>
-                        <div class="envelope-label">CLICK TO OPEN</div>
-                    </div>
-                </div>
-
-                <!-- Letter inside -->
-                <div class="letter" id="letter">
-                    <div class="letter-inner">
-                        <div class="letter-decoration">♥</div>
-                        <div class="letter-greeting">
-                            소중한 분들을 모시고<br>
-                            저희 두 사람이 결혼합니다
-                        </div>
-                        <div class="letter-names">
-                            신랑 <span class="letter-ampersand">&</span> 신부
-                        </div>
-                        <div class="letter-date">2026.10.25 SAT</div>
-                        <div class="letter-place">SEOUL</div>
-                    </div>
-                </div>
-
-                <!-- Envelope flap (front top) -->
-                <div class="envelope-flap">
-                    <div class="flap-inner"></div>
-                </div>
-
-            </div>
-        </div>
-        <div class="envelope-hint" id="envelopeHint">봉투를 터치해 주세요</div>
-    </div>
-
     <!-- ====== MAIN CONTENT ====== -->
-    <div class="main-content hidden" id="mainContent">
+    <div class="main-content visible" id="mainContent">
 
         <!-- ====== HERO SECTION ====== -->
         <section class="hero-section" id="hero">
             <div class="hero-image" id="heroImage">
-                <img src="photos/KakaoTalk_20260512_210645844_01.jpg" alt="메인 사진">
+                <img src="photos/coming-soon.png" alt="메인 사진">
             </div>
             <div class="hero-overlay">
                 <div class="hero-text">
                     <div class="hero-subtitle">WEDDING INVITATION</div>
                     <div class="hero-names">
-                        신랑 <span class="hero-ampersand">&</span> 신부
+                        상건 <span class="hero-ampersand">&</span> 기정
                     </div>
-                    <div class="hero-date">2026 . 10 . 25 SAT</div>
+                    <div class="hero-date">2026 . 10 . 10 SAT</div>
                 </div>
             </div>
         </section>
@@ -88,28 +49,8 @@
             <div class="section-inner">
                 <h2 class="section-title text-fade-in">갤러리</h2>
                 <div class="divider"></div>
-                <div class="gallery-grid">
-                    <div class="gallery-item image-fade-in">
-                        <img src="photos/KakaoTalk_20260512_210645844_02.jpg" alt="갤러리 사진 1">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="100">
-                        <img src="photos/KakaoTalk_20260512_210645844_03.jpg" alt="갤러리 사진 2">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="200">
-                        <img src="photos/KakaoTalk_20260512_210645844_04.jpg" alt="갤러리 사진 3">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="300">
-                        <img src="photos/KakaoTalk_20260512_210645844_05.jpg" alt="갤러리 사진 4">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="400">
-                        <img src="photos/KakaoTalk_20260512_210645844_06.jpg" alt="갤러리 사진 5">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="500">
-                        <img src="photos/KakaoTalk_20260512_210645844_07.jpg" alt="갤러리 사진 6">
-                    </div>
-                    <div class="gallery-item image-fade-in" data-delay="600">
-                        <img src="photos/KakaoTalk_20260512_210645844_08.jpg" alt="갤러리 사진 7">
-                    </div>
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="loading-photos">사진을 불러오는 중...</div>
                 </div>
             </div>
         </section>
@@ -121,55 +62,49 @@
                 <div class="divider"></div>
                 <div class="details-grid">
                     <div class="detail-card text-fade-in" data-delay="100">
-                        <div class="detail-icon">📅</div>
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
                         <h3>날짜 및 시간</h3>
-                        <p>2026년 10월 25일 토요일<br>오후 2시</p>
+                        <p>2026년 10월 10일 토요일<br>오후 2시</p>
                     </div>
                     <div class="detail-card text-fade-in" data-delay="200">
-                        <div class="detail-icon">📍</div>
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
                         <h3>예식 장소</h3>
-                        <p>서울특별시<br>자세한 위치는 추후 안내드립니다</p>
-                        <a href="#" class="map-link">지도 보기 →</a>
+                        <p>뜰안채2<br>경기 의왕시 양지편로 39-18</p>
+                        <div class="map-buttons">
+                            <a href="https://naver.me/58NdJdKu" class="map-btn map-btn-naver" target="_blank" rel="noopener">
+                                <span class="map-btn-letter">N</span>
+                                <span>네이버</span>
+                            </a>
+                            <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener">
+                                <span class="map-btn-letter">K</span>
+                                <span>카카오</span>
+                            </a>
+                            <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener">
+                                <span class="map-btn-letter">T</span>
+                                <span>T맵</span>
+                            </a>
+                        </div>
                     </div>
                     <div class="detail-card text-fade-in" data-delay="300">
-                        <div class="detail-icon">💌</div>
+                        <div class="detail-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                        </div>
                         <h3>연락처</h3>
                         <p>신랑측: 010-0000-0000<br>신부측: 010-0000-0000</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ====== PHOTO UPLOAD SECTION ====== -->
-        <section class="section" id="upload">
-            <div class="section-inner">
-                <h2 class="section-title text-fade-in">사진 업로드</h2>
-                <div class="divider"></div>
-                <p class="section-desc text-fade-in" data-delay="100">
-                    소중한 순간을 사진으로 남겨주세요
-                </p>
-                
-                <div class="upload-box text-fade-in" data-delay="200">
-                    <form class="upload-form" id="uploadForm">
-                        <div class="file-input-wrapper">
-                            <input type="file" name="photos" id="photoInput" accept="image/*" multiple>
-                            <label for="photoInput" class="file-label">
-                                <span class="upload-icon">📸</span>
-                                <span>사진 선택하기</span>
-                            </label>
-                        </div>
-                        <div class="upload-name" id="fileName">선택된 파일 없음</div>
-                        <div class="upload-preview" id="uploadPreview"></div>
-                        <button type="submit" class="upload-btn">업로드 하기</button>
-                        <div class="upload-status" id="uploadStatus"></div>
-                    </form>
-                </div>
-
-                <!-- Guest Photos -->
-                <div class="guest-photos-section">
-                    <h3 class="guest-photos-title text-fade-in" data-delay="300">게스트 사진</h3>
-                    <div class="guest-photos-grid" id="guestPhotos">
-                        <div class="loading-photos">사진을 불러오는 중...</div>
                     </div>
                 </div>
             </div>
@@ -178,8 +113,8 @@
         <!-- ====== FOOTER ====== -->
         <footer class="footer">
             <p class="footer-hearts">♥ ♥ ♥</p>
-            <p>신랑 & 신부</p>
-            <p>2026.10.25</p>
+            <p>상건 & 기정</p>
+            <p>2026.10.10</p>
             <p class="footer-copy">© 2026 Wedding Invitation</p>
         </footer>
 
