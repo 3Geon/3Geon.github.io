@@ -509,6 +509,79 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load gallery photos on page load
     loadGalleryPhotos();
 
+    // ====== 10. ACCOUNT ACCORDION & COPY ======
+    const accountToggles = document.querySelectorAll('.account-toggle');
+    
+    accountToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            if (!content) return;
+
+            const isOpen = content.classList.contains('open');
+
+            // Close all
+            document.querySelectorAll('.account-content').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.account-toggle').forEach(t => t.classList.remove('open'));
+
+            // Toggle current
+            if (!isOpen) {
+                content.classList.add('open');
+                this.classList.add('open');
+            }
+        });
+    });
+
+    // Copy account number
+    const copyBtns = document.querySelectorAll('.copy-btn');
+    
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const text = this.getAttribute('data-copy');
+            if (!text) return;
+
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyFeedback(this);
+                }).catch(() => {
+                    fallbackCopy(text);
+                    showCopyFeedback(this);
+                });
+            } else {
+                fallbackCopy(text);
+                showCopyFeedback(this);
+            }
+        });
+    });
+
+    function showCopyFeedback(btn) {
+        const originalHTML = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg>';
+        
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = originalHTML;
+        }, 2000);
+    }
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+        } catch (err) {
+            console.log('Copy failed:', err);
+        }
+        document.body.removeChild(textarea);
+    }
+
     // ====== 8. RESPONSIVE RE-CHECK ON RESIZE ======
     window.addEventListener('resize', debounce(function() {
         checkRevealElements();
