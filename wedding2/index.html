@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>상건 · 기정 결혼합니다</title>
     <link rel="stylesheet" href="wedding.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Gowun+Batang:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,75 +14,58 @@
 
         <!-- ====== HERO SECTION ====== -->
         <section class="hero-section" id="hero">
-
-            <!-- ============================================================
-                 HERO LAYER 구조 (아래에서 위로 배치)
-                 
-                 레이어 순서 (뒤 → 앞):
-                 1. BG.png          - 배경 (수정 필요)
-                 2. 사랑의계절.png   - 배경 + 장식 (수정 필요)
-                 3. Model.png       - 중간 레이어 (수정 필요)
-                 4. 상건 1.png      - 앞쪽 (수정 필요)
-                 5. 기정 1.png      - 앞쪽 (수정 필요)
-
-                 ★ 위치/스케일 조정 방법:
-                 - 각 레이어의 CSS 클래스에서 아래 값을 수정하세요:
-                   - `top` / `left` / `right` / `bottom` : 위치 (px, %, vh 사용 가능)
-                   - `width` / `height` : 크기 (px, %, vw 사용 가능)
-                   - `transform: translate(...)` : 추가 위치 조정
-                   - `z-index` : 레이어 순서 (낮을수록 뒤)
-                 - wedding.css 에서 해당 클래스명을 검색해 수정하세요.
-                 ============================================================ -->
-
-            <!-- Layer 1: BG (배경 - 기울기 효과 없음) -->
+            
+            <!-- 배경 레이어 -->
             <div class="hero-layer hero-bg">
                 <img src="photos/BG.png" alt="배경">
             </div>
 
-            <!-- Layer 2: 사랑의계절 (기울기 효과 있음) -->
-            <div class="hero-layer hero-season" data-depth="0.3">
-                <img src="photos/사랑의계절.png" alt="사랑의 계절">
-            </div>
-
-            <!-- Layer 3: Model (기울기 효과 있음) -->
-            <div class="hero-layer hero-model" data-depth="0.5">
-                <img src="photos/Model.png" alt="모델">
-            </div>
-
-            <!-- Layer 4: SANG GEON (기울기 효과 있음) -->
-            <div class="hero-layer hero-groom" data-depth="0.7">
-                <div class="hero-person-name">
-                    <span class="letter-circle">S</span>
-                    <span class="letter-circle">A</span>
-                    <span class="letter-circle">N</span>
-                    <span class="letter-circle">G</span>
-                    <span class="letter-space"></span>
-                    <span class="letter-circle">G</span>
-                    <span class="letter-circle">E</span>
-                    <span class="letter-circle">O</span>
-                    <span class="letter-circle">N</span>
+            <!-- 분홍색 하트 -->
+            <div class="hero-heart-container">
+                <svg class="hero-heart" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M250,450 C150,380 50,280 50,180 C50,100 100,50 180,50 C220,50 250,80 250,80 C250,80 280,50 320,50 C400,50 450,100 450,180 C450,280 350,380 250,450 Z" />
+                </svg>
+                
+                <!-- 하트 안의 이름 -->
+                <div class="hero-heart-content">
+                    <div class="hero-couple-names">
+                        <span class="hero-name-groom">Sang Geon</span>
+                        <span class="hero-ampersand">*</span>
+                        <span class="hero-name-bride">Ki Jeong</span>
+                    </div>
+                    
+                    <div class="hero-wedding-info">
+                        <div class="hero-date">2026.03.22. SUN 12:30 PM</div>
+                        <div class="hero-venue">LACITTA THEATER</div>
+                        <div class="hero-address">1F GRAND BALLROOM</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Layer 5: KI JEONG (기울기 효과 있음) -->
-            <div class="hero-layer hero-bride" data-depth="0.9">
-                <div class="hero-person-name">
-                    <span class="letter-circle">K</span>
-                    <span class="letter-circle">I</span>
-                    <span class="letter-space"></span>
-                    <span class="letter-circle">J</span>
-                    <span class="letter-circle">E</span>
-                    <span class="letter-circle">O</span>
-                    <span class="letter-circle">N</span>
-                    <span class="letter-circle">G</span>
-                </div>
+            <!-- 흩뿌려진 동그라미 이름들 -->
+            <div class="hero-scattered-letters">
+                <!-- 왼쪽: SANG GEON -->
+                <span class="scattered-letter" style="top: 15%; left: 8%;">S</span>
+                <span class="scattered-letter" style="top: 22%; left: 15%;">A</span>
+                <span class="scattered-letter" style="top: 35%; left: 5%;">N</span>
+                <span class="scattered-letter" style="top: 45%; left: 12%;">G</span>
+                <span class="scattered-letter" style="top: 55%; left: 20%;">E</span>
+                <span class="scattered-letter" style="top: 40%; left: 25%;">O</span>
+                <span class="scattered-letter" style="top: 30%; left: 22%;">N</span>
+                
+                <!-- 오른쪽: KI JEONG -->
+                <span class="scattered-letter" style="top: 18%; right: 10%;">K</span>
+                <span class="scattered-letter" style="top: 28%; right: 18%;">I</span>
+                <span class="scattered-letter" style="top: 38%; right: 8%;">J</span>
+                <span class="scattered-letter" style="top: 48%; right: 15%;">E</span>
+                <span class="scattered-letter" style="top: 58%; right: 22%;">O</span>
+                <span class="scattered-letter" style="top: 42%; right: 25%;">N</span>
+                <span class="scattered-letter" style="top: 32%; right: 28%;">G</span>
             </div>
 
-            <!-- 3D tilt wrapper (기울기 효과를 받는 레이어들을 감싸는 영역) -->
-            <div class="hero-text-wrapper" id="heroTextWrapper">
-                <div class="hero-text">
-                    <div class="hero-date">2026 . 10 . 10 SAT</div>
-                </div>
+            <!-- 필기체 초대 문구 -->
+            <div class="hero-invitation-text">
+                You're invited to our wedding
             </div>
 
         </section>
