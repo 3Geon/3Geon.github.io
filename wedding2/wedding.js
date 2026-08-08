@@ -125,13 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ====== 1b. 3D TILT EFFECT (Device Orientation) ======
-    const heroTextWrapper = document.getElementById('heroTextWrapper');
-    
     // 기울기 효과를 받는 레이어들 (BG 제외)
     // 각 레이어의 data-depth 값이 클수록 기울기에 더 크게 반응
     const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
     
-    if (heroTextWrapper) {
+    if (tiltLayers.length > 0) {
         let tiltX = 0;
         let tiltY = 0;
         let targetX = 0;
@@ -171,13 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function updateTilt() {
-            // Smooth interpolation for main wrapper
-            tiltX += (targetX - tiltX) * 0.1;
-            tiltY += (targetY - tiltY) * 0.1;
-
-            heroTextWrapper.style.transform = `rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
-
-            // Smooth interpolation for each layer
+            // Smooth interpolation for each layer independently
             tiltLayers.forEach(layer => {
                 const state = layerStates[layer.className];
                 if (state) {
@@ -185,7 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     state.currentY += (state.targetY - state.currentY) * 0.1;
 
                     // 각 레이어를 기울기 방향으로 이동 (공간감)
-                    layer.style.transform = `translate3d(${state.currentX * 2}px, ${state.currentY * 2}px, 0)`;
+                    // depth가 클수록 더 많이 이동
+                    const moveX = state.currentX * 2;
+                    const moveY = state.currentY * 2;
+                    
+                    layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
                 }
             });
 

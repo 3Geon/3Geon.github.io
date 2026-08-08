@@ -498,19 +498,25 @@ img {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+    max-width: 320px;
 }
 
-/* 상건 - 화면 중앙 기준 왼쪽 */
+/* 상건 - 화면 하단 왼쪽 */
 .hero-groom .hero-person-name {
-    left: 8%;
-    bottom: 18%;
+    left: 50%;
+    bottom: 12%;
+    transform: translateX(-120%);
 }
 
-/* 기정 - 화면 중앙 기준 오른쪽 */
+/* 기정 - 화면 하단 오른쪽 */
 .hero-bride .hero-person-name {
-    right: 8%;
-    bottom: 18%;
+    left: 50%;
+    bottom: 12%;
+    transform: translateX(20%);
 }
 
 /* 동그라미 안에 들어간 문자 */
@@ -518,13 +524,13 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
     font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #ffffff;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
@@ -537,7 +543,7 @@ img {
 
 /* 공백 문자 (단어 사이 간격) */
 .letter-space {
-    width: 12px;
+    width: 8px;
 }
 
 /* 각 문자마다 순차적으로 떨어지는 딜레이 */
