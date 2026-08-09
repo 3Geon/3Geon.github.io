@@ -33,29 +33,35 @@
             <!-- Layer 4: SANG GEON (기울기 효과 있음) -->
             <div class="hero-layer hero-groom" data-depth="0.7">
                 <div class="hero-person-name">
-                    <span class="letter-circle">S</span>
-                    <span class="letter-circle">A</span>
-                    <span class="letter-circle">N</span>
-                    <span class="letter-circle">G</span>
-                    <span class="letter-space"></span>
-                    <span class="letter-circle">G</span>
-                    <span class="letter-circle">E</span>
-                    <span class="letter-circle">O</span>
-                    <span class="letter-circle">N</span>
+                    <div class="name-row">
+                        <span class="letter-circle">S</span>
+                        <span class="letter-circle">A</span>
+                        <span class="letter-circle">N</span>
+                        <span class="letter-circle">G</span>
+                    </div>
+                    <div class="name-row">
+                        <span class="letter-circle">G</span>
+                        <span class="letter-circle">E</span>
+                        <span class="letter-circle">O</span>
+                        <span class="letter-circle">N</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Layer 5: KI JEONG (기울기 효과 있음) -->
             <div class="hero-layer hero-bride" data-depth="0.9">
                 <div class="hero-person-name">
-                    <span class="letter-circle">K</span>
-                    <span class="letter-circle">I</span>
-                    <span class="letter-space"></span>
-                    <span class="letter-circle">J</span>
-                    <span class="letter-circle">E</span>
-                    <span class="letter-circle">O</span>
-                    <span class="letter-circle">N</span>
-                    <span class="letter-circle">G</span>
+                    <div class="name-row">
+                        <span class="letter-circle">K</span>
+                        <span class="letter-circle">I</span>
+                    </div>
+                    <div class="name-row">
+                        <span class="letter-circle">J</span>
+                        <span class="letter-circle">E</span>
+                        <span class="letter-circle">O</span>
+                        <span class="letter-circle">N</span>
+                        <span class="letter-circle">G</span>
+                    </div>
                 </div>
             </div>
 
@@ -82,102 +88,85 @@
             </div>
         </section>
 
-        <!-- ====== DETAILS SECTION ====== -->
-        <section class="section" id="details">
+        <!-- ====== CALENDAR SECTION ====== -->
+        <section class="section" id="calendar">
             <div class="section-inner">
-                <h2 class="section-title text-fade-in">안내사항</h2>
+                <h2 class="section-title text-fade-in">October</h2>
                 <div class="divider"></div>
-                <div class="details-grid details-grid-1">
-                    <div class="detail-card text-fade-in" data-delay="100">
-                        <div class="detail-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
-                                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
-                        </div>
-                        <h3>날짜 및 시간</h3>
-                        <p>2026년 10월 10일 토요일<br>오후 2시</p>
+                <div class="calendar-container text-fade-in" data-delay="200">
+                    <div class="calendar-header">
+                        <span class="calendar-day">Sun</span>
+                        <span class="calendar-day">Mon</span>
+                        <span class="calendar-day">Tue</span>
+                        <span class="calendar-day">Wed</span>
+                        <span class="calendar-day">Thu</span>
+                        <span class="calendar-day">Fri</span>
+                        <span class="calendar-day calendar-day-sat">Sat</span>
                     </div>
-                    <div class="detail-card text-fade-in" data-delay="200">
-                        <div class="detail-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                        </div>
-                        <h3>예식 장소</h3>
-                        <p>뜰안채2<br>경기 의왕시 양지편로 39-18</p>
-                        <div class="map-buttons">
-                            <a href="https://naver.me/58NdJdKu" class="map-btn map-btn-naver" target="_blank" rel="noopener">
-                                <span class="map-btn-letter">N</span>
-                                <span>네이버</span>
-                            </a>
-                            <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener">
-                                <span class="map-btn-letter">K</span>
-                                <span>카카오</span>
-                            </a>
-                            <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener">
-                                <span class="map-btn-letter">T</span>
-                                <span>T맵</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account section inside details -->
-                <div class="account-section text-fade-in" data-delay="300">
-                    <h3 class="account-section-title">마음 전하실 곳</h3>
-                    <p class="account-section-desc">버튼을 누르면 계좌번호가 나타납니다</p>
-
-                    <div class="account-list">
-                        <div class="account-group">
-                            <button class="account-toggle" type="button" data-target="groomAccounts">
-                                <span>신랑측</span>
-                                <span class="account-toggle-icon">▼</span>
-                            </button>
-                            <div class="account-content" id="groomAccounts">
-                                <div class="account-item">
-                                    <div class="account-info">
-                                        <span class="account-bank">국민은행</span>
-                                        <span class="account-number">42200204221362</span>
-                                        <span class="account-name">김상건</span>
-                                    </div>
-                                    <button class="copy-btn" type="button" data-copy="42200204221362">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="account-group">
-                            <button class="account-toggle" type="button" data-target="brideAccounts">
-                                <span>신부측</span>
-                                <span class="account-toggle-icon">▼</span>
-                            </button>
-                            <div class="account-content" id="brideAccounts">
-                                <div class="account-item">
-                                    <div class="account-info">
-                                        <span class="account-bank">하나은행</span>
-                                        <span class="account-number">49191045957407</span>
-                                        <span class="account-name">윤기정</span>
-                                    </div>
-                                    <button class="copy-btn" type="button" data-copy="49191045957407">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-                                            <rect x="9" y="9" width="13" height="13" rx="2"/>
-                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="calendar-grid">
+                        <span class="calendar-date"></span>
+                        <span class="calendar-date"></span>
+                        <span class="calendar-date"></span>
+                        <span class="calendar-date"></span>
+                        <span class="calendar-date">1</span>
+                        <span class="calendar-date">2</span>
+                        <span class="calendar-date calendar-date-sat">3</span>
+                        <span class="calendar-date">4</span>
+                        <span class="calendar-date">5</span>
+                        <span class="calendar-date">6</span>
+                        <span class="calendar-date">7</span>
+                        <span class="calendar-date">8</span>
+                        <span class="calendar-date">9</span>
+                        <span class="calendar-date calendar-date-sat calendar-date-highlight">10</span>
+                        <span class="calendar-date">11</span>
+                        <span class="calendar-date">12</span>
+                        <span class="calendar-date">13</span>
+                        <span class="calendar-date">14</span>
+                        <span class="calendar-date">15</span>
+                        <span class="calendar-date">16</span>
+                        <span class="calendar-date calendar-date-sat">17</span>
+                        <span class="calendar-date">18</span>
+                        <span class="calendar-date">19</span>
+                        <span class="calendar-date">20</span>
+                        <span class="calendar-date">21</span>
+                        <span class="calendar-date">22</span>
+                        <span class="calendar-date">23</span>
+                        <span class="calendar-date">24</span>
+                        <span class="calendar-date calendar-date-sat">25</span>
+                        <span class="calendar-date">26</span>
+                        <span class="calendar-date">27</span>
+                        <span class="calendar-date">28</span>
+                        <span class="calendar-date">29</span>
+                        <span class="calendar-date">30</span>
+                        <span class="calendar-date">31</span>
                     </div>
                 </div>
+            </div>
+        </section>
 
+        <!-- ====== DETAILS SECTION ====== -->
+        <section class="section section-dark" id="details">
+            <div class="section-inner">
+                <div class="details-info text-fade-in" data-delay="100">
+                    <p class="details-date">2026년 10월 10일 토요일</p>
+                    <p class="details-time">오후 12시 30분</p>
+                    <p class="details-venue">뜰안채2</p>
+                    <p class="details-address">경기 의왕시 양지편로 39-18</p>
+                </div>
+                <div class="map-buttons">
+                    <a href="https://naver.me/58NdJdKu" class="map-btn map-btn-naver" target="_blank" rel="noopener">
+                        <span class="map-btn-letter">N</span>
+                        <span>네이버 지도</span>
+                    </a>
+                    <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener">
+                        <span class="map-btn-letter">K</span>
+                        <span>카카오 맵</span>
+                    </a>
+                    <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener">
+                        <span class="map-btn-letter">T</span>
+                        <span>T맵</span>
+                    </a>
+                </div>
             </div>
         </section>
 

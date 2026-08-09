@@ -18,6 +18,9 @@ body {
     line-height: 1.8;
     width: 100%;
     min-height: 100vh;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
 }
 
 /* ====== COMING SOON PAGE ====== */
@@ -412,20 +415,9 @@ img {
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    max-width: 500px;
-    margin: 0 auto;
 }
 
-/* ============================================================
-   HERO LAYER 스타일
-   - 각 레이어의 위치/스케일을 조정하려면 아래 값을 수정하세요.
-   - top / left / right / bottom : 위치
-   - width / height : 크기
-   - transform: translate(...) : 추가 위치 조정
-   - z-index : 레이어 순서 (낮을수록 뒤)
-   ============================================================ */
-
-/* 공통 레이어 스타일 */
+/* 배경 레이어 */
 .hero-layer {
     position: absolute;
     top: 0;
@@ -436,7 +428,6 @@ img {
     will-change: transform;
 }
 
-/* Layer 1: BG (배경 - 기울기 효과 없음) */
 .hero-bg {
     z-index: 0;
 }
@@ -492,24 +483,43 @@ img {
 .hero-person-name {
     position: absolute;
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: 80%;
+    max-width: 260px;
+}
+
+/* 각 이름 줄 (SANG/GEON, KI/JEONG) */
+.name-row {
+    display: flex;
     align-items: center;
-    gap: 3px;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 85%;
-    max-width: 280px;
+    gap: 4px;
+    width: 100%;
+}
+
+/* 상건 이름은 좌측 정렬 */
+.hero-groom .name-row {
+    justify-content: flex-start;
+}
+
+/* 기정 이름은 우측 정렬 */
+.hero-bride .name-row {
+    justify-content: flex-end;
 }
 
 /* 상건 - 화면 하단 왼쪽 (이미지처럼 배치) */
 .hero-groom .hero-person-name {
-    left: 5%;
-    bottom: 10%;
+    left: 8%;
+    bottom: 30%;
+    text-align: left;
 }
 
 /* 기정 - 화면 하단 오른쪽 (이미지처럼 배치) */
 .hero-bride .hero-person-name {
-    right: 5%;
-    bottom: 10%;
+    right: 8%;
+    bottom: 30%;
+    text-align: right;
 }
 
 /* 동그라미 안에 들어간 문자 */
@@ -517,13 +527,13 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.3);
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
     font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #ffffff;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
@@ -536,7 +546,7 @@ img {
 
 /* 공백 문자 (단어 사이 간격) */
 .letter-space {
-    width: 6px;
+    width: 5px;
 }
 
 /* 위에서 아래로 떨어지는 키프레임 */
@@ -575,7 +585,7 @@ img {
 
 .hero-text {
     position: absolute;
-    bottom: 20vh;
+    bottom: 0vh;
     left: 0;
     width: 100%;
     text-align: center;
@@ -591,6 +601,25 @@ img {
     letter-spacing: 0.3em;
     opacity: 0.8;
     font-weight: 300;
+}
+
+/* 위에서 아래로 떨어지는 키프레임 */
+@keyframes letterDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-80px) scale(0.5);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(10px) scale(1.1);
+    }
+    80% {
+        transform: translateY(-4px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* 위에서 아래로 떨어지는 키프레임 */
@@ -1231,6 +1260,96 @@ img {
 .copy-btn.copied {
     background: #4a7c59;
     color: #fff;
+}
+
+/* ====== CALENDAR ====== */
+.calendar-container {
+    margin-top: 20px;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.calendar-day {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    padding: 8px 0;
+    letter-spacing: 0.05em;
+}
+
+.calendar-day-sat {
+    color: #c9a96e;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-date {
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 0;
+    color: #2c2c2c;
+    font-weight: 600;
+}
+
+.calendar-date-sat {
+    color: #c9a96e;
+}
+
+.calendar-date-highlight {
+    background: #c9a96e;
+    color: #fff;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* ====== DETAILS INFO ====== */
+.details-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.details-date {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+}
+
+.details-time {
+    font-size: 16px;
+    font-weight: 600;
+    color: #c9a96e;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+}
+
+.details-venue {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin-bottom: 4px;
+}
+
+.details-address {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.6;
 }
 
 /* ====== MAP BUTTONS ====== */
