@@ -414,16 +414,7 @@ img {
     overflow: hidden;
 }
 
-/* ============================================================
-   HERO LAYER 스타일
-   - 각 레이어의 위치/스케일을 조정하려면 아래 값을 수정하세요.
-   - top / left / right / bottom : 위치
-   - width / height : 크기
-   - transform: translate(...) : 추가 위치 조정
-   - z-index : 레이어 순서 (낮을수록 뒤)
-   ============================================================ */
-
-/* 공통 레이어 스타일 */
+/* 배경 레이어 */
 .hero-layer {
     position: absolute;
     top: 0;
@@ -434,7 +425,6 @@ img {
     will-change: transform;
 }
 
-/* Layer 1: BG (배경 - 기울기 효과 없음) */
 .hero-bg {
     z-index: 0;
 }
@@ -446,95 +436,145 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: grayscale(100%) contrast(1.1);
 }
 
-/* Layer 2: 사랑의계절 (기울기 효과 있음) */
-.hero-season {
-    z-index: 1;
-}
-
-.hero-season img {
+/* 분홍색 하트 */
+.hero-heart-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Layer 3: Model (기울기 효과 있음) */
-.hero-model {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 2;
-}
-
-.hero-model img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Layer 4: 상건 (텍스트) */
-.hero-groom {
-    z-index: 3;
-}
-
-/* Layer 5: 기정 (텍스트) */
-.hero-bride {
-    z-index: 4;
-}
-
-/* 신랑/신부 이름 텍스트 스타일 */
-.hero-person-name {
-    position: absolute;
+    width: 90%;
+    max-width: 500px;
+    aspect-ratio: 1 / 1.1;
     display: flex;
     align-items: center;
-    gap: 3px;
+    justify-content: center;
+}
+
+.hero-heart {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    fill: #FF6B9D;
+    filter: drop-shadow(0 10px 30px rgba(255, 107, 157, 0.4));
+}
+
+.hero-heart-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 12px;
+}
+
+.hero-couple-names {
+    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 32px);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-    width: 85%;
-    max-width: 280px;
 }
 
-/* 상건 - 화면 하단 왼쪽 (이미지처럼 배치) */
-.hero-groom .hero-person-name {
-    left: 5%;
-    bottom: 10%;
+.hero-ampersand {
+    font-size: 0.8em;
+    color: #000;
 }
 
-/* 기정 - 화면 하단 오른쪽 (이미지처럼 배치) */
-.hero-bride .hero-person-name {
-    right: 5%;
-    bottom: 10%;
+.hero-name-groom,
+.hero-name-bride {
+    display: inline-block;
 }
 
-/* 동그라미 안에 들어간 문자 */
-.letter-circle {
+.hero-wedding-info {
+    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+    font-size: clamp(11px, 3vw, 14px);
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+}
+
+.hero-date {
+    margin-bottom: 4px;
+}
+
+.hero-venue {
+    margin-bottom: 2px;
+}
+
+/* 흩뿌려진 동그라미 문자들 */
+.hero-scattered-letters {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.scattered-letter {
+    position: absolute;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    background: #FF6B9D;
+    color: #fff;
     font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    /* 위에서 아래로 떨어지는 애니메이션 */
+    box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
     opacity: 0;
     animation: letterDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* 공백 문자 (단어 사이 간격) */
-.letter-space {
-    width: 6px;
+/* 각 문자마다 순차적으로 떨어지는 딜레이 */
+.hero-scattered-letters .scattered-letter:nth-child(1) { animation-delay: 0.1s; }
+.hero-scattered-letters .scattered-letter:nth-child(2) { animation-delay: 0.15s; }
+.hero-scattered-letters .scattered-letter:nth-child(3) { animation-delay: 0.2s; }
+.hero-scattered-letters .scattered-letter:nth-child(4) { animation-delay: 0.25s; }
+.hero-scattered-letters .scattered-letter:nth-child(5) { animation-delay: 0.3s; }
+.hero-scattered-letters .scattered-letter:nth-child(6) { animation-delay: 0.35s; }
+.hero-scattered-letters .scattered-letter:nth-child(7) { animation-delay: 0.4s; }
+.hero-scattered-letters .scattered-letter:nth-child(8) { animation-delay: 0.45s; }
+.hero-scattered-letters .scattered-letter:nth-child(9) { animation-delay: 0.5s; }
+.hero-scattered-letters .scattered-letter:nth-child(10) { animation-delay: 0.55s; }
+.hero-scattered-letters .scattered-letter:nth-child(11) { animation-delay: 0.6s; }
+.hero-scattered-letters .scattered-letter:nth-child(12) { animation-delay: 0.65s; }
+.hero-scattered-letters .scattered-letter:nth-child(13) { animation-delay: 0.7s; }
+.hero-scattered-letters .scattered-letter:nth-child(14) { animation-delay: 0.75s; }
+
+/* 필기체 초대 문구 */
+.hero-invitation-text {
+    position: absolute;
+    bottom: 3%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(24px, 6vw, 42px);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 3;
+    opacity: 0;
+    animation: fadeInUp 1.2s ease forwards;
+    animation-delay: 1s;
 }
 
 /* 위에서 아래로 떨어지는 키프레임 */
