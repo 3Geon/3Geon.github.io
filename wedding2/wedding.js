@@ -129,6 +129,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 각 레이어의 data-depth 값이 클수록 기울기에 더 크게 반응
     const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
     
+    // 랜덤 위치 효과 적용
+    function applyRandomPositions() {
+        const letterCircles = document.querySelectorAll('.letter-circle');
+        letterCircles.forEach((circle, index) => {
+            // 랜덤한 위치 오프셋 (-10px ~ +10px)
+            const randomX = (Math.random() - 0.5) * 20;
+            const randomY = (Math.random() - 0.5) * 20;
+            // 랜덤한 회전 (-5deg ~ +5deg)
+            const randomRotate = (Math.random() - 0.5) * 10;
+            
+            circle.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+        });
+    }
+    
+    // 페이지 로드 시 랜덤 위치 적용
+    applyRandomPositions();
+    
     if (tiltLayers.length > 0) {
         let tiltX = 0;
         let tiltY = 0;
@@ -164,6 +181,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (state) {
                     state.targetX = targetX * state.depth;
                     state.targetY = targetY * state.depth;
+                }
+            });
+        }
+
+        function handleMouseMove(e) {
+            // 마우스 위치를 화면 중심 기준으로 정규화 (-1 ~ 1)
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            // 정규화된 값을 각도로 변환 (최대 ±15도)
+            targetX = Math.max(-15, Math.min(15, (mouseX / centerX) * 15));
+            targetY = Math.max(-15, Math.min(15, (mouseY / centerY) * 15));
+
+            // 각 레이어의 target을 depth에 따라 설정
+            tiltLayers.forEach(layer => {
+                const state = layerStates[layer.className];
+                if (state) {
+                    state.targetX = targetX * state.depth;
+                    state.targetY = targetY * state.depth;
+                }
+            });
+        }
+        
+        // 마우스가 영역을 벗어나면 원래 위치로 돌아옴
+        function handleMouseLeave() {
+            targetX = 0;
+            targetY = 0;
+            
+            tiltLayers.forEach(layer => {
+                const state = layerStates[layer.className];
+                if (state) {
+                    state.targetX = 0;
+                    state.targetY = 0;
                 }
             });
         }
@@ -209,6 +261,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Try to add listener directly (works on Android)
         window.addEventListener('deviceorientation', handleDeviceOrientation);
+        
+        // 마우스 이벤트 리스너 추가 (데스크톱 지원)
+        window.addEventListener('mousemove', handleMouseMove);
+        
+        // 마우스가 영역을 벗어나면 원래 위치로 리셋
+        document.body.addEventListener('mouseleave', handleMouseLeave);
+        
         updateTilt();
 
         // iOS: request permission on every touch (not just first)

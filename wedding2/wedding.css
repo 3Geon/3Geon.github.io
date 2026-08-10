@@ -542,7 +542,30 @@ img {
     /* 위에서 아래로 떨어지는 애니메이션 */
     opacity: 0;
     animation: letterDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    /* 스프링 애니메이션을 위한 transition (부드럽게 원래 위치로 돌아옴) */
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
 }
+
+/* ====== 개별 글자 위치 조정 (nth-child) ====== */
+/* SANG GEON (왼쪽) - 8글자 */
+.hero-groom .letter-circle:nth-child(1) { transform: translate(0px, 0px) rotate(0deg); }    /* S */
+.hero-groom .letter-circle:nth-child(2) { transform: translate(3px, -2px) rotate(2deg); }   /* A */
+.hero-groom .letter-circle:nth-child(3) { transform: translate(-2px, 1px) rotate(-1deg); }  /* N */
+.hero-groom .letter-circle:nth-child(4) { transform: translate(1px, 2px) rotate(1deg); }    /* G */
+.hero-groom .letter-circle:nth-child(5) { transform: translate(-1px, -1px) rotate(-2deg); } /* G */
+.hero-groom .letter-circle:nth-child(6) { transform: translate(2px, 1px) rotate(1deg); }    /* E */
+.hero-groom .letter-circle:nth-child(7) { transform: translate(-3px, 2px) rotate(-1deg); }  /* O */
+.hero-groom .letter-circle:nth-child(8) { transform: translate(1px, -2px) rotate(2deg); }   /* N */
+
+/* KI JEONG (오른쪽) - 7글자 */
+.hero-bride .letter-circle:nth-child(1) { transform: translate(0px, 0px) rotate(0deg); }    /* K */
+.hero-bride .letter-circle:nth-child(2) { transform: translate(-2px, 1px) rotate(-1deg); }  /* I */
+.hero-bride .letter-circle:nth-child(3) { transform: translate(2px, -1px) rotate(1deg); }   /* J */
+.hero-bride .letter-circle:nth-child(4) { transform: translate(-1px, 2px) rotate(-2deg); }  /* E */
+.hero-bride .letter-circle:nth-child(5) { transform: translate(3px, 1px) rotate(1deg); }    /* O */
+.hero-bride .letter-circle:nth-child(6) { transform: translate(-2px, -2px) rotate(-1deg); } /* N */
+.hero-bride .letter-circle:nth-child(7) { transform: translate(1px, 1px) rotate(2deg); }    /* G */
 
 /* 공백 문자 (단어 사이 간격) */
 .letter-space {
