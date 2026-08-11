@@ -129,23 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 각 레이어의 data-depth 값이 클수록 기울기에 더 크게 반응
     const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
     
-    // 랜덤 위치 효과 적용
-    function applyRandomPositions() {
-        const letterCircles = document.querySelectorAll('.letter-circle');
-        letterCircles.forEach((circle, index) => {
-            // 랜덤한 위치 오프셋 (-10px ~ +10px)
-            const randomX = (Math.random() - 0.5) * 20;
-            const randomY = (Math.random() - 0.5) * 20;
-            // 랜덤한 회전 (-5deg ~ +5deg)
-            const randomRotate = (Math.random() - 0.5) * 10;
-            
-            circle.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
-        });
-    }
-    
-    // 페이지 로드 시 랜덤 위치 적용
-    applyRandomPositions();
-    
     if (tiltLayers.length > 0) {
         let tiltX = 0;
         let tiltY = 0;
@@ -234,6 +217,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     const moveY = state.currentY * 2;
                     
                     layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                }
+            });
+
+            // 글자별 순차적 움직임 (모래 효과)
+            const letterCircles = document.querySelectorAll('.letter-circle');
+            const totalLetters = letterCircles.length;
+            
+            letterCircles.forEach((circle, index) => {
+                // 각 글자마다 다른 지연 계수 (0 ~ 1)
+                const delayFactor = index / totalLetters;
+                
+                // 현재 레이어의 기울기 값을 가져옴
+                const parentLayer = circle.closest('.hero-layer');
+                if (parentLayer) {
+                    const state = layerStates[parentLayer.className];
+                    if (state) {
+                        // 지연된 위치 계산 (끝쪽 글자일수록 더 느리게 반응)
+                        const delayedX = state.currentX * (1 - delayFactor * 0.5);
+                        const delayedY = state.currentY * (1 - delayFactor * 0.5);
+                        
+                        // 개별 글자의 회전 추가
+                        const rotate = delayedX * 0.3;
+                        
+                        // 기본 위치(nth-child transform) + 기울기 효과
+                        const baseTransform = circle.style.transform || '';
+                        circle.style.transform = `translate3d(${delayedX}px, ${delayedY}px, 0) rotate(${rotate}deg)`;
+                    }
                 }
             });
 
