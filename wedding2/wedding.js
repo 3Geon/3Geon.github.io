@@ -204,52 +204,65 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function updateTilt() {
-            // Smooth interpolation for each layer independently
+            // 1. 레이어 이동 (글자가 있는 레이어는 제외!)
             tiltLayers.forEach(layer => {
                 const state = layerStates[layer.className];
                 if (state) {
                     state.currentX += (state.targetX - state.currentX) * 0.1;
                     state.currentY += (state.targetY - state.currentY) * 0.1;
 
-                    // 각 레이어를 기울기 방향으로 이동 (공간감)
-                    // depth가 클수록 더 많이 이동
-                    const moveX = state.currentX * 2;
-                    const moveY = state.currentY * 2;
-                    
-                    layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
-                }
-            });
-
-            // 글자별 순차적 움직임 (모래 효과)
-            const letterCircles = document.querySelectorAll('.letter-circle');
-            const totalLetters = letterCircles.length;
-            
-            letterCircles.forEach((circle, index) => {
-                // 각 글자마다 다른 지연 계수 (0 ~ 1)
-                const delayFactor = index / totalLetters;
-                
-                // 현재 레이어의 기울기 값을 가져옴
-                const parentLayer = circle.closest('.hero-layer');
-                if (parentLayer) {
-                    const state = layerStates[parentLayer.className];
-                    if (state) {
-                        // 지연된 위치 계산 (끝쪽 글자일수록 더 느리게 반응)
-                        const delayedX = state.currentX * (1 - delayFactor * 0.5);
-                        const delayedY = state.currentY * (1 - delayFactor * 0.5);
-                        
-                        // 개별 글자의 회전 추가
-                        const rotate = delayedX * 0.3;
-                        
-                        // 기본 위치(nth-child transform) + 기울기 효과
-                        const baseTransform = circle.style.transform || '';
-                        circle.style.transform = `translate3d(${delayedX}px, ${delayedY}px, 0) rotate(${rotate}deg)`;
+                    // 🌟 핵심: 글자(.letter-circle)가 없는 배경과 모델 레이어만 통째로 움직이게 제한
+                    if (!layer.querySelector('.letter-circle')) {
+                        const moveX = state.currentX * 2;
+                        const moveY = state.currentY * 2;
+                        layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
                     }
                 }
             });
 
+// 2. 글자별 순차적 딜레이 움직임 (파도처럼 따라오는 효과)
+            const letterCircles = document.querySelectorAll('.letter-circle');
+
+            letterCircles.forEach((circle) => {
+                const parentLayer = circle.closest('.hero-layer');
+                if (parentLayer) {
+                    const state = layerStates[parentLayer.className];
+                    if (state) {
+                        const siblings = Array.from(parentLayer.querySelectorAll('.letter-circle'));
+                        const localIndex = siblings.indexOf(circle);
+                        const localTotal = siblings.length;
+
+                        // 초기화 및 애니메이션 충돌 방지 플래그 추가
+                        if (typeof circle.isReady === 'undefined') {
+                            circle.isReady = false; // 준비 상태 플래그
+                            circle.currentX = 0;
+                            circle.currentY = 0;
+                            circle.speed = 0.15 - ((localTotal - 1 - localIndex) * 0.015);
+                            
+                            // 처음 떨어지는 CSS 애니메이션(0.8초)이 예쁘게 끝난 후 작동하도록 타이머 설정
+                            setTimeout(() => {
+                                circle.isReady = true;
+                            }, 1000); 
+                        }
+
+                        // 준비가 끝난 후부터 스르륵 효과 적용
+                        if (circle.isReady) {
+                            const targetX = state.targetX * 3.0;
+                            const targetY = state.targetY * 3.0;
+
+                            circle.currentX += (targetX - circle.currentX) * circle.speed;
+                            circle.currentY += (targetY - circle.currentY) * circle.speed;
+
+                            const rotate = circle.currentX * 0.3;
+                            // 🌟 CSS 애니메이션의 잠금을 강제로 이기고 적용되도록 '!important' 추가
+                            circle.style.setProperty('transform', `translate3d(${circle.currentX}px, ${circle.currentY}px, 0) rotate(${rotate}deg)`, 'important');
+                        }
+                    }
+                }
+            });
+            
             requestAnimationFrame(updateTilt);
         }
-
         // Request permission for iOS 13+
         function requestOrientationPermission() {
             if (typeof DeviceOrientationEvent !== 'undefined' && 
