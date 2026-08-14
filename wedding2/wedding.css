@@ -167,93 +167,58 @@ body {
 .section-dark .section-title { color: #ffffff; }
 .divider { background-color: #ff4b72; height: 3px; width: 60px; border-radius: 3px; }
 
-/* 부모님 편지 및 어릴 적 사진 섹션 (스크랩북 스타일) */
-.scrapbook-photos {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-bottom: 50px;
-    align-items: center;
-}
-.scrapbook-photo-wrap {
-    background: #ffffff;
-    padding: 10px 10px 30px 10px;
-    border: 2px solid #1a1a1a;
-    box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
-    border-radius: 3px;
-    width: 80%;
-    max-width: 300px;
+/* 부모님 편지 및 어릴 적 사진 섹션 (콜라주 스타일) */
+.collage-container {
     position: relative;
+    width: 85%;
+    max-width: 400px;
+    margin: 0 auto 10px auto; /* 겹친 이미지가 편지 영역을 가리지 않도록 하단 여백을 넉넉히 줌 */
 }
-.photo-left { transform: rotate(-4deg); align-self: flex-start; margin-left: 5%; }
-.photo-right { transform: rotate(3deg); align-self: flex-end; margin-right: 5%; }
 
-/* 마스킹 테이프 효과 */
-.scrapbook-photo-wrap::before {
-    content: '';
+.collage-center {
+    width: 70%;
+    display: block;
+    margin: 0 auto; /* 가족 사진을 정중앙에 배치 */
+    position: relative;
+    z-index: 1;
+    /* 직사각형 사진 뒤에 솔리드한 핫핑크 그림자 배치 */
+    /* box-shadow: 6px 6px 0px #ff4b72; */
+}
+
+.collage-left {
     position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    width: 80px;
-    height: 25px;
-    background: rgba(255, 184, 198, 0.7);
-    border: 1px dashed #ff4b72;
-    z-index: 5;
+    width: 60%;
+    left: -25%; /* 왼쪽 바깥으로 과감하게 빼줌 */
+    top: 60%; /* 위에서 적당히 내려와 엄마 어깨선 근처에 맞춤 */
+    z-index: 2;
+    /* 💖 투명한 PNG 이미지의 형태를 그대로 따라가는 마법의 그림자 효과! */
+    /* filter: drop-shadow(5px 5px 0px #ff4b72); */
 }
-.photo-right::before { background: rgba(167, 212, 208, 0.7); border-color: #559b96; transform: translateX(-50%) rotate(3deg); }
 
-.scrapbook-photo-wrap img {
+.collage-right {
+    position: absolute;
+    width: 65%;
+    right: -15%; /* 오른쪽 바깥으로 튀어나오게 */
+    bottom: -45%; /* 가족사진 아래로 겹쳐서 내려오게 */
+    z-index: 3;
+    /* 💖 투명한 PNG 이미지의 형태를 그대로 따라가는 마법의 그림자 효과! */
+    /* filter: drop-shadow(5px 5px 0px #ff4b72); */
+}
+
+/* 부모님 편지 이미지 영역 */
+.parents-letter-img {
+    width: 100%;
+    max-width: 420px; 
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    transform: rotate(-1deg); /* 스크랩북에 무심하게 붙인 듯한 미세한 기울기 */
+}
+
+.parents-letter-img img {
     width: 100%;
     height: auto;
-    border: 1px solid #eee;
-}
-.photo-caption {
-    font-family: 'Gaegu', cursive;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 20px;
-    color: #1a1a1a;
-    font-weight: 700;
-}
-
-/* 부모님 편지 영역 */
-.parents-letter-box {
-    position: relative;
-    margin-top: 40px;
-    padding: 0 15px;
-}
-.letter-title {
-    font-family: 'Gaegu', cursive;
-    font-size: 26px;
-    color: #1a1a1a;
-    margin-bottom: 15px;
-    text-align: center;
-}
-.letter-paper {
-    background: #ffffff;
-    padding: 30px;
-    border: 2px solid #1a1a1a;
-    border-radius: 5px;
-    box-shadow: 4px 4px 0px #ff4b72;
-    font-family: 'Nanum Pen Script', cursive;
-    font-size: 24px;
-    line-height: 1.8;
-    color: #333;
-    position: relative;
-    transform: rotate(-1deg);
-}
-/* 편지지 테이프 */
-.letter-paper::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    right: 20px;
-    width: 60px;
-    height: 20px;
-    background: rgba(255, 220, 100, 0.8);
-    transform: rotate(-5deg);
-    border: 1px dashed #d4a017;
 }
 
 /* 앨범 사진을 폴라로이드 스티커처럼 */
