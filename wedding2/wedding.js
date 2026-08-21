@@ -38,7 +38,57 @@ document.addEventListener('DOMContentLoaded', function() {
         return rect.top <= windowHeight - offset && rect.bottom >= 0;
     }
 
-    // ====== 0. ENVELOPE INTRO ======
+    // ====== 1. HERO PARALLAX (기울기 감지를 위한 초기 세팅) ======
+    const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
+    const layerStates = {};
+    let targetX = 0;
+    let targetY = 0;
+
+    if (tiltLayers.length > 0) {
+        tiltLayers.forEach(layer => {
+            const depth = parseFloat(layer.getAttribute('data-depth')) || 0.5;
+            layerStates[layer.className] = { depth: depth, currentX: 0, currentY: 0, targetX: 0, targetY: 0 };
+        });
+    }
+
+    // 💖 기기 기울기 감지 함수 💖
+    function handleDeviceOrientation(e) {
+        const beta = e.beta || 0;
+        const gamma = e.gamma || 0;
+        targetX = Math.max(-15, Math.min(15, gamma * 0.5));
+        targetY = Math.max(-15, Math.min(15, beta * 0.5 - 5));
+
+        tiltLayers.forEach(layer => {
+            const state = layerStates[layer.className];
+            if (state) {
+                state.targetX = targetX * state.depth;
+                state.targetY = targetY * state.depth;
+            }
+        });
+    }
+
+    // PC 환경 마우스 감지 함수
+    function handleMouseMove(e) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+        targetX = Math.max(-15, Math.min(15, (mouseX / centerX) * 15));
+        targetY = Math.max(-15, Math.min(15, (mouseY / centerY) * 15));
+
+        tiltLayers.forEach(layer => {
+            const state = layerStates[layer.className];
+            if (state) {
+                state.targetX = targetX * state.depth;
+                state.targetY = targetY * state.depth;
+            }
+        });
+    }
+
+    window.addEventListener('mousemove', handleMouseMove);
+    document.body.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
+
+    // ====== 0. ENVELOPE INTRO & 권한 요청 ======
     const envelopeOverlay = document.getElementById('envelopeOverlay');
     const envelope = document.getElementById('envelope');
     const envelopeWrapper = document.getElementById('envelopeWrapper');
@@ -53,6 +103,20 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             if (isTransitioning) return;
             if (isEnvelopeOpen) return;
+
+            // 🌟 아이폰(iOS 13+) 자이로 센서 권한 요청을 봉투 클릭 시점에 실행! 🌟
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleDeviceOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // 안드로이드 및 일반 기기
+                window.addEventListener('deviceorientation', handleDeviceOrientation);
+            }
 
             envelopeWrapper.classList.add('clicked');
             if (envelopeHint) {
@@ -75,141 +139,86 @@ document.addEventListener('DOMContentLoaded', function() {
                             void mainContent.offsetWidth;
                             mainContent.classList.add('visible');
                         }
-                        
                         envelopeOverlay.classList.add('fade-out');
-                        
-                        setTimeout(() => {
-                            envelopeOverlay.style.display = 'none';
-                        }, 800);
+                        setTimeout(() => { envelopeOverlay.style.display = 'none'; }, 800);
                     }, 800);
                 }, 1500);
             }, 500);
         });
     }
 
-    // ====== 1. HERO PARALLAX ======
-    const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
-    
-    if (tiltLayers.length > 0) {
-        let targetX = 0;
-        let targetY = 0;
-        const layerStates = {};
-
+    // ====== 실시간 애니메이션 루프 ======
+    function updateTilt() {
         tiltLayers.forEach(layer => {
-            const depth = parseFloat(layer.getAttribute('data-depth')) || 0.5;
-            layerStates[layer.className] = { depth: depth, currentX: 0, currentY: 0, targetX: 0, targetY: 0 };
+            const state = layerStates[layer.className];
+            if (state) {
+                state.currentX += (state.targetX - state.currentX) * 0.1;
+                state.currentY += (state.targetY - state.currentY) * 0.1;
+
+                if (!layer.querySelector('.letter-circle')) {
+                    const moveX = state.currentX * 2;
+                    const moveY = state.currentY * 2;
+                    layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                }
+            }
         });
 
-        function handleDeviceOrientation(e) {
-            const beta = e.beta || 0;
-            const gamma = e.gamma || 0;
-            targetX = Math.max(-15, Math.min(15, gamma * 0.3));
-            targetY = Math.max(-15, Math.min(15, beta * 0.3 - 5));
-
-            tiltLayers.forEach(layer => {
-                const state = layerStates[layer.className];
+        const letterCircles = document.querySelectorAll('.letter-circle');
+        letterCircles.forEach((circle) => {
+            const parentLayer = circle.closest('.hero-layer');
+            if (parentLayer) {
+                const state = layerStates[parentLayer.className];
                 if (state) {
-                    state.targetX = targetX * state.depth;
-                    state.targetY = targetY * state.depth;
-                }
-            });
-        }
+                    const siblings = Array.from(parentLayer.querySelectorAll('.letter-circle'));
+                    const localIndex = siblings.indexOf(circle);
+                    const localTotal = siblings.length;
 
-        function handleMouseMove(e) {
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
+                    if (typeof circle.isReady === 'undefined') {
+                        circle.isReady = false; 
+                        circle.currentX = 0;
+                        circle.currentY = 0;
+                        circle.speed = 0.15 - ((localTotal - 1 - localIndex) * 0.015);
+                        setTimeout(() => { circle.isReady = true; }, 1000); 
+                    }
 
-            targetX = Math.max(-15, Math.min(15, (mouseX / centerX) * 15));
-            targetY = Math.max(-15, Math.min(15, (mouseY / centerY) * 15));
+                    if (circle.isReady) {
+                        const tX = state.targetX * 3.0;
+                        const tY = state.targetY * 3.0;
 
-            tiltLayers.forEach(layer => {
-                const state = layerStates[layer.className];
-                if (state) {
-                    state.targetX = targetX * state.depth;
-                    state.targetY = targetY * state.depth;
-                }
-            });
-        }
+                        circle.currentX += (tX - circle.currentX) * circle.speed;
+                        circle.currentY += (tY - circle.currentY) * speed; // 변수 수정
 
-        function handleMouseLeave() {
-            targetX = 0; targetY = 0;
-            tiltLayers.forEach(layer => {
-                const state = layerStates[layer.className];
-                if (state) { state.targetX = 0; state.targetY = 0; }
-            });
-        }
+                        // 🌟 안전장치: circle.speed 변수 사용
+                        circle.currentY += (tY - circle.currentY) * circle.speed;
 
-        function updateTilt() {
-            // 1. 글자가 없는 배경/모델 레이어만 틸트 효과 적용
-            tiltLayers.forEach(layer => {
-                const state = layerStates[layer.className];
-                if (state) {
-                    state.currentX += (state.targetX - state.currentX) * 0.1;
-                    state.currentY += (state.targetY - state.currentY) * 0.1;
-
-                    if (!layer.querySelector('.letter-circle')) {
-                        const moveX = state.currentX * 2;
-                        const moveY = state.currentY * 2;
-                        layer.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                        const rotate = circle.currentX * 0.3;
+                        circle.style.setProperty('transform', `translate3d(${circle.currentX}px, ${circle.currentY}px, 0) rotate(${rotate}deg)`, 'important');
                     }
                 }
-            });
+            }
+        });
 
-            // 2. 글자별 순차적 모래알 흩뿌림 효과 (애니메이션 충돌 방지 완벽 적용!)
-            const letterCircles = document.querySelectorAll('.letter-circle');
-
-            letterCircles.forEach((circle) => {
-                const parentLayer = circle.closest('.hero-layer');
-                if (parentLayer) {
-                    const state = layerStates[parentLayer.className];
-                    if (state) {
-                        const siblings = Array.from(parentLayer.querySelectorAll('.letter-circle'));
-                        const localIndex = siblings.indexOf(circle);
-                        const localTotal = siblings.length;
-
-                        // 초기화 (처음 한 번만 실행)
-                        if (typeof circle.isReady === 'undefined') {
-                            circle.isReady = false; 
-                            circle.currentX = 0;
-                            circle.currentY = 0;
-                            // 꼬리처럼 스르륵 따라오는 속도 딜레이
-                            circle.speed = 0.15 - ((localTotal - 1 - localIndex) * 0.015);
-                            
-                            // 🌟 CSS 애니메이션이 완벽히 끝난 1초 뒤부터 따라오도록 락 해제
-                            setTimeout(() => {
-                                circle.isReady = true;
-                            }, 1000); 
-                        }
-
-                        if (circle.isReady) {
-                            const tX = state.targetX * 3.0;
-                            const tY = state.targetY * 3.0;
-
-                            circle.currentX += (tX - circle.currentX) * circle.speed;
-                            circle.currentY += (tY - circle.currentY) * circle.speed;
-
-                            const rotate = circle.currentX * 0.3;
-                            // 🌟 !important를 적용하여 CSS forwards 잠금을 깨버림
-                            circle.style.setProperty('transform', `translate3d(${circle.currentX}px, ${circle.currentY}px, 0) rotate(${rotate}deg)`, 'important');
-                        }
-                    }
-                }
-            });
-
-            requestAnimationFrame(updateTilt);
-        }
-
-        window.addEventListener('deviceorientation', handleDeviceOrientation);
-        window.addEventListener('mousemove', handleMouseMove);
-        document.body.addEventListener('mouseleave', handleMouseLeave);
-        updateTilt();
+        requestAnimationFrame(updateTilt);
     }
+    
+    // 안전한 실행을 위해 초기 스크롤 연동
+    const heroImage = document.getElementById('heroImage');
+    if (heroImage) {
+        function updateHeroParallax() {
+            const scrollY = window.scrollY;
+            const zoom = 1 + (scrollY * CONFIG.ZOOM_INTENSITY);
+            const clampedZoom = Math.min(zoom, 1.3);
+            const translateY = scrollY * CONFIG.PARALLAX_INTENSITY;
+            heroImage.style.transform = `scale(${clampedZoom}) translateY(${translateY}px)`;
+        }
+        window.addEventListener('scroll', throttle(updateHeroParallax, CONFIG.SCROLL_THROTTLE));
+        updateHeroParallax();
+    }
+
+    updateTilt();
 
     // ====== 2. SCROLL REVEAL & ETC ======
     let revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
-
     function checkRevealElements() {
         revealElements.forEach(el => {
             const delay = parseInt(el.getAttribute('data-delay')) || 0;
@@ -218,7 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
     window.addEventListener('scroll', throttle(checkRevealElements, 100));
     checkRevealElements();
 
@@ -288,5 +296,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('🎉 Scrapbook Kitsch Wedding invitation loaded successfully!');
+    console.log('🎉 Wedding invitation loaded successfully!');
 });

@@ -184,34 +184,32 @@ body {
     position: relative;
     width: 85%;
     max-width: 400px;
-    margin: 0 auto 30px auto; 
+    margin: 0 auto 0px auto; 
 }
 
 .collage-center {
     width: 70%;
+    left: -10%; 
     display: block;
     margin: 0 auto;
     position: relative;
     z-index: 1;
-    box-shadow: 6px 6px 0px #ff4b72;
 }
 
 .collage-left {
     position: absolute;
-    width: 42%;
-    left: -10%; 
-    top: 25%; 
+    width: 60%;
+    left: -25%; 
+    top: 50%; 
     z-index: 2;
-    filter: drop-shadow(5px 5px 0px #ff4b72); 
 }
 
 .collage-right {
     position: absolute;
     width: 65%;
     right: -15%; 
-    bottom: -15%; 
+    bottom: -40%; 
     z-index: 3;
-    filter: drop-shadow(5px 5px 0px #ff4b72);
 }
 
 .parents-letter-img {
