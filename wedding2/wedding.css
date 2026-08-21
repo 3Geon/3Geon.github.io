@@ -4,8 +4,8 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #faf8f5;
-    color: #2c2c2c;
+    background-color: #ffdce1; /* 키치 스타일 배경색 */
+    color: #1a1a1a;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     line-height: 1.8;
@@ -14,44 +14,74 @@ body {
     max-width: 500px;
     margin: 0 auto;
     position: relative;
+    font-size: 16px;
 }
 
-/* ====== ENVELOPE INTRO ====== */
-.envelope-overlay {
+/* ====== HEART REVEAL INTRO (키치 스타일) ====== */
+.intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #a7d4d0; z-index: 10000;
+    background-color: #ffdce1;
+    z-index: 10000;
+}
+.intro-heart-btn {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer; width: 80px; height: 80px;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1s ease, visibility 1s ease;
 }
-.envelope-overlay.fade-out { opacity: 0; visibility: hidden; }
-.envelope-wrapper { position: relative; width: 300px; max-width: 85vw; aspect-ratio: 1 / 1.414; cursor: pointer; transition: transform 0.3s ease; }
-.envelope-wrapper.clicked { animation: envelopeClickPop 0.4s ease forwards; }
-
-@keyframes envelopeClickPop { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
-
-.envelope {
-    position: relative; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(12px); border-radius: 10px; transition: transform 0.6s ease;
+.intro-heart-btn svg {
+    width: 50px; height: 50px;
+    animation: heartbeat 1.5s infinite;
+    filter: drop-shadow(2px 2px 0px #1a1a1a);
+    transition: transform 0.2s;
 }
-.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 10px; z-index: 2; }
-.envelope-flap {
-    position: absolute; top: 0; left: 0; width: 100%; height: 50%; z-index: 3;
-    transform-origin: top center; transition: transform 0.7s ease;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%);
-}
-.envelope.open .envelope-flap { transform: rotateX(-180deg); z-index: 0; }
+.intro-heart-btn:active svg { transform: scale(0.9); }
 
-.main-content { opacity: 0; transition: opacity 0.8s ease; }
-.main-content.visible { opacity: 1; }
-.main-content.hidden { display: none; }
-img { max-width: 100%; height: auto; display: block; }
+.intro-hint {
+    position: absolute; top: calc(50% + 50px); left: 50%;
+    transform: translateX(-50%);
+    font-weight: 700; font-size: 16px; color: #1a1a1a;
+    white-space: nowrap; animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-8px); }
+    60% { transform: translateX(-50%) translateY(-4px); }
+}
+
+/* ====== 하트 클리핑 마스크 확장 애니메이션 ====== */
+.main-content { display: none; opacity: 0; }
+.main-content.visible { display: block; opacity: 1; }
+
+.main-content.pre-reveal {
+    display: block; opacity: 1;
+    
+    /* 🌟 추가된 부분: 애니메이션 동안 화면 크기를 딱 맞게 고정하여 정중앙 유지 */
+    height: 100vh;
+    overflow: hidden;
+    -webkit-mask-position: center;
+    mask-position: center;
+    
+    -webkit-mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    
+    -webkit-mask-size: 50px; mask-size: 50px;
+    transition: -webkit-mask-size 1.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                mask-size 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.main-content.revealing {
+    -webkit-mask-size: 5000px; mask-size: 5000px;
+}
 
 /* ====== SECTION COMMON ====== */
 .section { padding: 80px 20px; position: relative; }
-.section-dark { background-color: #f0ece4; }
+.section-dark { background-color: #1c1c1c; color: #ffffff; }
+.section-dark .section-title, .section-dark .invitation-text, .section-dark p, .section-dark .details-venue, .section-dark .details-date { color: #ffffff; }
+.section-dark .details-address, .section-dark .account-section-desc { color: #ffb8c6; }
 .section-inner { max-width: 600px; margin: 0 auto; position: relative; }
-.section-title { font-size: 28px; font-weight: 400; text-align: center; letter-spacing: 0.15em; margin-bottom: 10px; color: #2c2c2c; }
-.divider { width: 40px; height: 1px; background-color: #c9a96e; margin: 20px auto 40px; }
+.section-title { font-size: 24px; font-weight: 600; text-align: center; letter-spacing: 0.05em; margin-bottom: 10px; color: #1a1a1a; }
+.divider { background-color: #ff4b72; height: 3px; width: 60px; border-radius: 3px; margin: 20px auto 40px; }
 
 /* ====== HERO SECTION ====== */
 .hero-section { position: relative; width: 100%; height: 100vh; overflow: hidden; }
@@ -71,62 +101,10 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-person-name { position: absolute; display: flex; flex-direction: column; gap: 6px; width: 80%; max-width: 260px; }
 .name-row { display: flex; align-items: center; gap: 4px; width: 100%; }
 .hero-groom .name-row { justify-content: flex-start; } .hero-bride .name-row { justify-content: flex-end; }
-
-/* 신랑, 신부 이름 덩어리 기본 위치 (가운데 모델을 중심으로 양옆으로 배치) */
 .hero-groom .hero-person-name { left: -10%; top: 40%; text-align: left; }
 .hero-bride .hero-person-name { right: 5%; top: 35%; text-align: right; }
 
-/* ====== FADE IN ANIMATIONS ====== */
-.text-fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.text-fade-in.visible { opacity: 1; transform: translateY(0); }
-.image-fade-in { opacity: 0; transform: scale(0.92); transition: opacity 1s ease, transform 1s ease; }
-.image-fade-in.visible { opacity: 1; transform: scale(1); }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ====== INVITATION ====== */
-.invitation-text { text-align: center; font-size: 16px; line-height: 2; color: #555; letter-spacing: 0.05em; margin-bottom: 30px; }
-
-/* ====== GALLERY ====== */
-.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.gallery-item:first-child { grid-column: 1 / -1; }
-.gallery-item img { width: 100%; height: 200px; object-fit: cover; }
-.gallery-item:first-child img { height: 280px; }
-
-/* ====== DETAILS ====== */
-.details-info { text-align: center; margin-bottom: 30px; }
-.details-date { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.details-time { font-size: 16px; font-weight: 600; color: #c9a96e; margin-bottom: 8px; }
-.details-venue { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.map-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
-.map-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; text-decoration: none; font-size: 13px; font-weight: 600; }
-
-/* ====== CALENDAR ====== */
-.calendar-header, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
-.calendar-day, .calendar-date { text-align: center; font-size: 14px; padding: 10px 0; font-weight: 600; }
-
-/* ====== SCROLL TO TOP ====== */
-.scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; background: #c9a96e; color: #fff; border: none; font-size: 20px; cursor: pointer; opacity: 0; z-index: 100; transition: opacity 0.3s; }
-.scroll-top-btn.visible { opacity: 1; }
-
-/* ==========================================
-   💖 SCRAPBOOK & KITSCH STYLE OVERRIDES 💖
-   ========================================== */
-
-body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: #ffdce1;
-    color: #1a1a1a;
-    font-size: 16px;
-}
-
-.section-dark { background-color: #1c1c1c; color: #ffffff; }
-.section-dark .section-title, .section-dark .invitation-text, .section-dark p, .section-dark .details-venue, .section-dark .details-date { color: #ffffff; }
-.section-dark .details-address, .section-dark .account-section-desc { color: #ffb8c6; }
-.section-title { font-family: 'Noto Sans KR', sans-serif; font-size: 24px; font-weight: 600; letter-spacing: 0.05em; color: #1a1a1a; }
-.section-dark .section-title { color: #ffffff; }
-.divider { background-color: #ff4b72; height: 3px; width: 60px; border-radius: 3px; }
-
-/* 💖 투박한 스티커에서 작고 깔끔한 핑크 원형으로 💖 */
+/* 💖 핑크 원형 글자 💖 */
 .letter-circle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 24px; height: 24px; 
@@ -134,7 +112,6 @@ body {
     background: #ff4b72; 
     border: none; 
     box-shadow: none; 
-    font-family: 'Noto Sans KR', sans-serif; 
     font-size: 11px;
     font-weight: 700;
     color: #ffffff; 
@@ -143,30 +120,21 @@ body {
     will-change: transform;
 }
 
-/* ====== 💖 글자별 지연 효과 및 부채꼴 궤도형 위치 (레퍼런스 스타일) 💖 ====== */
-
-/* SANG (첫 번째 줄) - 왼쪽 아래로 퍼지는 곡선 */
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: 80px; top: 0px;  transition-delay: 0.35s; } /* S */
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: 80px;  top: 20px; transition-delay: 0.30s; } /* A */
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(3) { position: relative; left: 80px; top: 50px;  transition-delay: 0.25s; } /* N */
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(4) { position: relative; left: 80px;  top: 80px; transition-delay: 0.20s; } /* G */
-
-/* GEON (두 번째 줄) - SANG 안쪽으로 작게 감싸는 곡선 */
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: 100px; top: 70px;  transition-delay: 0.15s; } /* G */
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: 100px;  top: 100px; transition-delay: 0.10s; } /* E */
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: 100px; top: 130px;  transition-delay: 0.05s; } /* O */
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: 110px;  top: 120px; transition-delay: 0s; }    /* N */
-
-/* KI (첫 번째 줄) - 오른쪽 아래로 퍼지는 곡선 시작 */
-.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: -50px; top: 10px; transition-delay: 0.30s; } /* K */
-.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: -50px; top: 50px;  transition-delay: 0.25s; } /* I */
-
-/* JEONG (두 번째 줄) - KI의 바깥을 감싸며 아래로 넓게 퍼지는 곡선 */
-.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: -50px;  top: -20px; transition-delay: 0.20s; } /* J */
-.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: -50px; top: -5px;  transition-delay: 0.15s; } /* E */
-.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: -50px;  top: 30px; transition-delay: 0.10s; } /* O */
-.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: -50px; top: 70px;  transition-delay: 0.05s; } /* N */
-.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(5) { position: relative; left: -50px;  top: 100px; transition-delay: 0s; }    /* G */
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: 80px; top: 0px;  transition-delay: 0.35s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: 80px;  top: 20px; transition-delay: 0.30s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(3) { position: relative; left: 80px; top: 50px;  transition-delay: 0.25s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(4) { position: relative; left: 80px;  top: 80px; transition-delay: 0.20s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: 100px; top: 70px;  transition-delay: 0.15s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: 100px;  top: 100px; transition-delay: 0.10s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: 100px; top: 130px;  transition-delay: 0.05s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: 110px;  top: 120px; transition-delay: 0s; }
+.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: -50px; top: 10px; transition-delay: 0.30s; }
+.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: -50px; top: 50px;  transition-delay: 0.25s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: -50px;  top: -20px; transition-delay: 0.20s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: -50px; top: -5px;  transition-delay: 0.15s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: -50px;  top: 30px; transition-delay: 0.10s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: -50px; top: 70px;  transition-delay: 0.05s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(5) { position: relative; left: -50px;  top: 100px; transition-delay: 0s; }
 
 @keyframes letterDrop {
     0% { opacity: 0; transform: translateY(-80px) scale(0.5); }
@@ -179,76 +147,31 @@ body {
 .hero-text { position: absolute; bottom: 20vh; left: 0; width: 100%; text-align: center; color: #fff; opacity: 0; transform: translateY(30px); animation: fadeInUp 1.2s ease forwards; animation-delay: 0.3s; }
 .hero-date { font-size: 14px; letter-spacing: 0.3em; opacity: 0.8; font-weight: 300; }
 
-/* 부모님 편지 및 어릴 적 사진 섹션 (콜라주 스타일) */
-.collage-container {
-    position: relative;
-    width: 85%;
-    max-width: 400px;
-    margin: 0 auto 0px auto; 
-}
+/* ====== FADE IN ANIMATIONS ====== */
+.text-fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.text-fade-in.visible { opacity: 1; transform: translateY(0); }
+.image-fade-in { opacity: 0; transform: scale(0.92); transition: opacity 1s ease, transform 1s ease; }
+.image-fade-in.visible { opacity: 1; transform: scale(1); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-.collage-center {
-    width: 70%;
-    left: -10%; 
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
+/* ====== INVITATION ====== */
+.invitation-text { text-align: center; font-size: 16px; line-height: 2; color: #555; letter-spacing: 0.05em; margin-bottom: 30px; }
+.section-dark .invitation-text { color: #ffffff; }
 
-.collage-left {
-    position: absolute;
-    width: 60%;
-    left: -25%; 
-    top: 50%; 
-    z-index: 2;
-}
-
-.collage-right {
-    position: absolute;
-    width: 65%;
-    right: -15%; 
-    bottom: -40%; 
-    z-index: 3;
-}
-
-.parents-letter-img {
-    width: 100%;
-    max-width: 420px; 
-    margin: 0 auto;
-    padding: 0 15px;
-    display: flex;
-    justify-content: center;
-    transform: rotate(-1deg); 
-}
-
-.parents-letter-img img {
-    width: 100%;
-    height: auto;
-}
-
-.gallery-item {
-    background: #ffffff;
-    padding: 6px 6px 28px 6px;
-    border: 2px solid #1a1a1a;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
-    border-radius: 2px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-.gallery-item:nth-child(odd) { transform: rotate(-3deg); }
-.gallery-item:nth-child(even) { transform: rotate(3deg); }
-.gallery-item:nth-child(3n) { transform: rotate(-1deg); }
-.gallery-item:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 4px 4px 0px #ff4b72; }
-
+/* ====== DETAILS ====== */
+.details-info { text-align: center; margin-bottom: 30px; }
+.details-date { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.details-time { font-size: 16px; font-weight: 600; color: #c9a96e; margin-bottom: 8px; }
+.details-venue { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.map-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 .map-btn, .upload-btn, .account-toggle, .scroll-top-btn {
     border: 2px solid #1a1a1a;
     box-shadow: 3px 3px 0px #1a1a1a;
     border-radius: 8px;
     background: #ffffff;
-    font-family: 'Noto Sans KR', sans-serif;
     color: #1a1a1a;
     transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; text-decoration: none; font-size: 13px; font-weight: 600;
 }
 .map-btn:hover, .upload-btn:hover, .scroll-top-btn:hover {
     transform: translate(-2px, -2px);
@@ -256,5 +179,151 @@ body {
     background: #ffffff;
 }
 
+/* ====== CALENDAR ====== */
+.calendar-header, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
+.calendar-day, .calendar-date { text-align: center; font-size: 14px; padding: 10px 0; font-weight: 600; }
 .calendar-date-highlight { background: #ff4b72; box-shadow: 2px 2px 0px #1a1a1a; border: 1.5px solid #1a1a1a; color: #ffffff !important; }
 .calendar-day-sat, .calendar-date-sat { color: #ff4b72; }
+
+/* ====== OUR STORY (콜라주) ====== */
+.collage-container { position: relative; width: 85%; max-width: 400px; margin: 0 auto 0px auto; }
+.collage-center { width: 70%; left: -10%; display: block; margin: 0 auto; position: relative; z-index: 1; }
+.collage-left { position: absolute; width: 60%; left: -25%; top: 50%; z-index: 2; }
+.collage-right { position: absolute; width: 65%; right: -15%; bottom: -40%; z-index: 3; }
+.parents-letter-img { width: 100%; max-width: 400px; margin: 0 auto; padding: 0 15px; display: flex; justify-content: center; transform: rotate(-1deg); }
+.parents-letter-img img { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+}
+/* ====== GALLERY ====== */
+.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gallery-item:first-child { grid-column: 1 / -1; }
+.gallery-item {
+    background: #ffffff; padding: 6px 6px 28px 6px; border: 2px solid #1a1a1a;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.15); border-radius: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+}
+.gallery-item img { width: 100%; height: 200px; object-fit: cover; }
+.gallery-item:first-child img { height: 280px; }
+.gallery-item:nth-child(odd) { transform: rotate(-3deg); }
+.gallery-item:nth-child(even) { transform: rotate(3deg); }
+.gallery-item:nth-child(3n) { transform: rotate(-1deg); }
+.gallery-item:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 4px 4px 0px #ff4b72; }
+
+/* ====== SCROLL TO TOP ====== */
+.scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; justify-content: center; opacity: 0; z-index: 100; transition: opacity 0.3s, transform 0.2s, box-shadow 0.2s; }
+.scroll-top-btn.visible { opacity: 1; }
+
+/* ==========================================
+   💖 MUSIC, MODAL & ACCOUNT STYLES 💖
+   ========================================== */
+
+/* 음악 토글 버튼 */
+.music-btn {
+    position: fixed; top: 20px; right: 20px; width: 44px; height: 44px;
+    border-radius: 50%; background: #ffffff; border: 2px solid #1a1a1a;
+    box-shadow: 3px 3px 0px #1a1a1a; font-size: 20px; cursor: pointer;
+    z-index: 10001; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.music-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px #ff4b72; }
+
+/* 계좌번호 버튼 */
+.account-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; margin: 0 auto; }
+.account-btn {
+    width: 100%; padding: 14px; font-size: 16px; font-weight: 700;
+    background: #ffffff; border: 2px solid #1a1a1a; box-shadow: 4px 4px 0px #1a1a1a;
+    border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+.account-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #ff4b72; }
+
+/* 모달 공통 스타일 */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center;
+    z-index: 20000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    position: relative; background: #ffffff; border: 3px solid #1a1a1a;
+    box-shadow: 8px 8px 0px #ff4b72; border-radius: 12px; width: 90%;
+    max-width: 400px; max-height: 85vh; overflow-y: auto; padding: 30px 20px;
+}
+.modal-close {
+    position: absolute; top: 15px; right: 15px; width: 30px; height: 30px;
+    background: #ff4b72; color: #fff; border: 2px solid #1a1a1a; border-radius: 50%;
+    font-size: 18px; font-weight: bold; line-height: 1; cursor: pointer;
+}
+.modal-title { font-size: 20px; text-align: center; margin-bottom: 20px; color: #1a1a1a; }
+
+/* 🚌 모달창 내부 이미지 크기 조절 및 가운데 정렬 */
+.modal-content img {
+    width: 100%;
+    max-width: 260px; /* 원하시는 크기에 맞춰 숫자를 조절해 보세요! (예: 220px, 280px) */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 두 번째 약도 이미지 위쪽 여백 */
+.modal-content img + img {
+    margin-top: 15px;
+}
+
+/* 셔틀버스 테이블 */
+.shuttle-table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 2px solid #1a1a1a; }
+.shuttle-table th, .shuttle-table td { border: 1px solid #1a1a1a; padding: 10px; text-align: center; font-size: 14px; }
+.shuttle-table th { background: #ffdce1; font-weight: bold; }
+
+/* 계좌 리스트 */
+.account-list { display: flex; flex-direction: column; gap: 15px; }
+.account-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; border: 1.5px solid #1a1a1a; padding: 12px; border-radius: 6px; }
+.account-info { font-size: 14px; line-height: 1.5; text-align: left; }
+.account-role { display: inline-block; background: #ffdce1; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 5px; font-weight: bold; }
+.account-number { color: #555; letter-spacing: 0.5px; }
+.copy-btn {
+    background: #ffffff; border: 1.5px solid #1a1a1a; box-shadow: 2px 2px 0px #1a1a1a;
+    border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: bold;
+    cursor: pointer; transition: transform 0.1s;
+}
+.copy-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+
+/* ====== 신부측 이야기 (그림자 및 개별 위치 조절) ====== */
+
+/* 1. 신부측 이미지와 편지에만 부드러운 그림자 추가 */
+#story-bride .collage-container img {
+    filter: drop-shadow(4px 4px 0px #ff4b72); 
+}
+
+/* 2. 신부측 콜라주 사진 개별 위치 조절 */
+/* 가운데 사진 (Family_3_B) */
+#story-bride .collage-center {
+    width: 100%;
+    left: 5%;     /* 기본값(-10%)에서 우측으로 이동 */
+    top: 0%;      /* 위아래 위치 조절 */
+}
+
+/* 왼쪽 사진 (Family_2_B) */
+#story-bride .collage-left {
+    width: 50%;
+    left: -30%;   /* 기본값(-25%)에서 우측으로 조금 이동 */
+    top: 30%;     /* 기본값(50%)에서 살짝 위로 이동 */
+    z-index: 3;   /* 필요시 겹치는 순서 변경 가능 */
+}
+
+/* 오른쪽 사진 (Family_1_B) */
+#story-bride .collage-right {
+    width: 65%;
+    right: -35%;  /* 기본값(-15%)에서 우측으로 더 이동 */
+    bottom: -10%; /* 기본값(-40%)에서 살짝 위로 이동 */
+}
+
+/* ====== 신랑 신부 스토리 사이 간격 조절 ====== */
+#story {
+    padding-bottom: 20px; /* 기본값 80px -> 20px로 축소 */
+}
+
+#story-bride {
+    padding-top: 20px; /* 기본값 80px -> 20px로 축소 */
+}

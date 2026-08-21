@@ -10,20 +10,34 @@
 </head>
 <body>
 
+    <!-- 🎵 음악 파일 및 토글 버튼 -->
+    <audio id="bgm" src="music/Nothing-3-Bruno Major.mp3" loop preload="auto"></audio>
+    <button id="musicToggle" class="music-btn">🎵</button>
+
+    <!-- ====== 💖 하트 클리핑 마스크 인트로 ====== -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-heart-btn" id="introHeartBtn">
+            <!-- 하트 SVG 아이콘 -->
+            <svg viewBox="0 0 512 512">
+                <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" fill="#ff4b72"/>
+            </svg>
+        </div>
+        <div class="intro-hint" id="introHint">
+            이 결혼에 하트를 눌러주세요
+        </div>
+    </div>
+
     <!-- ====== MAIN CONTENT ====== -->
-    <div class="main-content visible" id="mainContent">
+    <div class="main-content" id="mainContent">
 
         <!-- ====== HERO SECTION ====== -->
         <section class="hero-section" id="hero">
-
             <div class="hero-layer hero-bg">
                 <img src="photos/BG.png" alt="배경">
             </div>
-
             <div class="hero-layer hero-season" data-depth="0.1">
                 <img src="photos/사랑의계절.png" alt="사랑의 계절">
             </div>
-
             <div class="hero-layer hero-model" data-depth="0.3">
                 <img src="photos/Model.png" alt="모델">
             </div>
@@ -66,7 +80,6 @@
                     <div class="hero-date">2026 . 10 . 10 SAT</div>
                 </div>
             </div>
-
         </section>
 
         <!-- ====== INVITATION SECTION ====== -->
@@ -99,41 +112,16 @@
                         <span class="calendar-day calendar-day-sat">Sat</span>
                     </div>
                     <div class="calendar-grid">
-                        <span class="calendar-date"></span>
-                        <span class="calendar-date"></span>
-                        <span class="calendar-date"></span>
-                        <span class="calendar-date"></span>
-                        <span class="calendar-date">1</span>
-                        <span class="calendar-date">2</span>
-                        <span class="calendar-date calendar-date-sat">3</span>
-                        <span class="calendar-date">4</span>
-                        <span class="calendar-date">5</span>
-                        <span class="calendar-date">6</span>
-                        <span class="calendar-date">7</span>
-                        <span class="calendar-date">8</span>
-                        <span class="calendar-date">9</span>
-                        <span class="calendar-date calendar-date-sat calendar-date-highlight">10</span>
-                        <span class="calendar-date">11</span>
-                        <span class="calendar-date">12</span>
-                        <span class="calendar-date">13</span>
-                        <span class="calendar-date">14</span>
-                        <span class="calendar-date">15</span>
-                        <span class="calendar-date">16</span>
-                        <span class="calendar-date calendar-date-sat">17</span>
-                        <span class="calendar-date">18</span>
-                        <span class="calendar-date">19</span>
-                        <span class="calendar-date">20</span>
-                        <span class="calendar-date">21</span>
-                        <span class="calendar-date">22</span>
-                        <span class="calendar-date">23</span>
-                        <span class="calendar-date">24</span>
-                        <span class="calendar-date calendar-date-sat">25</span>
-                        <span class="calendar-date">26</span>
-                        <span class="calendar-date">27</span>
-                        <span class="calendar-date">28</span>
-                        <span class="calendar-date">29</span>
-                        <span class="calendar-date">30</span>
-                        <span class="calendar-date">31</span>
+                        <span class="calendar-date"></span><span class="calendar-date"></span><span class="calendar-date"></span><span class="calendar-date"></span>
+                        <span class="calendar-date">1</span><span class="calendar-date">2</span><span class="calendar-date calendar-date-sat">3</span>
+                        <span class="calendar-date">4</span><span class="calendar-date">5</span><span class="calendar-date">6</span><span class="calendar-date">7</span>
+                        <span class="calendar-date">8</span><span class="calendar-date">9</span><span class="calendar-date calendar-date-sat calendar-date-highlight">10</span>
+                        <span class="calendar-date">11</span><span class="calendar-date">12</span><span class="calendar-date">13</span><span class="calendar-date">14</span>
+                        <span class="calendar-date">15</span><span class="calendar-date">16</span><span class="calendar-date calendar-date-sat">17</span>
+                        <span class="calendar-date">18</span><span class="calendar-date">19</span><span class="calendar-date">20</span><span class="calendar-date">21</span>
+                        <span class="calendar-date">22</span><span class="calendar-date">23</span><span class="calendar-date">24</span><span class="calendar-date calendar-date-sat">25</span>
+                        <span class="calendar-date">26</span><span class="calendar-date">27</span><span class="calendar-date">28</span><span class="calendar-date">29</span>
+                        <span class="calendar-date">30</span><span class="calendar-date">31</span>
                     </div>
                 </div>
             </div>
@@ -149,35 +137,61 @@
                     <p class="details-address">경기 의왕시 양지편로 39-18</p>
                 </div>
                 <div class="map-buttons">
-                    <a href="https://naver.me/58NdJdKu" class="map-btn map-btn-naver" target="_blank" rel="noopener">
-                        <span>네이버 지도</span>
-                    </a>
-                    <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener">
-                        <span>카카오 맵</span>
-                    </a>
-                    <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener">
-                        <span>T맵</span>
-                    </a>
+                    <a href="https://naver.me/58NdJdKu" class="map-btn map-btn-naver" target="_blank" rel="noopener"><span>네이버 지도</span></a>
+                    <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener"><span>카카오 맵</span></a>
+                    <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener"><span>T맵</span></a>
+                    
+                    <!-- 🚌 셔틀버스 안내 버튼 추가 -->
+                    <button class="map-btn map-btn-shuttle" id="shuttleBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
+                        <span>🚌 셔틀버스 안내</span>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <!-- ====== OUR STORY (앨범 직전으로 이동!) ====== -->
+
+        <!-- ====== OUR STORY (신랑 버전) ====== -->
         <section class="section" id="story">
             <div class="section-inner">
-                
-                <!-- 스크랩북 콜라주 사진들 -->
                 <div class="collage-container text-fade-in" data-delay="100">
-                    <img src="photos/Family_3.png" alt="가족 사진" class="collage-center">
+                    <img src="photos/Family_3.png" alt="신랑측 가족 사진" class="collage-center">
                     <img src="photos/Family_2.png" alt="신랑 어릴적" class="collage-left">
                     <img src="photos/Family_1.png" alt="신부 어릴적" class="collage-right">
                 </div>
-
-                <!-- 부모님의 편지 (이미지) -->
                 <div class="parents-letter-img text-fade-in" data-delay="300">
-                    <img src="photos/편지.png" alt="부모님의 편지">
+                    <img src="photos/편지.png" alt="신랑측 부모님의 편지">
                 </div>
-                
+            </div>
+        </section>
+
+        <!-- 👇 여기에 신부 버전을 추가했습니다 👇 -->
+        <!-- ====== OUR STORY (신부 버전) ====== -->
+        <section class="section" id="story-bride">
+            <div class="section-inner">
+                <div class="collage-container text-fade-in" data-delay="100">
+                    <img src="photos/Family_3_B.png" alt="신부측 가족 사진" class="collage-center">
+                    <img src="photos/Family_2_B.png" alt="신랑 어릴적" class="collage-left">
+                    <img src="photos/Family_1_B.png" alt="신부 어릴적" class="collage-right">
+                </div>
+                <div class="parents-letter-img text-fade-in" data-delay="300">
+                    <img src="photos/편지_B.png" alt="신부측 부모님의 편지">
+                </div>
+            </div>
+        </section>
+        <!-- 👆 여기까지 👆 -->
+
+                <!-- ====== 마음 전할 곳 (계좌번호) ====== -->
+        <section class="section" id="account">
+            <div class="section-inner" style="text-align: center;">
+                <h2 class="section-title text-fade-in">마음 전할 곳</h2>
+                <div class="divider"></div>
+                <div class="account-buttons text-fade-in" data-delay="100">
+                    <button class="account-btn" id="groomAccountBtn">신랑측 계좌번호</button>
+                    <button class="account-btn" id="brideAccountBtn">신부측 계좌번호</button>
+                </div>
+                <p class="account-notice text-fade-in" data-delay="200" style="margin-top: 25px; font-size: 14px; font-weight: 600;">
+                    식장에 ATM이 없으니 너른 양해 부탁드립니다.
+                </p>
             </div>
         </section>
 
@@ -192,17 +206,102 @@
             </div>
         </section>
 
-        <!-- ====== FOOTER ====== -->
-        <footer class="footer">
-            <p class="footer-hearts">♥ ♥ ♥</p>
-            <p>상건 & 기정</p>
-            <p>2026.10.10</p>
-            <p class="footer-copy">© 2026 Wedding Invitation</p>
+
+<!-- ====== FOOTER ====== -->
+        <footer class="footer" style="text-align: center; padding: 40px 20px; background: #1c1c1c; color: #fff;">
+            <!-- 하트 3개 삭제, 이름 텍스트 변경 -->
+            <p style="font-size: 20px; font-weight: 600; margin-bottom: 5px;">상건 ❤ 기정</p>
+            <p style="font-size: 15px; color: #ffb8c6;">2026.10.10</p>
+            <p class="footer-copy" style="font-size: 12px; margin-top: 25px; opacity: 0.5;">© 2026 Wedding Invitation</p>
         </footer>
 
         <!-- ====== SCROLL TO TOP BUTTON ====== -->
         <button class="scroll-top-btn" id="scrollTopBtn">↑</button>
 
+    </div>
+
+    <!-- ====== MODALS ====== -->
+    
+    <!-- 1. 셔틀버스 모달 -->
+    <div class="modal-overlay" id="shuttleModal">
+        <div class="modal-content">
+            <button class="modal-close" data-target="shuttleModal">&times;</button>
+            <h3 class="modal-title">셔틀버스 안내</h3>
+            <img src="photos/Bus_image.jpg" alt="버스타는 곳">
+            <img src="photos/Bus_Map.jpg" alt="약도" style="margin-top: 15px;">
+            <table class="shuttle-table">
+                <thead>
+                    <tr><th>식장행</th><th>역으로 돌아가는 편</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>11:20</td><td>13:40</td></tr>
+                    <tr><td>11:40</td><td>14:00</td></tr>
+                    <tr><td>12:00</td><td>14:20</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 2. 신랑측 계좌 모달 -->
+    <div class="modal-overlay" id="groomModal">
+        <div class="modal-content">
+            <button class="modal-close" data-target="groomModal">&times;</button>
+            <h3 class="modal-title">신랑측 계좌번호</h3>
+            <div class="account-list">
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">아버지</span> <strong>김진석</strong><br>
+                        <span class="account-number">국민 123-45-67890</span>
+                    </div>
+                    <button class="copy-btn" data-account="1234567890">복사</button>
+                </div>
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">어머니</span> <strong>오혜정</strong><br>
+                        <span class="account-number">국민 123-45-67890</span>
+                    </div>
+                    <button class="copy-btn" data-account="1234567890">복사</button>
+                </div>
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">신랑</span> <strong>김상건</strong><br>
+                        <span class="account-number">국민 123-45-67890</span>
+                    </div>
+                    <button class="copy-btn" data-account="1234567890">복사</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 신부측 계좌 모달 -->
+    <div class="modal-overlay" id="brideModal">
+        <div class="modal-content">
+            <button class="modal-close" data-target="brideModal">&times;</button>
+            <h3 class="modal-title">신부측 계좌번호</h3>
+            <div class="account-list">
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">아버지</span> <strong>윤호성</strong><br>
+                        <span class="account-number">농협 515-02-111235</span>
+                    </div>
+                    <button class="copy-btn" data-account="51502111235">복사</button>
+                </div>
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">어머니</span> <strong>왕미순</strong><br>
+                        <span class="account-number">농협 122-12-017230</span>
+                    </div>
+                    <button class="copy-btn" data-account="12212017230">복사</button>
+                </div>
+                <div class="account-item">
+                    <div class="account-info">
+                        <span class="account-role">신부</span> <strong>윤기정</strong><br>
+                        <span class="account-number">카카오뱅크 3333181887566</span>
+                    </div>
+                    <button class="copy-btn" data-account="3333181887566">복사</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="wedding.js"></script>

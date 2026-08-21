@@ -22,23 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    function debounce(callback, delay) {
-        let timeout;
-        return function() {
-            const context = this;
-            const args = arguments;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => callback.apply(context, args), delay);
-        };
-    }
-
     function isElementInViewport(el, offset = 100) {
         const rect = el.getBoundingClientRect();
         const windowHeight = window.innerHeight || document.documentElement.clientHeight;
         return rect.top <= windowHeight - offset && rect.bottom >= 0;
     }
 
-    // ====== 1. HERO PARALLAX (기울기 감지를 위한 초기 세팅) ======
+    // ====== 1. HERO PARALLAX (기울기/마우스 감지) ======
     const tiltLayers = document.querySelectorAll('.hero-layer[data-depth]');
     const layerStates = {};
     let targetX = 0;
@@ -51,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 💖 기기 기울기 감지 함수 💖
     function handleDeviceOrientation(e) {
         const beta = e.beta || 0;
         const gamma = e.gamma || 0;
@@ -67,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // PC 환경 마우스 감지 함수
     function handleMouseMove(e) {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
@@ -88,23 +76,38 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('mousemove', handleMouseMove);
     document.body.addEventListener('mouseleave', () => { targetX = 0; targetY = 0; });
 
-    // ====== 0. ENVELOPE INTRO & 권한 요청 ======
-    const envelopeOverlay = document.getElementById('envelopeOverlay');
-    const envelope = document.getElementById('envelope');
-    const envelopeWrapper = document.getElementById('envelopeWrapper');
-    const envelopeHint = document.getElementById('envelopeHint');
+    // ====== 0. HEART INTRO (클리핑 마스크, 음악, 센서 권한 통합) ======
+    const introOverlay = document.getElementById('introOverlay');
+    const introHeartBtn = document.getElementById('introHeartBtn');
+    const introHint = document.getElementById('introHint');
     const mainContent = document.getElementById('mainContent');
-
-    let isEnvelopeOpen = false;
+    const bgm = document.getElementById('bgm');
+    const musicToggle = document.getElementById('musicToggle');
     let isTransitioning = false;
 
-    if (envelope) {
-        envelope.addEventListener('click', function(e) {
+    if (musicToggle && bgm) {
+        musicToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (bgm.paused) {
+                bgm.play();
+                musicToggle.textContent = '🎵';
+            } else {
+                bgm.pause();
+                musicToggle.textContent = '🔇';
+            }
+        });
+    }
+
+    if (introHeartBtn) {
+        introHeartBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             if (isTransitioning) return;
-            if (isEnvelopeOpen) return;
+            isTransitioning = true;
 
-            // 🌟 아이폰(iOS 13+) 자이로 센서 권한 요청을 봉투 클릭 시점에 실행! 🌟
+            if (bgm && bgm.paused) {
+                bgm.play().catch(err => console.log('자동재생 차단:', err));
+            }
+
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
@@ -114,36 +117,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .catch(console.error);
             } else {
-                // 안드로이드 및 일반 기기
                 window.addEventListener('deviceorientation', handleDeviceOrientation);
             }
 
-            envelopeWrapper.classList.add('clicked');
-            if (envelopeHint) {
-                envelopeHint.style.opacity = '0';
-                envelopeHint.style.transition = 'opacity 0.3s ease';
-            }
+            if (introHint) introHint.style.opacity = '0';
+            introHeartBtn.querySelector('svg').style.animation = 'none';
 
+            // 클리핑 마스크 애니메이션 시작
             setTimeout(() => {
-                envelopeWrapper.classList.remove('clicked');
-                isEnvelopeOpen = true;
-                envelope.classList.add('open');
-
-                setTimeout(() => {
-                    isTransitioning = true;
-                    envelopeOverlay.classList.add('open-transition');
+                introOverlay.style.opacity = '0';
+                introOverlay.style.pointerEvents = 'none';
+                
+                if (mainContent) {
+                    mainContent.classList.add('pre-reveal');
                     
+                    // 🌟 렌더링 강제 업데이트 (애니메이션 스킵 방지)
+                    void mainContent.offsetWidth; 
+                    
+                    mainContent.classList.add('revealing');
+
                     setTimeout(() => {
-                        if (mainContent) {
-                            mainContent.classList.remove('hidden');
-                            void mainContent.offsetWidth;
-                            mainContent.classList.add('visible');
-                        }
-                        envelopeOverlay.classList.add('fade-out');
-                        setTimeout(() => { envelopeOverlay.style.display = 'none'; }, 800);
-                    }, 800);
-                }, 1500);
-            }, 500);
+                        mainContent.classList.remove('pre-reveal', 'revealing');
+                        mainContent.classList.add('visible');
+                        introOverlay.style.display = 'none';
+                    }, 1200);
+                }
+            }, 100);
         });
     }
 
@@ -186,9 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const tY = state.targetY * 3.0;
 
                         circle.currentX += (tX - circle.currentX) * circle.speed;
-                        circle.currentY += (tY - circle.currentY) * speed; // 변수 수정
-
-                        // 🌟 안전장치: circle.speed 변수 사용
+                        // 🌟 오타 수정된 부분
                         circle.currentY += (tY - circle.currentY) * circle.speed;
 
                         const rotate = circle.currentX * 0.3;
@@ -201,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(updateTilt);
     }
     
-    // 안전한 실행을 위해 초기 스크롤 연동
     const heroImage = document.getElementById('heroImage');
     if (heroImage) {
         function updateHeroParallax() {
@@ -214,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', throttle(updateHeroParallax, CONFIG.SCROLL_THROTTLE));
         updateHeroParallax();
     }
-
     updateTilt();
 
     // ====== 2. SCROLL REVEAL & ETC ======
@@ -238,6 +233,53 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100));
         scrollTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     }
+
+    // ====== 3. 모달 제어 및 계좌 복사 ======
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('active');
+    }
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('active');
+    }
+
+    const modalButtons = {
+        'shuttleBtn': 'shuttleModal',
+        'groomAccountBtn': 'groomModal',
+        'brideAccountBtn': 'brideModal'
+    };
+    for (const [btnId, modalId] of Object.entries(modalButtons)) {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', () => openModal(modalId));
+        }
+    }
+
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            closeModal(e.target.getAttribute('data-target'));
+        });
+    });
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+            }
+        });
+    });
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const accountNumber = this.getAttribute('data-account');
+            navigator.clipboard.writeText(accountNumber).then(() => {
+                alert('계좌번호가 복사되었습니다.');
+            }).catch(err => {
+                console.error('복사 실패:', err);
+                alert('복사 기능을 지원하지 않는 브라우저입니다. 직접 선택하여 복사해주세요.');
+            });
+        });
+    });
 
     // ====== 4. PHOTO UPLOAD & ALBUM ======
     async function loadGalleryPhotos() {
@@ -268,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     loadGalleryPhotos();
 
-    // ====== 5. LIGHTBOX & ACCOUNT COPY ======
+    // ====== 5. LIGHTBOX ======
     document.addEventListener('click', function(e) {
         const galleryItem = e.target.closest('.gallery-item');
         if (!galleryItem) return;
