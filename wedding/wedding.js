@@ -7,9 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ====== CONFIGURATION ======
     const CONFIG = {
         API_BASE_URL: window.location.origin,
-        SCROLL_THROTTLE: 16, // ms
-        PARALLAX_INTENSITY: 0.4,
-        ZOOM_INTENSITY: 0.0008
+        SCROLL_THROTTLE: 16,
+        PARALLAX_INTENSITY: 0.4
     };
 
     // ====== UTILITY FUNCTIONS ======
@@ -40,311 +39,137 @@ document.addEventListener('DOMContentLoaded', function() {
         return rect.top <= windowHeight - offset && rect.bottom >= 0;
     }
 
-    // ====== 0. ENVELOPE INTRO ANIMATION ======
-    const envelopeOverlay = document.getElementById('envelopeOverlay');
-    const envelope = document.getElementById('envelope');
-    const letter = document.getElementById('letter');
-    const envelopeWrapper = document.getElementById('envelopeWrapper');
-    const envelopeHint = document.getElementById('envelopeHint');
-    const mainContent = document.getElementById('mainContent');
-
-    let isEnvelopeOpen = false;
-    let isTransitioning = false;
-
-    if (envelope) {
-        envelope.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (isTransitioning) return;
-            if (isEnvelopeOpen) return;
-
-            // Step 1: Click → Scale pop animation
-            envelopeWrapper.classList.add('clicked');
-
-            // Hide hint
-            if (envelopeHint) {
-                envelopeHint.style.opacity = '0';
-                envelopeHint.style.transition = 'opacity 0.3s ease';
-            }
-
-            // Step 2: After scale animation, open the flap
-            setTimeout(() => {
-                envelopeWrapper.classList.remove('clicked');
-                isEnvelopeOpen = true;
-                envelope.classList.add('open');
-
-                // Step 3: After flap opens and letter shows, transition to website
-                setTimeout(() => {
-                    isTransitioning = true;
-                    
-                    // Fade envelope away
-                    envelopeOverlay.classList.add('open-transition');
-                    
-                    // Step 4: Show main content
-                    setTimeout(() => {
-                        if (mainContent) {
-                            mainContent.classList.remove('hidden');
-                            void mainContent.offsetWidth;
-                            mainContent.classList.add('visible');
-                        }
-                        
-                        envelopeOverlay.classList.add('fade-out');
-                        
-                        setTimeout(() => {
-                            envelopeOverlay.style.display = 'none';
-                            if (typeof updateHeroParallax === 'function') updateHeroParallax();
-                            if (typeof checkRevealElements === 'function') checkRevealElements();
-                        }, 800);
-                    }, 800);
-                }, 1500);
-            }, 500); // Wait for scale animation to complete
+    // ====== 1. PARALLAX SCROLLING ======
+    const parallaxElements = document.querySelectorAll('.parallax');
+    
+    function updateParallax() {
+        const scrollY = window.scrollY;
+        
+        parallaxElements.forEach(el => {
+            const speed = parseFloat(el.getAttribute('data-speed')) || 0.5;
+            const yPos = -(scrollY * speed);
+            el.style.transform = `translateY(${yPos}px)`;
         });
     }
 
-    // ====== 1. HERO PARALLAX - Image Zoom Effect ======
-    const heroImage = document.getElementById('heroImage');
-    if (heroImage) {
-        function updateHeroParallax() {
-            const scrollY = window.scrollY;
-            const windowHeight = window.innerHeight;
-            
-            // Zoom effect: image gets bigger as you scroll down (up to a point)
-            const zoom = 1 + (scrollY * CONFIG.ZOOM_INTENSITY);
-            // Limit max zoom
-            const clampedZoom = Math.min(zoom, 1.3);
-            
-            // Parallax shift: move image up slower than scroll
-            const translateY = scrollY * CONFIG.PARALLAX_INTENSITY;
-            
-            heroImage.style.transform = `scale(${clampedZoom}) translateY(${translateY}px)`;
-        }
-
-        window.addEventListener('scroll', throttle(updateHeroParallax, CONFIG.SCROLL_THROTTLE));
-        
-        // Initial call
-        updateHeroParallax();
-    }
+    window.addEventListener('scroll', throttle(updateParallax, CONFIG.SCROLL_THROTTLE));
+    updateParallax();
 
     // ====== 2. SCROLL REVEAL ANIMATIONS ======
-    const revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
+    const revealElements = document.querySelectorAll('.section-container, .time-card, .location-card, .album-item, .account-card');
 
     function checkRevealElements() {
-        revealElements.forEach(el => {
-            const delay = parseInt(el.getAttribute('data-delay')) || 0;
+        revealElements.forEach((el, index) => {
             if (isElementInViewport(el, 50)) {
-                // Use a timeout to create the staggered effect
                 setTimeout(() => {
                     el.classList.add('visible');
-                }, delay);
+                }, index * 50);
             }
         });
     }
 
-    // Check on scroll
     window.addEventListener('scroll', throttle(checkRevealElements, 100));
-    
-    // Initial check
     checkRevealElements();
 
-    // ====== 3. SCROLL TO TOP BUTTON ======
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    if (scrollTopBtn) {
-        window.addEventListener('scroll', throttle(function() {
-            if (window.scrollY > 500) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        }, 100));
-
-        scrollTopBtn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-
-    // ====== 4. PHOTO UPLOAD FUNCTIONALITY ======
-    const uploadForm = document.getElementById('uploadForm');
-    const photoInput = document.getElementById('photoInput');
-    const fileNameDisplay = document.getElementById('fileName');
-    const uploadPreview = document.getElementById('uploadPreview');
-    const uploadStatus = document.getElementById('uploadStatus');
-    const guestPhotosGrid = document.getElementById('guestPhotos');
-    const uploadBtn = uploadForm ? uploadForm.querySelector('.upload-btn') : null;
-
-    // Preview selected images
-    if (photoInput) {
-        photoInput.addEventListener('change', function() {
-            const files = this.files;
-            
-            if (files.length === 0) {
-                fileNameDisplay.textContent = '선택된 파일 없음';
-                uploadPreview.classList.remove('has-images');
-                uploadPreview.innerHTML = '';
-                return;
-            }
-
-            fileNameDisplay.textContent = `${files.length}개의 파일 선택됨`;
-            uploadPreview.innerHTML = '';
-            uploadPreview.classList.add('has-images');
-
-            Array.from(files).slice(0, 6).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = file.name;
-                    uploadPreview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            });
-
-            if (files.length > 6) {
-                const more = document.createElement('div');
-                more.style.cssText = 'display:flex;align-items:center;justify-content:center;height:80px;color:#999;font-size:13px;';
-                more.textContent = `+${files.length - 6}개 더`;
-                uploadPreview.appendChild(more);
-            }
-        });
-    }
-
-    // Handle form submission
-    if (uploadForm) {
-        uploadForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const files = photoInput.files;
-            if (!files || files.length === 0) {
-                showUploadStatus('사진을 선택해 주세요.', 'error');
-                return;
-            }
-
-            // Disable button during upload
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = '업로드 중...';
-            showUploadStatus('사진을 업로드 중입니다...', '');
-
-            try {
-                const formData = new FormData();
-                Array.from(files).forEach(file => {
-                    formData.append('photos', file);
-                });
-
-                const response = await fetch(CONFIG.API_BASE_URL + '/api/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    throw new Error('업로드에 실패했습니다.');
-                }
-
-                const result = await response.json();
-                showUploadStatus(`${result.count}개의 사진이 업로드되었습니다!`, 'success');
-                uploadForm.reset();
-                fileNameDisplay.textContent = '선택된 파일 없음';
-                uploadPreview.classList.remove('has-images');
-                uploadPreview.innerHTML = '';
-
-                // Reload guest photos
-                loadGuestPhotos();
-
-            } catch (error) {
-                console.error('Upload error:', error);
-                showUploadStatus('업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.', 'error');
-            } finally {
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = '업로드 하기';
-            }
-        });
-    }
-
-    function showUploadStatus(message, type) {
-        if (uploadStatus) {
-            uploadStatus.textContent = message;
-            uploadStatus.className = 'upload-status';
-            if (type) {
-                uploadStatus.classList.add(type);
-            }
-        }
-    }
-
-    // ====== 5. LOAD GUEST PHOTOS ======
-    async function loadGuestPhotos() {
-        if (!guestPhotosGrid) return;
+    // ====== 3. LOAD ALBUM PHOTOS ======
+    async function loadAlbum() {
+        const albumGrid = document.querySelector('.album-grid');
+        if (!albumGrid) return;
 
         try {
-            const response = await fetch(CONFIG.API_BASE_URL + '/api/photos');
+            const response = await fetch(CONFIG.API_BASE_URL + '/api/album');
             
             if (!response.ok) {
-                throw new Error('Failed to load photos');
+                throw new Error('Failed to load album');
             }
 
             const photos = await response.json();
-            renderGuestPhotos(photos);
+            renderAlbum(photos);
         } catch (error) {
-            console.log('Could not load guest photos from server.');
-            console.log('Make sure the upload server is running.');
-            // Show placeholder/demo photos when server is not available
-            showDemoPhotos();
+            console.log('Could not load album from server.');
+            albumGrid.innerHTML = '<div class="loading-photos">앨범 사진을 불러오는데 실패했습니다.</div>';
         }
     }
 
-    function renderGuestPhotos(photos) {
-        if (!guestPhotosGrid) return;
+    function renderAlbum(photos) {
+        const albumGrid = document.querySelector('.album-grid');
+        if (!albumGrid) return;
 
         if (!photos || photos.length === 0) {
-            guestPhotosGrid.innerHTML = '<div class="loading-photos">아직 업로드된 사진이 없습니다.<br>첫 번째 사진을 올려주세요! 📸</div>';
+            albumGrid.innerHTML = '<div class="loading-photos">앨범 사진이 없습니다. album 폴더에 사진을 추가해주세요!</div>';
             return;
         }
 
-        guestPhotosGrid.innerHTML = '';
+        albumGrid.innerHTML = '';
         
         photos.forEach((photo, index) => {
             const item = document.createElement('div');
-            item.className = 'guest-photo-item';
-            item.style.animationDelay = `${index * 0.1}s`;
+            item.className = 'album-item';
+            item.style.animationDelay = `${index * 0.05}s`;
             
             const img = document.createElement('img');
-            img.src = CONFIG.API_BASE_URL + '/uploads/' + photo.filename;
-            img.alt = 'Guest photo';
+            img.src = photo.path;
+            img.alt = `사진 ${index + 1}`;
             img.loading = 'lazy';
             
             item.appendChild(img);
-            guestPhotosGrid.appendChild(item);
+            albumGrid.appendChild(item);
         });
     }
 
-    // Show demo photos when server is not available
-    function showDemoPhotos() {
-        if (!guestPhotosGrid) return;
+    // Load album on page load
+    loadAlbum();
 
-        const demoImages = [
-            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80',
-            'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80',
-            'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=400&q=80',
-            'https://images.unsplash.com/photo-1529636798458-92182e662485?w=400&q=80'
-        ];
+    // ====== 4. ACCOUNT ACCORDION & COPY ======
+    const accountCards = document.querySelectorAll('.account-card');
+    const copyBtns = document.querySelectorAll('.copy-btn');
 
-        guestPhotosGrid.innerHTML = '';
+    // Accordion toggle
+    accountCards.forEach(card => {
+        const header = card.querySelector('.account-header');
+        if (header) {
+            header.addEventListener('click', function(e) {
+                // Don't toggle if clicking copy button
+                if (e.target.closest('.copy-btn')) return;
+                
+                const isOpen = card.classList.contains('open');
+                
+                // Close all other cards
+                accountCards.forEach(c => c.classList.remove('open'));
+                
+                // Toggle current card
+                if (!isOpen) {
+                    card.classList.add('open');
+                }
+            });
+        }
+    });
 
-        demoImages.forEach((url, index) => {
-            const item = document.createElement('div');
-            item.className = 'guest-photo-item';
-            item.style.animationDelay = `${index * 0.15}s`;
+    // Copy to clipboard
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const accountNumber = this.getAttribute('data-clipboard');
             
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = 'Wedding photo';
-            img.loading = 'lazy';
-            
-            item.appendChild(img);
-            guestPhotosGrid.appendChild(item);
+            try {
+                await navigator.clipboard.writeText(accountNumber);
+                
+                // Show feedback
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                this.style.color = '#4a7c59';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalHTML;
+                    this.style.color = '';
+                }, 1500);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
         });
-    }
+    });
 
-    // Load photos on page load
-    loadGuestPhotos();
-
-    // ====== 6. SMOOTH SCROLL FOR ANCHOR LINKS ======
+    // ====== 5. SMOOTH SCROLL ======
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -358,104 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ====== 7. LIGHTBOX FOR GALLERY ======
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (!img) return;
-
-            // Create lightbox
-            const lightbox = document.createElement('div');
-            lightbox.className = 'lightbox';
-            lightbox.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.9);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                cursor: pointer;
-                padding: 20px;
-            `;
-
-            const lightboxImg = document.createElement('img');
-            lightboxImg.src = img.src;
-            lightboxImg.style.cssText = `
-                max-width: 100%;
-                max-height: 90vh;
-                border-radius: 8px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-                transform: scale(0.9);
-                transition: transform 0.3s ease;
-            `;
-
-            const closeBtn = document.createElement('button');
-            closeBtn.innerHTML = '&times;';
-            closeBtn.style.cssText = `
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
-                color: #fff;
-                font-size: 40px;
-                cursor: pointer;
-                opacity: 0.7;
-                transition: opacity 0.3s;
-                z-index: 10000;
-            `;
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeLightbox();
-            });
-
-            lightbox.appendChild(closeBtn);
-            lightbox.appendChild(lightboxImg);
-            document.body.appendChild(lightbox);
-
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-
-            // Animate in
-            requestAnimationFrame(() => {
-                lightbox.style.opacity = '1';
-                lightboxImg.style.transform = 'scale(1)';
-            });
-
-            // Click to close
-            lightbox.addEventListener('click', closeLightbox);
-
-            function closeLightbox() {
-                lightbox.style.opacity = '0';
-                lightboxImg.style.transform = 'scale(0.9)';
-                document.body.style.overflow = '';
-                setTimeout(() => {
-                    if (lightbox.parentNode) {
-                        lightbox.parentNode.removeChild(lightbox);
-                    }
-                }, 300);
-            }
-
-            // Close on escape key
-            function handleEscape(e) {
-                if (e.key === 'Escape') {
-                    closeLightbox();
-                    document.removeEventListener('keydown', handleEscape);
-                }
-            }
-            document.addEventListener('keydown', handleEscape);
-        });
-    });
-
-    // ====== 8. RESPONSIVE RE-CHECK ON RESIZE ======
+    // ====== 6. RESPONSIVE RE-CHECK ======
     window.addEventListener('resize', debounce(function() {
         checkRevealElements();
     }, 200));
