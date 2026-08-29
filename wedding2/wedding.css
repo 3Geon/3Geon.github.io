@@ -4,7 +4,7 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #ffdce1; /* 키치 스타일 배경색 */
+    background-color: #ffffff; /* B&W 테마 화이트 배경 */
     color: #1a1a1a;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -17,10 +17,10 @@ body {
     font-size: 16px;
 }
 
-/* ====== HEART REVEAL INTRO (키치 스타일) ====== */
+/* ====== HEART REVEAL INTRO (B&W 스타일) ====== */
 .intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #ffdce1;
+    background-color: #ffffff; 
     z-index: 10000;
 }
 .intro-heart-btn {
@@ -32,7 +32,7 @@ body {
 .intro-heart-btn svg {
     width: 50px; height: 50px;
     animation: heartbeat 1.5s infinite;
-    filter: drop-shadow(2px 2px 0px #1a1a1a);
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.2)); 
     transition: transform 0.2s;
 }
 .intro-heart-btn:active svg { transform: scale(0.9); }
@@ -55,8 +55,6 @@ body {
 
 .main-content.pre-reveal {
     display: block; opacity: 1;
-    
-    /* 🌟 추가된 부분: 애니메이션 동안 화면 크기를 딱 맞게 고정하여 정중앙 유지 */
     height: 100vh;
     overflow: hidden;
     -webkit-mask-position: center;
@@ -78,10 +76,11 @@ body {
 .section { padding: 80px 20px; position: relative; }
 .section-dark { background-color: #1c1c1c; color: #ffffff; }
 .section-dark .section-title, .section-dark .invitation-text, .section-dark p, .section-dark .details-venue, .section-dark .details-date { color: #ffffff; }
-.section-dark .details-address, .section-dark .account-section-desc { color: #ffb8c6; }
+.section-dark .details-address, .section-dark .account-section-desc { color: #aaaaaa; }
 .section-inner { max-width: 600px; margin: 0 auto; position: relative; }
 .section-title { font-size: 24px; font-weight: 600; text-align: center; letter-spacing: 0.05em; margin-bottom: 10px; color: #1a1a1a; }
-.divider { background-color: #ff4b72; height: 3px; width: 60px; border-radius: 3px; margin: 20px auto 40px; }
+.divider { background-color: #1a1a1a; height: 3px; width: 60px; border-radius: 3px; margin: 20px auto 40px; }
+.section-dark .divider { background-color: #ffffff; }
 
 /* ====== HERO SECTION ====== */
 .hero-section { position: relative; width: 100%; height: 100vh; overflow: hidden; }
@@ -95,7 +94,7 @@ body {
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
-    filter: grayscale(100%);
+    /* 흑백 효과 삭제하여 컬러 표시 */
 }
 
 .hero-person-name { position: absolute; display: flex; flex-direction: column; gap: 6px; width: 80%; max-width: 260px; }
@@ -104,12 +103,12 @@ body {
 .hero-groom .hero-person-name { left: -10%; top: 40%; text-align: left; }
 .hero-bride .hero-person-name { right: 5%; top: 35%; text-align: right; }
 
-/* 💖 핑크 원형 글자 💖 */
+/* 🖤 블랙 원형 글자 🖤 */
 .letter-circle {
     display: inline-flex; align-items: center; justify-content: center;
     width: 24px; height: 24px; 
     border-radius: 50%;
-    background: #ff4b72; 
+    background: #1a1a1a; 
     border: none; 
     box-shadow: none; 
     font-size: 11px;
@@ -161,7 +160,7 @@ body {
 /* ====== DETAILS ====== */
 .details-info { text-align: center; margin-bottom: 30px; }
 .details-date { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.details-time { font-size: 16px; font-weight: 600; color: #c9a96e; margin-bottom: 8px; }
+.details-time { font-size: 16px; font-weight: 600; color: #aaaaaa; margin-bottom: 8px; }
 .details-venue { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .map-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 .map-btn, .upload-btn, .account-toggle, .scroll-top-btn {
@@ -175,27 +174,50 @@ body {
 }
 .map-btn:hover, .upload-btn:hover, .scroll-top-btn:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px #ff4b72;
+    box-shadow: 5px 5px 0px #1a1a1a;
     background: #ffffff;
 }
 
 /* ====== CALENDAR ====== */
 .calendar-header, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
 .calendar-day, .calendar-date { text-align: center; font-size: 14px; padding: 10px 0; font-weight: 600; }
-.calendar-date-highlight { background: #ff4b72; box-shadow: 2px 2px 0px #1a1a1a; border: 1.5px solid #1a1a1a; color: #ffffff !important; }
-.calendar-day-sat, .calendar-date-sat { color: #ff4b72; }
+.calendar-date-highlight { background: #1a1a1a; box-shadow: 2px 2px 0px #aaaaaa; border: 1.5px solid #1a1a1a; color: #ffffff !important; }
+.calendar-day-sat, .calendar-date-sat { color: #1a1a1a; }
 
-/* ====== OUR STORY (콜라주) ====== */
+/* ====== OUR STORY 공통 ====== */
 .collage-container { position: relative; width: 85%; max-width: 400px; margin: 0 auto 0px auto; }
 .collage-center { width: 70%; left: -10%; display: block; margin: 0 auto; position: relative; z-index: 1; }
 .collage-left { position: absolute; width: 60%; left: -25%; top: 50%; z-index: 2; }
 .collage-right { position: absolute; width: 65%; right: -15%; bottom: -40%; z-index: 3; }
-.parents-letter-img { width: 100%; max-width: 400px; margin: 0 auto; padding: 0 15px; display: flex; justify-content: center; transform: rotate(-1deg); }
-.parents-letter-img img { 
-    width: 100%; 
-    height: auto; 
-    display: block; 
+.parents-letter-img { width: 100%; max-width: 280px; margin: 0 auto; padding: 0 15px; display: flex; justify-content: center; transform: rotate(-1deg); }
+.parents-letter-img img { width: 100%; height: auto; display: block; }
+
+/* ====== 스토리 간격 조절 ====== */
+#story { padding-bottom: 20px; }
+#story-bride { padding-top: 20px; }
+
+/* ====== 신부측 이야기 개별 설정 ====== */
+#story-bride .collage-container img { filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.25)); }
+#story-bride .collage-center { width: 70%; left: 5%; top: 0%; }
+#story-bride .collage-left { width: 60%; left: -15%; top: 40%; z-index: 3; }
+#story-bride .collage-right { width: 65%; right: -25%; bottom: -30%; }
+
+/* ====== 신랑 & 신부 편지 개별 위치/크기 조절 ====== */
+
+/* 1. 신랑측 편지 설정 */
+#story .parents-letter-img {
+    max-width: 280px; /* 편지 크기 (숫자를 키우면 커집니다) */
+    /* 좌우 이동(X), 상하 이동(Y), 회전 각도(rotate) */
+    transform: translateX(0px) translateY(0px) rotate(-1deg); 
 }
+
+/* 2. 신부측 편지 설정 */
+#story-bride .parents-letter-img {
+    max-width: 260px; /* 편지 크기 */
+    /* 우측으로 20px, 회전 2도 적용된 상태 (원하는 대로 수정 가능) */
+    transform: translateX(20px) translateY(0px) rotate(2deg); 
+}
+
 /* ====== GALLERY ====== */
 .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .gallery-item:first-child { grid-column: 1 / -1; }
@@ -209,14 +231,14 @@ body {
 .gallery-item:nth-child(odd) { transform: rotate(-3deg); }
 .gallery-item:nth-child(even) { transform: rotate(3deg); }
 .gallery-item:nth-child(3n) { transform: rotate(-1deg); }
-.gallery-item:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 4px 4px 0px #ff4b72; }
+.gallery-item:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 4px 4px 0px #1a1a1a; }
 
 /* ====== SCROLL TO TOP ====== */
 .scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; justify-content: center; opacity: 0; z-index: 100; transition: opacity 0.3s, transform 0.2s, box-shadow 0.2s; }
 .scroll-top-btn.visible { opacity: 1; }
 
 /* ==========================================
-   💖 MUSIC, MODAL & ACCOUNT STYLES 💖
+   🖤 MUSIC, MODAL & ACCOUNT STYLES 🖤
    ========================================== */
 
 /* 음악 토글 버튼 */
@@ -225,9 +247,9 @@ body {
     border-radius: 50%; background: #ffffff; border: 2px solid #1a1a1a;
     box-shadow: 3px 3px 0px #1a1a1a; font-size: 20px; cursor: pointer;
     z-index: 10001; display: flex; align-items: center; justify-content: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s; font-family: 'Noto Sans KR', sans-serif;
 }
-.music-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px #ff4b72; }
+.music-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px #1a1a1a; }
 
 /* 계좌번호 버튼 */
 .account-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; margin: 0 auto; }
@@ -236,7 +258,7 @@ body {
     background: #ffffff; border: 2px solid #1a1a1a; box-shadow: 4px 4px 0px #1a1a1a;
     border-radius: 8px; cursor: pointer; transition: all 0.2s;
 }
-.account-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #ff4b72; }
+.account-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #1a1a1a; }
 
 /* 모달 공통 스타일 */
 .modal-overlay {
@@ -247,40 +269,30 @@ body {
 .modal-overlay.active { opacity: 1; visibility: visible; }
 .modal-content {
     position: relative; background: #ffffff; border: 3px solid #1a1a1a;
-    box-shadow: 8px 8px 0px #ff4b72; border-radius: 12px; width: 90%;
+    box-shadow: 8px 8px 0px #1a1a1a; border-radius: 12px; width: 90%;
     max-width: 400px; max-height: 85vh; overflow-y: auto; padding: 30px 20px;
 }
 .modal-close {
     position: absolute; top: 15px; right: 15px; width: 30px; height: 30px;
-    background: #ff4b72; color: #fff; border: 2px solid #1a1a1a; border-radius: 50%;
+    background: #1a1a1a; color: #fff; border: 2px solid #1a1a1a; border-radius: 50%;
     font-size: 18px; font-weight: bold; line-height: 1; cursor: pointer;
 }
 .modal-title { font-size: 20px; text-align: center; margin-bottom: 20px; color: #1a1a1a; }
 
-/* 🚌 모달창 내부 이미지 크기 조절 및 가운데 정렬 */
-.modal-content img {
-    width: 100%;
-    max-width: 260px; /* 원하시는 크기에 맞춰 숫자를 조절해 보세요! (예: 220px, 280px) */
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
-
-/* 두 번째 약도 이미지 위쪽 여백 */
-.modal-content img + img {
-    margin-top: 15px;
-}
+/* 모달 내부 이미지 */
+.modal-content img { width: 100%; max-width: 260px; height: auto; display: block; margin: 0 auto; }
+.modal-content img + img { margin-top: 15px; }
 
 /* 셔틀버스 테이블 */
 .shuttle-table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 2px solid #1a1a1a; }
 .shuttle-table th, .shuttle-table td { border: 1px solid #1a1a1a; padding: 10px; text-align: center; font-size: 14px; }
-.shuttle-table th { background: #ffdce1; font-weight: bold; }
+.shuttle-table th { background: #f5f5f5; font-weight: bold; }
 
 /* 계좌 리스트 */
 .account-list { display: flex; flex-direction: column; gap: 15px; }
 .account-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; border: 1.5px solid #1a1a1a; padding: 12px; border-radius: 6px; }
 .account-info { font-size: 14px; line-height: 1.5; text-align: left; }
-.account-role { display: inline-block; background: #ffdce1; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 5px; font-weight: bold; }
+.account-role { display: inline-block; background: #e0e0e0; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 5px; font-weight: bold; color: #1a1a1a; }
 .account-number { color: #555; letter-spacing: 0.5px; }
 .copy-btn {
     background: #ffffff; border: 1.5px solid #1a1a1a; box-shadow: 2px 2px 0px #1a1a1a;
@@ -288,42 +300,3 @@ body {
     cursor: pointer; transition: transform 0.1s;
 }
 .copy-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
-
-/* ====== 신부측 이야기 (그림자 및 개별 위치 조절) ====== */
-
-/* 1. 신부측 이미지와 편지에만 부드러운 그림자 추가 */
-#story-bride .collage-container img {
-    filter: drop-shadow(4px 4px 0px #ff4b72); 
-}
-
-/* 2. 신부측 콜라주 사진 개별 위치 조절 */
-/* 가운데 사진 (Family_3_B) */
-#story-bride .collage-center {
-    width: 100%;
-    left: 5%;     /* 기본값(-10%)에서 우측으로 이동 */
-    top: 0%;      /* 위아래 위치 조절 */
-}
-
-/* 왼쪽 사진 (Family_2_B) */
-#story-bride .collage-left {
-    width: 50%;
-    left: -30%;   /* 기본값(-25%)에서 우측으로 조금 이동 */
-    top: 30%;     /* 기본값(50%)에서 살짝 위로 이동 */
-    z-index: 3;   /* 필요시 겹치는 순서 변경 가능 */
-}
-
-/* 오른쪽 사진 (Family_1_B) */
-#story-bride .collage-right {
-    width: 65%;
-    right: -35%;  /* 기본값(-15%)에서 우측으로 더 이동 */
-    bottom: -10%; /* 기본값(-40%)에서 살짝 위로 이동 */
-}
-
-/* ====== 신랑 신부 스토리 사이 간격 조절 ====== */
-#story {
-    padding-bottom: 20px; /* 기본값 80px -> 20px로 축소 */
-}
-
-#story-bride {
-    padding-top: 20px; /* 기본값 80px -> 20px로 축소 */
-}

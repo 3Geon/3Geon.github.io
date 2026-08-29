@@ -85,15 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const musicToggle = document.getElementById('musicToggle');
     let isTransitioning = false;
 
+    // 음악 토글 버튼 이벤트 (심플한 기호 적용)
     if (musicToggle && bgm) {
         musicToggle.addEventListener('click', function(e) {
             e.stopPropagation();
             if (bgm.paused) {
                 bgm.play();
-                musicToggle.textContent = '🎵';
+                musicToggle.textContent = '♪';
             } else {
                 bgm.pause();
-                musicToggle.textContent = '🔇';
+                musicToggle.textContent = '✕';
             }
         });
     }
@@ -106,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (bgm && bgm.paused) {
                 bgm.play().catch(err => console.log('자동재생 차단:', err));
+                musicToggle.textContent = '♪';
             }
 
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -123,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (introHint) introHint.style.opacity = '0';
             introHeartBtn.querySelector('svg').style.animation = 'none';
 
-            // 클리핑 마스크 애니메이션 시작
             setTimeout(() => {
                 introOverlay.style.opacity = '0';
                 introOverlay.style.pointerEvents = 'none';
@@ -131,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (mainContent) {
                     mainContent.classList.add('pre-reveal');
                     
-                    // 🌟 렌더링 강제 업데이트 (애니메이션 스킵 방지)
                     void mainContent.offsetWidth; 
                     
                     mainContent.classList.add('revealing');
@@ -185,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         const tY = state.targetY * 3.0;
 
                         circle.currentX += (tX - circle.currentX) * circle.speed;
-                        // 🌟 오타 수정된 부분
                         circle.currentY += (tY - circle.currentY) * circle.speed;
 
                         const rotate = circle.currentX * 0.3;

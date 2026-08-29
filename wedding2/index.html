@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>상건 · 기정 결혼합니다</title>
     <link rel="stylesheet" href="wedding.css">
-    <!-- 💖 깔끔하고 힙한 고딕 폰트 추가 💖 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- 🎵 음악 파일 및 토글 버튼 -->
+    <!-- 🎵 음악 파일 및 토글 버튼 (심플한 음표로 변경) -->
     <audio id="bgm" src="music/Nothing-3-Bruno Major.mp3" loop preload="auto"></audio>
-    <button id="musicToggle" class="music-btn">🎵</button>
+    <button id="musicToggle" class="music-btn">♪</button>
 
-    <!-- ====== 💖 하트 클리핑 마스크 인트로 ====== -->
+    <!-- ====== 🖤 하트 클리핑 마스크 인트로 (블랙으로 변경) ====== -->
     <div class="intro-overlay" id="introOverlay">
         <div class="intro-heart-btn" id="introHeartBtn">
             <!-- 하트 SVG 아이콘 -->
             <svg viewBox="0 0 512 512">
-                <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" fill="#ff4b72"/>
+                <!-- fill 색상을 #1a1a1a (블랙)으로 변경 -->
+                <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" fill="#1a1a1a"/>
             </svg>
         </div>
         <div class="intro-hint" id="introHint">
@@ -141,14 +141,12 @@
                     <a href="https://place.map.kakao.com/17423899?fromAppLink=true" class="map-btn map-btn-kakao" target="_blank" rel="noopener"><span>카카오 맵</span></a>
                     <a href="https://tmap.life/13d81b31" class="map-btn map-btn-tmap" target="_blank" rel="noopener"><span>T맵</span></a>
                     
-                    <!-- 🚌 셔틀버스 안내 버튼 추가 -->
                     <button class="map-btn map-btn-shuttle" id="shuttleBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
                         <span>🚌 셔틀버스 안내</span>
                     </button>
                 </div>
             </div>
         </section>
-
 
         <!-- ====== OUR STORY (신랑 버전) ====== -->
         <section class="section" id="story">
@@ -164,7 +162,6 @@
             </div>
         </section>
 
-        <!-- 👇 여기에 신부 버전을 추가했습니다 👇 -->
         <!-- ====== OUR STORY (신부 버전) ====== -->
         <section class="section" id="story-bride">
             <div class="section-inner">
@@ -178,9 +175,8 @@
                 </div>
             </div>
         </section>
-        <!-- 👆 여기까지 👆 -->
 
-                <!-- ====== 마음 전할 곳 (계좌번호) ====== -->
+        <!-- ====== 마음 전할 곳 ====== -->
         <section class="section" id="account">
             <div class="section-inner" style="text-align: center;">
                 <h2 class="section-title text-fade-in">마음 전할 곳</h2>
@@ -206,12 +202,12 @@
             </div>
         </section>
 
-
-<!-- ====== FOOTER ====== -->
+        <!-- ====== FOOTER ====== -->
         <footer class="footer" style="text-align: center; padding: 40px 20px; background: #1c1c1c; color: #fff;">
-            <!-- 하트 3개 삭제, 이름 텍스트 변경 -->
-            <p style="font-size: 20px; font-weight: 600; margin-bottom: 5px;">상건 ❤ 기정</p>
-            <p style="font-size: 15px; color: #ffb8c6;">2026.10.10</p>
+            <!-- 플랫한 문장기호 하트로 변경 -->
+            <p class="footer-hearts" style="color: #fff; margin-bottom: 10px;">♥ ♥ ♥</p>
+            <p style="font-size: 20px; font-weight: 600; margin-bottom: 5px; letter-spacing: 2px;">상건 ♥ 기정</p>
+            <p style="font-size: 15px; color: #888;">2026.10.10</p>
             <p class="footer-copy" style="font-size: 12px; margin-top: 25px; opacity: 0.5;">© 2026 Wedding Invitation</p>
         </footer>
 
