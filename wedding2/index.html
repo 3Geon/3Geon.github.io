@@ -9,16 +9,15 @@
 </head>
 <body>
 
-    <!-- 🎵 음악 파일 및 토글 버튼 (심플한 음표로 변경) -->
+    <!-- 🎵 음악 파일 및 토글 버튼 (심플한 음표) -->
     <audio id="bgm" src="music/Nothing-3-Bruno Major.mp3" loop preload="auto"></audio>
     <button id="musicToggle" class="music-btn">♪</button>
 
-    <!-- ====== 🖤 하트 클리핑 마스크 인트로 (블랙으로 변경) ====== -->
+    <!-- ====== 🖤 하트 클리핑 마스크 인트로 ====== -->
     <div class="intro-overlay" id="introOverlay">
         <div class="intro-heart-btn" id="introHeartBtn">
             <!-- 하트 SVG 아이콘 -->
             <svg viewBox="0 0 512 512">
-                <!-- fill 색상을 #1a1a1a (블랙)으로 변경 -->
                 <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" fill="#1a1a1a"/>
             </svg>
         </div>
@@ -35,9 +34,9 @@
             <div class="hero-layer hero-bg">
                 <img src="photos/BG.png" alt="배경">
             </div>
-            <div class="hero-layer hero-season" data-depth="0.1">
-                <img src="photos/사랑의계절.png" alt="사랑의 계절">
-            </div>
+            
+            <!-- 사랑의 계절 이미지 삭제됨 -->
+
             <div class="hero-layer hero-model" data-depth="0.3">
                 <img src="photos/Model.png" alt="모델">
             </div>
@@ -77,13 +76,15 @@
 
             <div class="hero-text-wrapper" id="heroTextWrapper">
                 <div class="hero-text">
+                    <div class="hero-heart-circle">♥</div>
                     <div class="hero-date">2026 . 10 . 10 SAT</div>
+                    <div class="hero-venue">Ddeulanche2</div>
                 </div>
             </div>
         </section>
 
-        <!-- ====== INVITATION SECTION ====== -->
-        <section class="section section-dark" id="invitation">
+        <!-- ====== INVITATION SECTION (section-dark 삭제) ====== -->
+        <section class="section" id="invitation">
             <div class="section-inner">
                 <h2 class="section-title text-fade-in">초대합니다</h2>
                 <div class="divider"></div>
@@ -127,8 +128,8 @@
             </div>
         </section>
 
-        <!-- ====== DETAILS SECTION ====== -->
-        <section class="section section-dark" id="details">
+        <!-- ====== DETAILS SECTION (section-dark 삭제) ====== -->
+        <section class="section" id="details">
             <div class="section-inner">
                 <div class="details-info text-fade-in" data-delay="100">
                     <p class="details-date">2026년 10월 10일 토요일</p>
@@ -191,8 +192,8 @@
             </div>
         </section>
 
-        <!-- ====== ALBUM SECTION ====== -->
-        <section class="section section-dark" id="album">
+        <!-- ====== ALBUM SECTION (section-dark 삭제) ====== -->
+        <section class="section" id="album">
             <div class="section-inner">
                 <h2 class="section-title text-fade-in">앨범</h2>
                 <div class="divider"></div>
@@ -202,12 +203,11 @@
             </div>
         </section>
 
-        <!-- ====== FOOTER ====== -->
-        <footer class="footer" style="text-align: center; padding: 40px 20px; background: #1c1c1c; color: #fff;">
-            <!-- 플랫한 문장기호 하트로 변경 -->
-            <p class="footer-hearts" style="color: #fff; margin-bottom: 10px;">♥ ♥ ♥</p>
+        <!-- ====== FOOTER (올 화이트 톤으로 수정) ====== -->
+        <footer class="footer" style="text-align: center; padding: 40px 20px; background: #ffffff; color: #1a1a1a;">
+            <p class="footer-hearts" style="color: #1a1a1a; margin-bottom: 10px;">♥ ♥ ♥</p>
             <p style="font-size: 20px; font-weight: 600; margin-bottom: 5px; letter-spacing: 2px;">상건 ♥ 기정</p>
-            <p style="font-size: 15px; color: #888;">2026.10.10</p>
+            <p style="font-size: 15px; color: #555;">2026.10.10</p>
             <p class="footer-copy" style="font-size: 12px; margin-top: 25px; opacity: 0.5;">© 2026 Wedding Invitation</p>
         </footer>
 
@@ -223,8 +223,8 @@
         <div class="modal-content">
             <button class="modal-close" data-target="shuttleModal">&times;</button>
             <h3 class="modal-title">셔틀버스 안내</h3>
-            <img src="photos/Bus_image.jpg" alt="버스타는 곳">
-            <img src="photos/Bus_Map.jpg" alt="약도" style="margin-top: 15px;">
+            <img src="photos/Bus_image.png" alt="버스타는 곳">
+            <img src="photos/Bus_Map.png" alt="약도" style="margin-top: 15px;">
             <table class="shuttle-table">
                 <thead>
                     <tr><th>식장행</th><th>역으로 돌아가는 편</th></tr>
@@ -233,6 +233,7 @@
                     <tr><td>11:20</td><td>13:40</td></tr>
                     <tr><td>11:40</td><td>14:00</td></tr>
                     <tr><td>12:00</td><td>14:20</td></tr>
+                    <tr><td>12:20</td><td>14:40</td></tr>
                 </tbody>
             </table>
         </div>
