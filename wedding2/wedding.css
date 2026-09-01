@@ -189,7 +189,7 @@ body {
 /* ====== DETAILS ====== */
 .details-info { text-align: center; margin-bottom: 30px; }
 .details-date { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.details-time { font-size: 16px; font-weight: 600; color: #aaaaaa; margin-bottom: 8px; }
+.details-time { font-size: 18px; font-weight: 700; color: #080808; margin-bottom: 8px; }
 .details-venue { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .map-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 .map-btn, .upload-btn, .account-toggle, .scroll-top-btn {
