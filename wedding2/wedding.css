@@ -4,7 +4,9 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #ffffff; /* B&W 테마 화이트 배경 */
+    background-color: #ffffff; 
+    /* 🌟 미세한 종이 질감(노이즈) 효과를 주는 배경 추가 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
     color: #1a1a1a;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -119,14 +121,14 @@ body {
     will-change: transform;
 }
 
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: 80px; top: 0px;  transition-delay: 0.35s; }
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: 80px;  top: 20px; transition-delay: 0.30s; }
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(3) { position: relative; left: 80px; top: 50px;  transition-delay: 0.25s; }
-.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(4) { position: relative; left: 80px;  top: 80px; transition-delay: 0.20s; }
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: 100px; top: 70px;  transition-delay: 0.15s; }
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: 100px;  top: 100px; transition-delay: 0.10s; }
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: 100px; top: 130px;  transition-delay: 0.05s; }
-.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: 110px;  top: 120px; transition-delay: 0s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: 80px; top: 20px;  transition-delay: 0.35s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: 80px;  top: 40px; transition-delay: 0.30s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(3) { position: relative; left: 80px; top: 70px;  transition-delay: 0.25s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(4) { position: relative; left: 80px;  top: 110px; transition-delay: 0.20s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: 100px; top: 90px;  transition-delay: 0.15s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: 100px;  top: 120px; transition-delay: 0.10s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: 100px; top: 150px;  transition-delay: 0.05s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: 110px;  top: 140px; transition-delay: 0s; }
 .hero-bride .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: -50px; top: -50px; transition-delay: 0.30s; }
 .hero-bride .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: -50px; top: 0px;  transition-delay: 0.25s; }
 .hero-bride .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: -50px;  top: -80px; transition-delay: 0.20s; }
@@ -147,19 +149,11 @@ body {
 .hero-date { font-size: 14px; letter-spacing: 0.3em; opacity: 0.8; font-weight: 400; }
 /* ====== Hero 텍스트 위 흰색 동그라미 하트 ====== */
 .hero-heart-circle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;          /* 동그라미 너비 */
-    height: 34px;         /* 동그라미 높이 */
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #1a1a1a;       /* 하트 색상 (블랙) */
-    border-radius: 50%;   /* 완벽한 원형으로 만들기 */
-    font-size: 16px;      /* 하트 기호 크기 */
-    margin: 0 auto 12px auto; /* 가운데 정렬 및 날짜와의 간격 띄우기 */
-    
-    /* (선택) 테마에 맞춰 아주 연하게 그림자를 주어 배경과 분리감 주기 */
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); 
+    background-color: #ffffff !important; /* 흰색 배경 */
+    color: #1a1a1a !important;            /* 검은색 하트 */
+    margin-bottom: 200px;                  /* 날짜와의 간격 */
+    position: relative;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 살짝 떠 있는 듯한 그림자 */
 }
 
 /* Hero 영문 장소 스타일 */
