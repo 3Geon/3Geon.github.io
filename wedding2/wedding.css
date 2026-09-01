@@ -285,7 +285,7 @@ body {
     transform: rotate(6deg) scale(0.9); 
 }
 #story-bride .collage-right { 
-    width: 80%; right: -40%; bottom: -50%; 
+    width: 80%; right: -40%; bottom: -120%; 
     transform: rotate(-4deg) scale(1); 
 }
 
@@ -387,3 +387,21 @@ body {
     cursor: pointer; transition: transform 0.1s;
 }
 .copy-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+
+/* ====== 손글씨 초대장 이미지 스타일 ====== */
+.handwriting-img {
+    width: 100%;
+    max-width: 300px; /* 손글씨 이미지의 최대 크기 (너무 크면 이 숫자를 줄이세요) */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.handwriting-img img {
+    width: 180%;
+    height: auto;
+    display: block;
+    
+    /* (선택) 손글씨가 종이에 스며든 것처럼 보이게 하려면 아래 효과를 켭니다 */
+    /* mix-blend-mode: multiply; */ 
+}
