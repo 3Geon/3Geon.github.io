@@ -4,15 +4,16 @@ html { scroll-behavior: smooth; }
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    /* 만약을 대비한 기본 배경색 */
-    background-color: #fdfcf9; 
     
-    /* 🌟 새로 만든 '진짜 종이 텍스처' 파일을 배경으로 불러옵니다 */
+    /* 🌟 1. 질감을 살려줄 밑색 (살짝 어두운 회색) */
+    background-color: #fafafa; 
     background-image: url("photos/paper_texture.png");
-    /* 심리스 패턴이므로 원하는 크기로 설정해 반복시킵니다 (모바일에서 아주 예쁜 크기) */
+    
+    /* 🌟 2. 밑색과 텍스처를 곱해서 질감의 대비를 확 높여줍니다 */
+    background-blend-mode: multiply; 
+    
     background-size: 256px 256px;
     background-repeat: repeat;
-    
     color: #1a1a1a;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
