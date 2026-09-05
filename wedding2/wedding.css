@@ -305,20 +305,46 @@ body {
     transform: translateX(20px) translateY(10px) rotate(2deg); 
 }
 
-/* ====== GALLERY ====== */
-.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.gallery-item:first-child { grid-column: 1 / -1; }
-.gallery-item {
-    background: #ffffff; padding: 6px 6px 28px 6px; border: 2px solid #1a1a1a;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.15); border-radius: 2px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+/* ====== ALBUM SECTION (가로 스와이프 캐러셀 - 깔끔한 사진 스타일) ====== */
+#galleryGrid { 
+    display: flex; 
+    gap: 8px; /* 사진들 사이의 간격을 좁혀서 갤러리 느낌을 살렸습니다 */
+    overflow-x: auto; 
+    padding: 10px 20px 40px 20px; 
+    margin: 0 -20px; 
+    -webkit-overflow-scrolling: touch; 
+    scroll-snap-type: x mandatory; 
+    scrollbar-width: none; 
 }
-.gallery-item img { width: 100%; height: 200px; object-fit: cover; }
-.gallery-item:first-child img { height: 280px; }
-.gallery-item:nth-child(odd) { transform: rotate(-3deg); }
-.gallery-item:nth-child(even) { transform: rotate(3deg); }
-.gallery-item:nth-child(3n) { transform: rotate(-1deg); }
-.gallery-item:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 4px 4px 0px #1a1a1a; }
+#galleryGrid::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* 🌟 흰 테두리, 그림자, 패딩 모두 삭제하고 깔끔하게 비율 조정 */
+.gallery-item {
+    flex: 0 0 28%; /* 사진 프레임이 빠진 만큼 사진 자체의 비율을 살짝 키웠습니다 */
+    scroll-snap-align: center; 
+    cursor: pointer;
+    background: transparent;
+    padding: 0; 
+    border: none;
+    box-shadow: none; 
+    transition: transform 0.2s ease; 
+}
+
+.gallery-item img { 
+    width: 100%; 
+    height: 140px; /* 사진만 보이므로 높이를 조금 늘려 시원하게 보이게 했습니다 */
+    object-fit: cover; 
+    display: block;
+    /* 모던한 느낌을 위해 모서리만 아주 살짝 둥글게 (원치 않으시면 0px로 변경) */
+    border-radius: 4px; 
+}
+
+/* 삐뚤빼뚤한 회전 효과를 없애고, 터치 시 사진만 살짝 커지는 부드러운 효과 */
+.gallery-item:hover, .gallery-item:active { 
+    transform: scale(1.03); 
+}
 
 /* ====== SCROLL TO TOP ====== */
 .scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; justify-content: center; opacity: 0; z-index: 100; transition: opacity 0.3s, transform 0.2s, box-shadow 0.2s; }
