@@ -1,1002 +1,510 @@
 /* ====== RESET & BASE ====== */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Noto Serif KR', 'Nanum Myeongjo', serif;
-    background-color: #faf8f5;
-    color: #2c2c2c;
+    font-family: 'Noto Sans KR', sans-serif;
+    
+    /* 🌟 1. 질감을 살려줄 밑색 (살짝 어두운 회색) */
+    background-color: #fafafa; 
+    background-image: url("photos/paper_texture.png");
+    
+    /* 🌟 2. 밑색과 텍스처를 곱해서 질감의 대비를 확 높여줍니다 */
+    background-blend-mode: multiply; 
+    
+    background-size: 256px 256px;
+    background-repeat: repeat;
+    color: #1a1a1a;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     line-height: 1.8;
     width: 100%;
     min-height: 100vh;
-}
-
-/* ====== COMING SOON PAGE ====== */
-.coming-soon-container {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #faf8f5;
-    padding: 20px;
-}
-
-.coming-soon-image {
-    max-width: 100%;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
+    max-width: 500px;
     margin: 0 auto;
-}
-
-.coming-soon-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-}
-
-.coming-soon-text h1 {
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-size: clamp(24px, 5vw, 42px);
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 0.2em;
-    text-align: center;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* ====== ENVELOPE INTRO OVERLAY ====== */
-.envelope-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #a7d4d0;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 1s ease, visibility 1s ease;
-    perspective: 800px;
-    overflow: hidden;
-}
-
-.envelope-overlay.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.envelope-wrapper {
     position: relative;
-    width: 300px;
-    max-width: 85vw;
-    aspect-ratio: 1 / 1.414;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* ====== CLICK SCALE ANIMATION ====== */
-.envelope-wrapper.clicked {
-    animation: envelopeClickPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes envelopeClickPop {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-}
-
-/* ====== ENVELOPE ====== */
-.envelope {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 10px;
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.04),
-        0 12px 30px rgba(0, 0, 0, 0.08),
-        0 30px 60px rgba(0, 0, 0, 0.05);
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow: visible;
-}
-
-/* Envelope body */
-.envelope-body {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.envelope-bg-img {
-    display: none !important;
-}
-
-.envelope-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    text-align: center;
-}
-
-.envelope-heart {
-    font-size: 42px;
-    color: #303030;
-    margin-bottom: 12px;
-    animation: heartBeat 1.5s ease-in-out infinite;
-}
-
-.envelope-label {
     font-size: 16px;
-    color: #303030;
-    letter-spacing: 0.3em;
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-weight: 700;
 }
 
-/* Envelope flap */
-.envelope-flap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    z-index: 3;
-    transform-origin: top center;
-    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%);
+/* ====== HEART REVEAL INTRO (B&W 스타일) ====== */
+.intro-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    /* 🌟 하얀색 칠을 지워서 뒤에 깔린 종이 질감이 보이도록 합니다 */
+    background-color: transparent; 
+    z-index: 10000;
+}
+
+.intro-heart-btn {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer; width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+}
+.intro-heart-btn svg {
+    width: 50px; height: 50px;
+    animation: heartbeat 1.5s infinite;
+    filter: none; /* drop-shadow(3px 3px 0px rgba(0,0,0,0.2));  */
+    transition: transform 0.2s;
+}
+.intro-heart-btn:active svg { transform: scale(0.9); }
+
+.intro-hint {
+    position: absolute; top: calc(50% + 50px); left: 50%;
+    transform: translateX(-50%);
+    font-weight: 700; font-size: 16px; color: #1a1a1a;
+    white-space: nowrap; animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-8px); }
+    60% { transform: translateX(-50%) translateY(-4px); }
+}
+
+/* ====== 하트 클리핑 마스크 확장 애니메이션 ====== */
+.main-content { display: none; opacity: 0; }
+.main-content.visible { display: block; opacity: 1; }
+
+.main-content.pre-reveal {
+    display: block; opacity: 1;
+    height: 100vh;
     overflow: hidden;
-    border-radius: 10px 10px 0 0;
+    -webkit-mask-position: center;
+    mask-position: center;
+    
+    -webkit-mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    
+    -webkit-mask-size: 50px; mask-size: 50px;
+    transition: -webkit-mask-size 1.2s cubic-bezier(0.65, 0, 0.35, 1), 
+                mask-size 1.2s cubic-bezier(0.65, 0, 0.35, 1);
 }
-
-.flap-inner {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.flap-image {
-    display: none !important;
-}
-
-/* Envelope shadow on the bottom edge */
-.envelope::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 5%;
-    width: 90%;
-    height: 20px;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-/* When envelope flap is open */
-.envelope.open .envelope-flap {
-    transform: rotateX(-180deg);
-    z-index: 0;
-}
-
-/* ====== LETTER INSIDE ====== */
-.letter {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    border-radius: 8px;
-    overflow: hidden;
-    z-index: 1;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-    opacity: 0;
-    transform: translateY(5px) scale(0.96);
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: 0.2s;
-    pointer-events: none;
-}
-
-.envelope.open .letter {
-    opacity: 1;
-    transform: translateY(-50px) scale(1.05);
-    pointer-events: auto;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    background: rgba(255, 255, 255, 0.95);
-}
-
-.letter-inner {
-    position: relative;
-    z-index: 2;
-    padding: 35px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 250px;
-}
-
-.letter-decoration {
-    font-size: 28px;
-    color: #303030;
-    margin-bottom: 16px;
-}
-
-.letter-greeting {
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-    font-size: 17px;
-    color: #303030;
-    line-height: 1.9;
-    margin-bottom: 18px;
-    font-weight: 700;
-}
-
-.letter-names {
-    font-size: 22px;
-    color: #303030;
-    margin-bottom: 14px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-}
-
-.letter-ampersand {
-    font-size: 18px;
-    margin: 0 5px;
-    font-weight: 400;
-}
-
-.letter-date {
-    font-size: 14px;
-    color: #303030;
-    margin-bottom: 4px;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-}
-
-.letter-place {
-    font-size: 14px;
-    color: #303030;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
-}
-
-/* ====== ENVELOPE HINT ====== */
-.envelope-hint {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 14px;
-    color: rgba(48, 48, 48, 0.5);
-    letter-spacing: 0.1em;
-    font-weight: 400;
-    animation: hintPulse 2s ease-in-out infinite;
-}
-
-/* ====== TRANSITION TO WEBSITE ====== */
-/* When letter expands to full screen */
-.envelope-overlay.open-transition {
-    overflow: hidden;
-}
-
-.envelope-overlay.open-transition .envelope-wrapper {
-    animation: envelopeFadeOut 0.8s ease forwards;
-}
-
-@keyframes envelopeFadeOut {
-    0% { 
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% { 
-        transform: scale(0.95);
-        opacity: 0;
-    }
-}
-
-/* Main content */
-.main-content {
-    opacity: 0;
-}
-
-.main-content.visible {
-    opacity: 1;
-    transition: opacity 0.8s ease;
-}
-
-.main-content.hidden {
-    display: none;
-}
-
-/* ====== ANIMATIONS ====== */
-@keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.12); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.08); }
-    60% { transform: scale(1); }
-}
-
-@keyframes hintPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+.main-content.revealing {
+    -webkit-mask-size: 5000px; mask-size: 5000px;
 }
 
 /* ====== SECTION COMMON ====== */
-.section {
-    padding: 80px 20px;
-    position: relative;
-}
-
-.section-dark {
-    background-color: #f0ece4;
-}
-
-.section-inner {
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.section-title {
-    font-size: 28px;
-    font-weight: 400;
-    text-align: center;
-    letter-spacing: 0.15em;
-    margin-bottom: 10px;
-    color: #2c2c2c;
-}
-
-.section-desc {
-    text-align: center;
-    font-size: 15px;
-    color: #888;
-    margin-top: 10px;
-}
-
-.divider {
-    width: 40px;
-    height: 1px;
-    background-color: #c9a96e;
-    margin: 20px auto 40px;
-}
+.section { padding: 80px 20px; position: relative; }
+.section-dark { background-color: #1c1c1c; color: #ffffff; }
+.section-dark .section-title, .section-dark .invitation-text, .section-dark p, .section-dark .details-venue, .section-dark .details-date { color: #ffffff; }
+.section-dark .details-address, .section-dark .account-section-desc { color: #aaaaaa; }
+.section-inner { max-width: 600px; margin: 0 auto; position: relative; }
+.section-title { font-size: 24px; font-weight: 600; text-align: center; letter-spacing: 0.05em; margin-bottom: 10px; color: #1a1a1a; }
+.divider { background-color: #1a1a1a; height: 3px; width: 60px; border-radius: 3px; margin: 20px auto 40px; }
+.section-dark .divider { background-color: #ffffff; }
 
 /* ====== HERO SECTION ====== */
-.hero-section {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+.hero-section { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+.hero-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; will-change: transform; }
+.hero-bg { z-index: 0; } .hero-season { z-index: 1; } .hero-model { z-index: 2; }
+.hero-groom { z-index: 3; } .hero-bride { z-index: 4; }
+.hero-layer img { 
+    position: absolute; 
+    /* 🌟 상하좌우로 5%씩 넉넉하게 여백을 줘서 움직여도 잘리지 않게 만듭니다 */
+    top: -5%; 
+    left: -5%; 
+    width: 110%; 
+    height: 110%; 
+    object-fit: cover; 
 }
 
-.hero-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120vh; /* Extra height for parallax zoom effect */
-    will-change: transform;
-    transform-origin: center center;
-}
+.hero-person-name { position: absolute; display: flex; flex-direction: column; gap: 6px; width: 80%; max-width: 260px; }
+.name-row { display: flex; align-items: center; gap: 4px; width: 100%; }
+.hero-groom .name-row { justify-content: flex-start; } .hero-bride .name-row { justify-content: flex-end; }
+.hero-groom .hero-person-name { left: -10%; top: 40%; text-align: left; }
+.hero-bride .hero-person-name { right: 5%; top: 35%; text-align: right; }
 
-.hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.15) 40%,
-        rgba(0, 0, 0, 0.4) 100%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero-text {
-    text-align: center;
-    color: #fff;
+/* 🖤 블랙 원형 글자 🖤 */
+.letter-circle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; 
+    border-radius: 50%;
+    background: #1a1a1a; 
+    border: none; 
+    box-shadow: none; 
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff; 
     opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1.2s ease forwards;
-    animation-delay: 0.3s;
-    padding-top: 35vh;
+    animation: letterDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform;
 }
 
-.hero-subtitle {
-    font-size: 12px;
-    letter-spacing: 0.5em;
-    margin-bottom: 20px;
-    font-weight: 300;
-    opacity: 0.8;
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: 80px; top: 20px;  transition-delay: 0.35s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: 80px;  top: 40px; transition-delay: 0.30s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(3) { position: relative; left: 80px; top: 70px;  transition-delay: 0.25s; }
+.hero-groom .name-row:nth-child(1) .letter-circle:nth-child(4) { position: relative; left: 80px;  top: 110px; transition-delay: 0.20s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: 100px; top: 90px;  transition-delay: 0.15s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: 100px;  top: 120px; transition-delay: 0.10s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: 100px; top: 150px;  transition-delay: 0.05s; }
+.hero-groom .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: 110px;  top: 140px; transition-delay: 0s; }
+.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(1) { position: relative; left: -50px; top: -50px; transition-delay: 0.30s; }
+.hero-bride .name-row:nth-child(1) .letter-circle:nth-child(2) { position: relative; left: -50px; top: 0px;  transition-delay: 0.25s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(1) { position: relative; left: -50px;  top: -80px; transition-delay: 0.20s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(2) { position: relative; left: -50px; top: -55px;  transition-delay: 0.15s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(3) { position: relative; left: -50px;  top: -20px; transition-delay: 0.10s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(4) { position: relative; left: -50px; top: 10px;  transition-delay: 0.05s; }
+.hero-bride .name-row:nth-child(2) .letter-circle:nth-child(5) { position: relative; left: -50px;  top: 40px; transition-delay: 0s; }
+
+@keyframes letterDrop {
+    0% { opacity: 0; transform: translateY(-80px) scale(0.5); }
+    60% { opacity: 1; transform: translateY(10px) scale(1.1); }
+    80% { transform: translateY(-4px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.hero-names {
-    font-size: 42px;
-    font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.1em;
-    margin-bottom: 25px;
+.hero-text-wrapper { position: absolute; top: 10%; left: 0; width: 100%; height: 100%; perspective: 1000px; z-index: 5; pointer-events: none; }
+.hero-text { position: absolute; bottom: 20vh; left: 0; width: 100%; text-align: center; color: #121212; opacity: 0; transform: translateY(30px); animation: fadeInUp 1.2s ease forwards; animation-delay: 0.3s; }
+.hero-date { font-size: 14px; letter-spacing: 0.3em; opacity: 0.8; font-weight: 400; }
+/* ====== Hero 텍스트 위 흰색 동그라미 하트 ====== */
+.hero-heart-circle {
+    background-color: #ffffff !important; /* 흰색 배경 */
+    color: #1a1a1a !important;            /* 검은색 하트 */
+    margin-bottom: 240px;                  /* 날짜와의 간격 */
+    position: relative;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 살짝 떠 있는 듯한 그림자 */
 }
 
-.hero-ampersand {
-    font-size: 28px;
-    display: inline-block;
-    color: #ffffff;
-    font-weight: 300;
-}
-
-.hero-date {
-    font-size: 14px;
-    letter-spacing: 0.3em;
-    opacity: 0.8;
-    font-weight: 300;
+/* Hero 영문 장소 스타일 */
+.hero-venue { 
+    font-size: 11px; 
+    letter-spacing: 0.4em; 
+    opacity: 0.5; 
+    font-weight: 600; 
+    margin-top: 8px; 
+    text-transform: uppercase; 
 }
 
 /* ====== FADE IN ANIMATIONS ====== */
-.fade-in-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+.text-fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.text-fade-in.visible { opacity: 1; transform: translateY(0); }
+.image-fade-in { opacity: 0; transform: scale(0.92); transition: opacity 1s ease, transform 1s ease; }
+.image-fade-in.visible { opacity: 1; transform: scale(1); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ====== INVITATION ====== */
+
+/* ====== INVITATION ====== */
+/* 👇 히어로 섹션과 손글씨 사이의 간격을 늘리는 코드를 추가합니다 👇 */
+#invitation { 
+    padding-top: 130px; 
 }
 
-.fade-in-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.invitation-text { text-align: center; font-size: 16px; line-height: 2; color: #555; letter-spacing: 0.05em; margin-bottom: 30px; }
+.invitation-text { text-align: center; font-size: 16px; line-height: 2; color: #555; letter-spacing: 0.05em; margin-bottom: 30px; }
+.section-dark .invitation-text { color: #ffffff; }
 
-/* Text fade in */
-.text-fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
-}
-
-.text-fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Image fade in with scale */
-.image-fade-in {
-    opacity: 0;
-    transform: scale(0.92);
-    transition: opacity 1s ease, transform 1s ease;
-}
-
-.image-fade-in.visible {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* ====== INVITATION SECTION ====== */
-.invitation-text {
-    text-align: center;
-    font-size: 16px;
-    line-height: 2;
-    color: #555;
-    letter-spacing: 0.05em;
-    margin-bottom: 30px;
-}
-
-.gallery-image {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    transition: transform 0.3s ease;
-}
-
-.gallery-image:hover {
-    transform: scale(1.02);
-}
-
-.gallery-image img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-}
-
-/* ====== GALLERY GRID ====== */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.gallery-item {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
-}
-
-.gallery-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.gallery-item:first-child {
-    grid-column: 1 / -1;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.gallery-item:first-child img {
-    height: 280px;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-/* ====== DETAILS / CARDS ====== */
-.details-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-.detail-card {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.detail-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
-
-.detail-icon {
-    font-size: 36px;
-    margin-bottom: 15px;
-}
-
-.detail-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #2c2c2c;
-}
-
-.detail-card p {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.8;
-}
-
-.map-link {
-    display: inline-block;
-    margin-top: 12px;
-    color: #c9a96e;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.map-link:hover {
-    color: #a8874e;
-}
-
-/* ====== TIMELINE ====== */
-.timeline {
-    position: relative;
-    padding-left: 30px;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: #c9a96e;
-    opacity: 0.4;
-}
-
-.timeline-item {
-    position: relative;
-    padding-bottom: 40px;
-    padding-left: 20px;
-}
-
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -24px;
-    top: 8px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #c9a96e;
-    border: 2px solid #faf8f5;
-}
-
-.timeline-time {
-    font-size: 13px;
-    font-weight: 600;
-    color: #c9a96e;
-    margin-bottom: 5px;
-    letter-spacing: 0.1em;
-}
-
-.timeline-content h3 {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.timeline-content p {
-    font-size: 14px;
-    color: #888;
-}
-
-/* ====== UPLOAD SECTION ====== */
-.upload-box {
-    background: #fff;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    margin-bottom: 40px;
-}
-
-.upload-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.file-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.file-input-wrapper input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-}
-
-.file-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 18px;
-    border: 2px dashed #ddd;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 15px;
-    color: #666;
-}
-
-.file-label:hover {
-    border-color: #c9a96e;
-    background: #fdfaf5;
-    color: #2c2c2c;
-}
-
-.upload-icon {
-    font-size: 24px;
-}
-
-.upload-name {
-    font-size: 13px;
-    color: #999;
-    text-align: center;
-}
-
-.upload-preview {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-}
-
-.upload-preview.has-images {
-    max-height: 300px;
-}
-
-.upload-preview img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
+/* ====== DETAILS ====== */
+.details-info { text-align: center; margin-bottom: 30px; }
+.details-date { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.details-time { font-size: 18px; font-weight: 700; color: #080808; margin-bottom: 8px; }
+.details-venue { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.map-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.map-btn, .upload-btn, .account-toggle, .scroll-top-btn {
+    border: 2px solid #1a1a1a;
+    box-shadow: 3px 3px 0px #1a1a1a;
     border-radius: 8px;
+    background: #ffffff;
+    color: #1a1a1a;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; text-decoration: none; font-size: 13px; font-weight: 600;
+}
+.map-btn:hover, .upload-btn:hover, .scroll-top-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px #1a1a1a;
+    background: #ffffff;
 }
 
-.upload-btn {
-    width: 100%;
-    padding: 14px;
-    background: #c9a96e;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-family: inherit;
+/* ====== CALENDAR ====== */
+.calendar-header, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 10px; }
+.calendar-day, .calendar-date { text-align: center; font-size: 14px; padding: 10px 0; font-weight: 600; }
+/* 기존 코드 (이 한 줄을 지워주세요!) */
+/* 🖤 그림자 없는 깔끔한 블랙 하트 날짜 강조 🖤 */
+.calendar-date-highlight { 
+    position: relative;
+    background: transparent; /* 배경 투명하게 */
+    box-shadow: none;        /* 그림자 삭제 */
+    border: none;            /* 테두리 삭제 */
+    color: #ffffff !important;
+    z-index: 1;
+}
+
+/* 가상 요소를 이용해 글자 뒤에 하트 배경 만들기 */
+.calendar-date-highlight::before {
+    content: '';
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;  /* 하트 크기 (필요시 조절) */
+    height: 36px;
+    background-color: #1a1a1a; /* 하트 색상 (블랙) */
+    
+    /* 하트 모양 SVG 마스크 */
+    -webkit-mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z' fill='black'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    z-index: -1;
+}
+.calendar-day-sat, .calendar-date-sat { color: #1a1a1a; }
+
+/* ====== OUR STORY 공통 (신랑측 사진 기준) ====== */
+.collage-container { position: relative; width: 85%; max-width: 400px; margin: 0 auto 0px auto; }
+
+/* 🌟 신랑측 가운데, 왼쪽, 오른쪽 사진의 각도와 크기 조절 */
+.collage-center { 
+    width: 70%; left: -10%; display: block; margin: 0 auto; position: relative; z-index: 1; 
+    transform: rotate(-2deg) scale(1); 
+}
+.collage-left { 
+    position: absolute; width: 65%; left: -25%; top: 40%; z-index: 2; 
+    transform: rotate(5deg) scale(0.95); 
+}
+.collage-right { 
+    position: absolute; width: 55%; right: -15%; bottom: -30%; z-index: 3; 
+    transform: rotate(8deg) scale(1.05); 
+}
+
+.parents-letter-img { width: 100%; max-width: 280px; margin: 0 auto; padding: 0 15px; display: flex; justify-content: center; }
+.parents-letter-img img { width: 100%; height: auto; display: block; }
+
+/* ====== 스토리 간격 조절 ====== */
+/* 👇 20px이었던 간격을 70px로 넉넉하게 늘렸습니다 👇 */
+#story { padding-bottom: 70px; }
+#story-bride { padding-top: 70px; }
+
+/* ====== 신랑, 신부 이야기 사진 그림자 공통 적용 ====== */
+#story .collage-container img,
+#story-bride .collage-container img { 
+    filter: drop-shadow(0px 5px 2px rgba(0, 0, 0, 0.5)); 
+}
+
+/* 🌟 신부측 가운데, 왼쪽, 오른쪽 사진의 각도와 크기 조절 */
+#story-bride .collage-center { 
+    width: 90%; left: 5%; top: 0%; 
+    transform: rotate(3deg) scale(1.05); 
+}
+#story-bride .collage-left { 
+    width: 60%; left: -35%; top: 30%; z-index: 3; 
+    transform: rotate(15deg) scale(0.9); 
+}
+#story-bride .collage-right { 
+    width: 70%; right: -30%; bottom: -20%; 
+    transform: rotate(-4deg) scale(1); 
+}
+
+/* ====== 신랑 & 신부 편지 개별 위치/크기 조절 ====== */
+
+/* 1. 신랑측 편지 설정 */
+#story .parents-letter-img {
+    max-width: 400px; /* 편지 크기 (숫자를 키우면 커집니다) */
+    /* 좌우 이동(X), 상하 이동(Y), 회전 각도(rotate) */
+    transform: translateX(10px) translateY(30px) rotate(-1deg); 
+}
+
+/* 2. 신부측 편지 설정 */
+#story-bride .parents-letter-img {
+    max-width: 380px; /* 편지 크기 */
+    /* 우측으로 20px, 회전 2도 적용된 상태 (원하는 대로 수정 가능) */
+    transform: translateX(0px) translateY(20px) rotate(2deg); 
+}
+
+/* ====== ALBUM SECTION (가로 스와이프 캐러셀 - 깔끔한 사진 스타일) ====== */
+#galleryGrid { 
+    display: flex; 
+    gap: 8px; /* 사진들 사이의 간격을 좁혀서 갤러리 느낌을 살렸습니다 */
+    overflow-x: auto; 
+    padding: 10px 20px 40px 20px; 
+    margin: 0 -20px; 
+    -webkit-overflow-scrolling: touch; 
+    scroll-snap-type: x mandatory; 
+    scrollbar-width: none; 
+}
+#galleryGrid::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* 🌟 흰 테두리, 그림자, 패딩 모두 삭제하고 깔끔하게 비율 조정 */
+.gallery-item {
+    flex: 0 0 28%; /* 사진 프레임이 빠진 만큼 사진 자체의 비율을 살짝 키웠습니다 */
+    scroll-snap-align: center; 
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    letter-spacing: 0.1em;
+    background: transparent;
+    padding: 0; 
+    border: none;
+    box-shadow: none; 
+    transition: transform 0.2s ease; 
 }
 
-.upload-btn:hover {
-    background: #b8934e;
-    transform: translateY(-2px);
+.gallery-item img { 
+    width: 100%; 
+    height: 140px; /* 사진만 보이므로 높이를 조금 늘려 시원하게 보이게 했습니다 */
+    object-fit: cover; 
+    display: block;
+    /* 모던한 느낌을 위해 모서리만 아주 살짝 둥글게 (원치 않으시면 0px로 변경) */
+    border-radius: 4px; 
 }
 
-.upload-btn:active {
-    transform: translateY(0);
-}
-
-.upload-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.upload-status {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    min-height: 20px;
-}
-
-.upload-status.success {
-    color: #4a7c59;
-}
-
-.upload-status.error {
-    color: #c0392b;
-}
-
-/* ====== GUEST PHOTOS ====== */
-.guest-photos-section {
-    margin-top: 10px;
-}
-
-.guest-photos-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 25px;
-    letter-spacing: 0.1em;
-}
-
-.guest-photos-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.guest-photo-item {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInPhoto 0.6s ease forwards;
-}
-
-.guest-photo-item:hover {
-    transform: scale(1.02);
-}
-
-.guest-photo-item img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.loading-photos {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: #999;
-    font-size: 14px;
-    padding: 30px;
-}
-
-@keyframes fadeInPhoto {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ====== FOOTER ====== */
-.footer {
-    padding: 60px 20px 40px;
-    text-align: center;
-}
-
-.footer p {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 10px;
-}
-
-.footer-hearts {
-    font-size: 28px;
-    margin: 15px 0 !important;
-}
-
-.footer-copy {
-    font-size: 12px !important;
-    color: #aaa !important;
+/* 삐뚤빼뚤한 회전 효과를 없애고, 터치 시 사진만 살짝 커지는 부드러운 효과 */
+.gallery-item:hover, .gallery-item:active { 
+    transform: scale(1.03); 
 }
 
 /* ====== SCROLL TO TOP ====== */
-.scroll-top-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: #c9a96e;
-    color: #fff;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    z-index: 100;
+.scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; justify-content: center; opacity: 0; z-index: 100; transition: opacity 0.3s, transform 0.2s, box-shadow 0.2s; }
+.scroll-top-btn.visible { opacity: 1; }
+
+/* ==========================================
+   🖤 MUSIC, MODAL & ACCOUNT STYLES 🖤
+   ========================================== */
+
+/* 음악 토글 버튼 */
+.music-btn {
+    position: fixed; top: 20px; right: 20px; width: 44px; height: 44px;
+    border-radius: 50%; background: #ffffff; border: 2px solid #1a1a1a;
+    box-shadow: 3px 3px 0px #1a1a1a; font-size: 20px; cursor: pointer;
+    z-index: 10001; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s; font-family: 'Noto Sans KR', sans-serif;
+}
+.music-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px #1a1a1a; }
+
+/* 계좌번호 버튼 */
+.account-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; margin: 0 auto; }
+.account-btn {
+    width: 100%; padding: 14px; font-size: 16px; font-weight: 700;
+    background: #ffffff; border: 2px solid #1a1a1a; box-shadow: 4px 4px 0px #1a1a1a;
+    border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+.account-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #1a1a1a; }
+
+/* 모달 공통 스타일 */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center;
+    z-index: 20000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    position: relative; background: #ffffff; border: 3px solid #1a1a1a;
+    box-shadow: 8px 8px 0px #1a1a1a; border-radius: 12px; width: 90%;
+    max-width: 400px; max-height: 85vh; overflow-y: auto; padding: 30px 20px;
+}
+.modal-close {
+    position: absolute; top: 15px; right: 15px; width: 30px; height: 30px;
+    background: #1a1a1a; color: #fff; border: 2px solid #1a1a1a; border-radius: 50%;
+    font-size: 18px; font-weight: bold; line-height: 1; cursor: pointer;
+}
+.modal-title { font-size: 20px; text-align: center; margin-bottom: 20px; color: #1a1a1a; }
+
+/* 모달 내부 이미지 */
+.modal-content img { width: 100%; max-width: 260px; height: auto; display: block; margin: 0 auto; }
+.modal-content img + img { margin-top: 15px; }
+
+/* 셔틀버스 테이블 */
+.shuttle-table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 2px solid #1a1a1a; }
+.shuttle-table th, .shuttle-table td { border: 1px solid #1a1a1a; padding: 10px; text-align: center; font-size: 14px; }
+.shuttle-table th { background: #f5f5f5; font-weight: bold; }
+
+/* 계좌 리스트 */
+.account-list { display: flex; flex-direction: column; gap: 15px; }
+.account-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; border: 1.5px solid #1a1a1a; padding: 12px; border-radius: 6px; }
+.account-info { font-size: 14px; line-height: 1.5; text-align: left; }
+.account-role { display: inline-block; background: #e0e0e0; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 5px; font-weight: bold; color: #1a1a1a; }
+.account-number { color: #555; letter-spacing: 0.5px; }
+.copy-btn {
+    background: #ffffff; border: 1.5px solid #1a1a1a; box-shadow: 2px 2px 0px #1a1a1a;
+    border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: bold;
+    cursor: pointer; transition: transform 0.1s;
+}
+.copy-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px #1a1a1a; }
+
+/* ====== 손글씨 초대장 이미지 스타일 ====== */
+.handwriting-img {
+    width: 100%;
+    max-width: 300px; /* 손글씨 이미지의 최대 크기 (너무 크면 이 숫자를 줄이세요) */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
-.scroll-top-btn.visible {
-    opacity: 1;
-    transform: translateY(0);
+.handwriting-img img {
+    width: 120%;
+    height: auto;
+    display: block;
+    
+    /* (선택) 손글씨가 종이에 스며든 것처럼 보이게 하려면 아래 효과를 켭니다 */
+    /* mix-blend-mode: multiply; */ 
 }
 
-.scroll-top-btn:hover {
-    background: #b8934e;
-}
-
-/* ====== PARALLAX SCROLL STRIPE ====== */
-.parallax-stripe {
-    position: absolute;
+/* ====== 사진 확대 모달 및 좌우 이동 화살표 ====== */
+.photo-modal-content {
+    background: transparent !important;
+    border: none !important; /* 🌟 다른 모달창의 까만 테두리를 없애줍니다 */
+    box-shadow: none !important;
     width: 100%;
     height: 100%;
-    will-change: transform;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
-/* ====== HERO FADE IN KEYFRAME ====== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* 🌟 사진 확대 창의 X 닫기 버튼 스타일 변경 (동그라미 배경 삭제 및 얇은 폰트) */
+#photoModalClose {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: 200 !important; /* X 표시를 아주 얇게 만듭니다 */
+    font-size: 44px !important;  /* 얇아진 만큼 크기를 조금 키워 터치하기 편하게 합니다 */
+    color: #ffffff !important;
 }
 
-/* ====== RESPONSIVE ====== */
-@media (min-width: 768px) {
-    .section {
-        padding: 100px 30px;
-    }
-
-    .hero-names {
-        font-size: 56px;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    .gallery-item img {
-        height: 250px;
-    }
-
-    .gallery-item:first-child img {
-        height: 350px;
-    }
-
-    .details-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .guest-photos-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .upload-preview {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .upload-preview img {
-        height: 100px;
-    }
+.photo-modal-content img {
+    max-width: 100%;
+    max-height: 80vh; /* 화면을 넘어가지 않도록 높이 제한 */
+    object-fit: contain;
+    border-radius: 4px;
+}
+/* 좌우 이동 버튼 스타일 (쉐브론만 남기고 기본적으로 숨김) */
+.photo-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent; /* 하얀색 동그라미 배경 삭제 */
+    box-shadow: none;              /* 배경 그림자 삭제 */
+    color: #ffffff;                /* 화살표(쉐브론) 색상 */
+    border: none;
+    width: 60px;
+    height: 60px;
+    font-size: 32px;               /* 화살표 크기 키우기 */
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 🌟 신부님 드레스처럼 밝은 사진에서도 화살표가 잘 보이도록 글자 그림자 추가 */
+    text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    
+    /* 🌟 기본적으로는 투명도 0으로 안 보이게 설정 */
+    opacity: 0; 
+    transition: opacity 0.3s ease, transform 0.1s;
 }
 
-@media (min-width: 1024px) {
-    .section-inner {
-        max-width: 800px;
-    }
-
-    .guest-photos-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+/* 터치했을 때 show-nav 클래스가 붙으며 화살표가 나타남 */
+.photo-nav.show-nav {
+    opacity: 1;
 }
+
+/* 화살표 위치를 화면 끝에 딱 붙이기 */
+.photo-nav.prev { left: 0px; }
+.photo-nav.next { right: 0px; }
+
+/* 버튼을 눌렀을 때 살짝 작아지는 애니메이션 */
+.photo-nav:active { transform: translateY(-50%) scale(0.9); }
