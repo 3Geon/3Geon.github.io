@@ -262,8 +262,8 @@ body {
     transform: rotate(-2deg) scale(1); 
 }
 .collage-left { 
-    position: absolute; width: 60%; left: -35%; top: 50%; z-index: 2; 
-    transform: rotate(-5deg) scale(0.95); 
+    position: absolute; width: 65%; left: -35%; top: 40%; z-index: 2; 
+    transform: rotate(5deg) scale(0.95); 
 }
 .collage-right { 
     position: absolute; width: 55%; right: -15%; bottom: -30%; z-index: 3; 
@@ -291,10 +291,10 @@ body {
 }
 #story-bride .collage-left { 
     width: 60%; left: -35%; top: 40%; z-index: 3; 
-    transform: rotate(6deg) scale(0.9); 
+    transform: rotate(15deg) scale(0.9); 
 }
 #story-bride .collage-right { 
-    width: 80%; right: -40%; bottom: -200%; 
+    width: 70%; right: -40%; bottom: -20%; 
     transform: rotate(-4deg) scale(1); 
 }
 
@@ -302,16 +302,16 @@ body {
 
 /* 1. 신랑측 편지 설정 */
 #story .parents-letter-img {
-    max-width: 360px; /* 편지 크기 (숫자를 키우면 커집니다) */
+    max-width: 380px; /* 편지 크기 (숫자를 키우면 커집니다) */
     /* 좌우 이동(X), 상하 이동(Y), 회전 각도(rotate) */
-    transform: translateX(0px) translateY(0px) rotate(-1deg); 
+    transform: translateX(0px) translateY(30px) rotate(-1deg); 
 }
 
 /* 2. 신부측 편지 설정 */
 #story-bride .parents-letter-img {
     max-width: 360px; /* 편지 크기 */
     /* 우측으로 20px, 회전 2도 적용된 상태 (원하는 대로 수정 가능) */
-    transform: translateX(20px) translateY(10px) rotate(2deg); 
+    transform: translateX(20px) translateY(20px) rotate(2deg); 
 }
 
 /* ====== ALBUM SECTION (가로 스와이프 캐러셀 - 깔끔한 사진 스타일) ====== */
