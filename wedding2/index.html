@@ -184,7 +184,7 @@
             </div>
         </section>
 
-        <!-- ====== 마음 전할 곳 ====== -->
+<!-- ====== 마음 전할 곳 ====== -->
         <section class="section" id="account">
             <div class="section-inner" style="text-align: center;">
                 <h2 class="section-title text-fade-in">마음 전할 곳</h2>
@@ -193,9 +193,13 @@
                     <button class="account-btn" id="groomAccountBtn">신랑측 계좌번호</button>
                     <button class="account-btn" id="brideAccountBtn">신부측 계좌번호</button>
                 </div>
-                <p class="account-notice text-fade-in" data-delay="200" style="margin-top: 25px; font-size: 14px; font-weight: 600;">
-                    식장에 ATM이 없으니 너른 양해 부탁드립니다.
+                
+                <!-- 👇 ATM 안내 문구 아래에 화환 안내 문구가 추가되었습니다 👇 -->
+                <p class="account-notice text-fade-in" data-delay="200" style="margin-top: 25px; font-size: 14px; font-weight: 600; line-height: 1.8;">
+                    * 식장에 ATM이 없으니 너른 양해 부탁드립니다.<br>
+                    <span style="display: block; margin-top: 10px;">* 축하 화환은 식장 자리가 협소한 관계로<br>마음만 감사하게 받겠습니다.</span>
                 </p>
+                
             </div>
         </section>
 
@@ -210,10 +214,25 @@
             </div>
         </section>
 
+        <!-- 4. 사진 확대 및 슬라이드 모달 -->
+    <div class="modal-overlay" id="photoModal">
+        <div class="modal-content photo-modal-content">
+            <button class="modal-close" id="photoModalClose" style="color: #ffffff; top: 15px; right: 20px; font-size: 35px;">&times;</button>
+            
+            <!-- 좌우 이동 화살표 -->
+            <button class="photo-nav prev" id="photoPrev">&#10094;</button>
+            
+            <img src="" alt="확대된 사진" id="expandedPhoto">
+            
+            <!-- 좌우 이동 화살표 -->
+            <button class="photo-nav next" id="photoNext">&#10095;</button>
+        </div>
+    </div>
+
         <!-- ====== FOOTER (올 화이트 톤으로 수정) ====== -->
         <footer class="footer" style="text-align: center; padding: 40px 20px; background: #ffffff; color: #1a1a1a;">
             <p class="footer-hearts" style="color: #1a1a1a; margin-bottom: 10px;">♥ ♥ ♥</p>
-            <p style="font-size: 20px; font-weight: 600; margin-bottom: 5px; letter-spacing: 2px;">상건 ♥ 기정</p>
+            <p style="font-size: 16px; font-weight: 600; margin-bottom: 5px; letter-spacing: 2px;">상건 ♥ 기정</p>
             <p style="font-size: 15px; color: #555;">2026.10.10</p>
             <p class="footer-copy" style="font-size: 12px; margin-top: 25px; opacity: 0.5;">© 2026 Sanggeon & Kijeong</p>
         </footer>

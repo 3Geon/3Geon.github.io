@@ -309,33 +309,101 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     loadGalleryPhotos();
 
-    // ====== 5. LIGHTBOX ======
-    document.addEventListener('click', function(e) {
-        const galleryItem = e.target.closest('.gallery-item');
-        if (!galleryItem) return;
-        const img = galleryItem.querySelector('img');
-        if (!img) return;
-        
-        const lightbox = document.createElement('div');
-        lightbox.className = 'lightbox';
-        lightbox.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;transition:opacity 0.3s;padding:20px;cursor:pointer;`;
-        
-        const lightboxImg = document.createElement('img');
-        lightboxImg.src = img.src;
-        lightboxImg.style.cssText = `max-width:100%;max-height:90vh;border-radius:8px;transform:scale(0.9);transition:transform 0.3s;`;
-        
-        lightbox.appendChild(lightboxImg);
-        document.body.appendChild(lightbox);
-        document.body.style.overflow = 'hidden';
-        
-        requestAnimationFrame(() => { lightbox.style.opacity = '1'; lightboxImg.style.transform = 'scale(1)'; });
-        lightbox.addEventListener('click', () => {
-            lightbox.style.opacity = '0';
-            lightboxImg.style.transform = 'scale(0.9)';
-            document.body.style.overflow = '';
-            setTimeout(() => { if (lightbox.parentNode) lightbox.parentNode.removeChild(lightbox); }, 300);
+// ====== 5. 사진 확대 및 좌우 슬라이드 기능 ======
+    const photoModal = document.getElementById('photoModal');
+    const expandedPhoto = document.getElementById('expandedPhoto');
+    const photoModalClose = document.getElementById('photoModalClose');
+    const btnPrev = document.getElementById('photoPrev');
+    const btnNext = document.getElementById('photoNext');
+    const galleryGrid = document.getElementById('galleryGrid');
+
+    let currentPhotoIndex = 0;
+    let galleryImages = [];
+    let navTimeout; // 🌟 화살표를 숨길 타이머
+
+    if (galleryGrid && photoModal) {
+        // 🌟 화살표를 2초 동안만 보여주고 숨기는 함수
+        function showNavTemporarily() {
+            btnPrev.classList.add('show-nav');
+            btnNext.classList.add('show-nav');
+            
+            clearTimeout(navTimeout); // 기존 타이머 초기화
+            navTimeout = setTimeout(() => {
+                btnPrev.classList.remove('show-nav');
+                btnNext.classList.remove('show-nav');
+            }, 2000); // 2000ms = 2초 뒤 사라짐
+        }
+
+        // 1. 갤러리 사진을 클릭했을 때 모달 열기
+        galleryGrid.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                galleryImages = Array.from(galleryGrid.querySelectorAll('.gallery-item img'));
+                currentPhotoIndex = galleryImages.indexOf(e.target);
+                updateModalPhoto();
+                photoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                showNavTemporarily(); // 모달 열릴 때 화살표 잠깐 보여주기
+            }
         });
-    });
+
+        // 2. 모달 속 사진을 바꿔주는 공통 함수
+        function updateModalPhoto() {
+            if (galleryImages.length > 0) {
+                expandedPhoto.src = galleryImages[currentPhotoIndex].src;
+            }
+        }
+
+        // 3. 화살표 버튼 클릭 시 사진 이동
+        btnPrev.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentPhotoIndex--;
+            if (currentPhotoIndex < 0) currentPhotoIndex = galleryImages.length - 1;
+            updateModalPhoto();
+            showNavTemporarily(); // 버튼 누르면 다시 2초 보여주기
+        });
+
+        btnNext.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            currentPhotoIndex++;
+            if (currentPhotoIndex >= galleryImages.length) currentPhotoIndex = 0;
+            updateModalPhoto();
+            showNavTemporarily();
+        });
+
+        // 4. 🌟 모바일 화면 터치 및 스와이프(넘기기) 기능
+        let touchStartX = 0;
+        
+        expandedPhoto.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+            showNavTemporarily(); // 화면 터치하면 화살표 나타남
+        });
+
+        expandedPhoto.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            // 50px 이상 밀었을 때만 사진 넘어가기
+            if (touchEndX < touchStartX - 50) btnNext.click(); // 왼쪽으로 밀면 다음 사진
+            if (touchEndX > touchStartX + 50) btnPrev.click(); // 오른쪽으로 밀면 이전 사진
+        });
+
+        // 마우스로 사진을 클릭해도 화살표 나타나게 하기
+        expandedPhoto.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showNavTemporarily();
+        });
+
+        // 5. 모달 닫기 기능
+        function closePhotoModal() {
+            photoModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        photoModalClose.addEventListener('click', closePhotoModal);
+        photoModal.addEventListener('click', function(e) {
+            if (e.target === photoModal || e.target.classList.contains('photo-modal-content')) {
+                closePhotoModal();
+            }
+        });
+    }
 
     console.log('🎉 Wedding invitation loaded successfully!');
 });
