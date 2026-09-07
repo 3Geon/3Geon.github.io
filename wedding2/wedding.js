@@ -280,36 +280,67 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ====== 4. PHOTO UPLOAD & ALBUM ======
-    async function loadGalleryPhotos() {
+// ====== 4. PHOTO UPLOAD & ALBUM (안전한 수동 입력 방식) ======
+    function loadGalleryPhotos() {
         const galleryGrid = document.getElementById('galleryGrid');
         if (!galleryGrid) return;
-        try {
-            const response = await fetch('https://api.github.com/repos/3Geon/3Geon.github.io/contents/wedding2/album');
-            if (!response.ok) throw new Error('Failed to fetch photo list');
-            const files = await response.json();
-            const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-            const photos = files.filter(f => imageExtensions.includes('.' + f.name.split('.').pop().toLowerCase())).map(f => f.name).sort();
+
+        // 👇 여기에 album 폴더에 올리신 사진 파일 이름들을 정확하게 직접 적어주세요 👇
+        // 예시: '사진1.jpg', '웨딩사진.png' (확장자 대소문자 주의)
+        const photos = [
+            '1-01.png',
+            '1-02.png',
+            '1-03.png',
+            '1-04.png',
+            '1-05.png',
+            '2-01.png',
+            '2-02.png',
+            '2-03.png',
+            '2-04.png',
+            '2-05.png',
+            '3-01.png',
+            '3-02.png',
+            '3-03.png',
+            '3-04.png',
+            '3-05.png',
+            '4-01.png',
+            '4-02.png',
+            '4-03.png',
+            '4-04.png',
+            '4-05.png',
+            '4-06.png'
+            // 필요한 만큼 쉼표(,)로 구분해서 계속 추가하세요
+        ];
+
+        if (photos.length === 0) { 
+            galleryGrid.innerHTML = '<div class="loading-photos">표시할 사진이 없습니다.</div>'; 
+            return; 
+        }
+
+        galleryGrid.innerHTML = '';
+        
+        photos.forEach((filename, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item image-fade-in';
+            item.setAttribute('data-delay', (index * 100).toString());
             
-            if (photos.length === 0) { galleryGrid.innerHTML = '<div class="loading-photos">표시할 사진이 없습니다.</div>'; return; }
-            galleryGrid.innerHTML = '';
-            photos.forEach((filename, index) => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item image-fade-in';
-                item.setAttribute('data-delay', (index * 100).toString());
-                const img = document.createElement('img');
-                img.src = 'album/' + filename;
-                img.loading = 'lazy';
-                item.appendChild(img);
-                galleryGrid.appendChild(item);
-            });
+            const img = document.createElement('img');
+            img.src = 'album/' + filename; 
+            img.loading = 'lazy';
+            
+            item.appendChild(img);
+            galleryGrid.appendChild(item);
+        });
+
+        // 사진이 HTML에 추가된 후 스크롤 애니메이션 재설정
+        if (typeof checkRevealElements === 'function') {
             revealElements = document.querySelectorAll('.text-fade-in, .image-fade-in');
             checkRevealElements();
-        } catch (error) { galleryGrid.innerHTML = '<div class="loading-photos">사진을 불러올 수 없습니다.</div>'; }
+        }
     }
     loadGalleryPhotos();
 
-// ====== 5. 사진 확대 및 좌우 슬라이드 기능 ======
+// ====== 5. 사진 확대 및 좌우 슬라이드 (드래그 스와이프) 기능 ======
     const photoModal = document.getElementById('photoModal');
     const expandedPhoto = document.getElementById('expandedPhoto');
     const photoModalClose = document.getElementById('photoModalClose');
@@ -319,47 +350,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentPhotoIndex = 0;
     let galleryImages = [];
-    let navTimeout; // 🌟 화살표를 숨길 타이머
+    let navTimeout;
 
     if (galleryGrid && photoModal) {
-        // 🌟 화살표를 2초 동안만 보여주고 숨기는 함수
         function showNavTemporarily() {
             btnPrev.classList.add('show-nav');
             btnNext.classList.add('show-nav');
             
-            clearTimeout(navTimeout); // 기존 타이머 초기화
+            clearTimeout(navTimeout);
             navTimeout = setTimeout(() => {
                 btnPrev.classList.remove('show-nav');
                 btnNext.classList.remove('show-nav');
-            }, 2000); // 2000ms = 2초 뒤 사라짐
+            }, 2000);
         }
 
-        // 1. 갤러리 사진을 클릭했을 때 모달 열기
+        // 1. 모달 열기
         galleryGrid.addEventListener('click', function(e) {
             if (e.target.tagName === 'IMG') {
                 galleryImages = Array.from(galleryGrid.querySelectorAll('.gallery-item img'));
                 currentPhotoIndex = galleryImages.indexOf(e.target);
                 updateModalPhoto();
+                
+                // 🌟 모달이 열릴 때 사진 위치와 투명도를 원래대로 초기화
+                expandedPhoto.style.transition = 'none';
+                expandedPhoto.style.transform = 'translateX(0)';
+                expandedPhoto.style.opacity = '1';
+                
                 photoModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                showNavTemporarily(); // 모달 열릴 때 화살표 잠깐 보여주기
+                showNavTemporarily();
             }
         });
 
-        // 2. 모달 속 사진을 바꿔주는 공통 함수
+        // 2. 모달 속 사진 변경
         function updateModalPhoto() {
             if (galleryImages.length > 0) {
                 expandedPhoto.src = galleryImages[currentPhotoIndex].src;
             }
         }
 
-        // 3. 화살표 버튼 클릭 시 사진 이동
+        // 3. 화살표 버튼(클릭) 제어
         btnPrev.addEventListener('click', function(e) {
             e.stopPropagation();
             currentPhotoIndex--;
             if (currentPhotoIndex < 0) currentPhotoIndex = galleryImages.length - 1;
             updateModalPhoto();
-            showNavTemporarily(); // 버튼 누르면 다시 2초 보여주기
+            showNavTemporarily();
         });
 
         btnNext.addEventListener('click', function(e) {
@@ -370,28 +406,85 @@ document.addEventListener('DOMContentLoaded', function() {
             showNavTemporarily();
         });
 
-        // 4. 🌟 모바일 화면 터치 및 스와이프(넘기기) 기능
+        // 4. 🌟 손가락을 따라다니는 부드러운 드래그 & 스와이프 기능
         let touchStartX = 0;
-        
+        let currentTranslate = 0;
+        let isDragging = false;
+
         expandedPhoto.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-            showNavTemporarily(); // 화면 터치하면 화살표 나타남
+            touchStartX = e.touches[0].clientX;
+            isDragging = true;
+            // 드래그 중에는 부드러운 애니메이션 끄기 (손가락을 즉각적으로 따라감)
+            expandedPhoto.style.transition = 'none';
+            showNavTemporarily();
         });
+
+        expandedPhoto.addEventListener('touchmove', e => {
+            if (!isDragging) return;
+            e.preventDefault(); // 사진을 넘길 때 화면이 위아래로 스크롤되는 것 방지
+            
+            const currentX = e.touches[0].clientX;
+            currentTranslate = currentX - touchStartX;
+            
+            // 사진이 좌우로 이동할수록 가장자리가 자연스럽게 투명해지는 효과
+            const opacity = 1 - Math.abs(currentTranslate) / (window.innerWidth * 1.5);
+            expandedPhoto.style.transform = `translateX(${currentTranslate}px)`;
+            expandedPhoto.style.opacity = opacity.toString();
+        }, { passive: false });
 
         expandedPhoto.addEventListener('touchend', e => {
-            let touchEndX = e.changedTouches[0].screenX;
-            // 50px 이상 밀었을 때만 사진 넘어가기
-            if (touchEndX < touchStartX - 50) btnNext.click(); // 왼쪽으로 밀면 다음 사진
-            if (touchEndX > touchStartX + 50) btnPrev.click(); // 오른쪽으로 밀면 이전 사진
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // 손가락을 떼면 부드럽게 미끄러지는 애니메이션 다시 켜기
+            expandedPhoto.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+            if (currentTranslate < -70) {
+                // 👈 왼쪽으로 70px 이상 밀었을 때 (다음 사진)
+                expandedPhoto.style.transform = `translateX(-100vw)`;
+                expandedPhoto.style.opacity = '0'; // 화면 밖으로 날려보냄
+                
+                setTimeout(() => {
+                    btnNext.click(); // 사진 데이터 교체
+                    resetPhotoPosition(50); // 새 사진이 오른쪽(50px)에서 다가오도록 설정
+                }, 300);
+            } else if (currentTranslate > 70) {
+                // 👉 오른쪽으로 70px 이상 밀었을 때 (이전 사진)
+                expandedPhoto.style.transform = `translateX(100vw)`;
+                expandedPhoto.style.opacity = '0';
+                
+                setTimeout(() => {
+                    btnPrev.click(); 
+                    resetPhotoPosition(-50); // 새 사진이 왼쪽(-50px)에서 다가오도록 설정
+                }, 300);
+            } else {
+                // 살짝 밀다 말았을 때: 튕기듯 제자리로 복귀
+                expandedPhoto.style.transform = `translateX(0)`;
+                expandedPhoto.style.opacity = '1';
+            }
         });
 
-        // 마우스로 사진을 클릭해도 화살표 나타나게 하기
+        // 사진 교체 후 새 사진이 자연스럽게 나타나도록 위치를 잡아주는 함수
+        function resetPhotoPosition(startX) {
+            expandedPhoto.style.transition = 'none';
+            expandedPhoto.style.transform = `translateX(${startX}px)`; // 출발 위치로 몰래 이동
+            
+            // 0.05초 뒤에 제자리(0px)로 애니메이션과 함께 등장
+            setTimeout(() => {
+                expandedPhoto.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                expandedPhoto.style.transform = `translateX(0)`;
+                expandedPhoto.style.opacity = '1';
+            }, 50);
+            currentTranslate = 0;
+        }
+
+        // 마우스(터치) 클릭 시 화살표 나타나게 하기
         expandedPhoto.addEventListener('click', function(e) {
             e.stopPropagation();
             showNavTemporarily();
         });
 
-        // 5. 모달 닫기 기능
+        // 5. 모달 닫기
         function closePhotoModal() {
             photoModal.classList.remove('active');
             document.body.style.overflow = '';

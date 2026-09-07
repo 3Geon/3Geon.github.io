@@ -508,3 +508,73 @@ body {
 
 /* 버튼을 눌렀을 때 살짝 작아지는 애니메이션 */
 .photo-nav:active { transform: translateY(-50%) scale(0.9); }
+
+/* ====== 혼주 및 신랑 신부 이름 스타일 (좌우 배치) ====== */
+.family-info-horizontal {
+    margin-top: 50px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    
+    /* 👇 선 대신 투명한 간격을 넉넉하게 줍니다 (더 띄우고 싶다면 50px, 60px로 올려보세요) 👇 */
+    gap: 40px; 
+    
+    color: #1a1a1a;
+    font-family: 'Noto Sans KR', sans-serif; 
+}
+
+/* ... (아래쪽 .family-col 등의 코드는 그대로 두시면 됩니다) ... */
+
+/* 양쪽(신랑/신부) 각각의 기둥 */
+.family-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* 부모님 성함과 자녀 이름 사이 간격 */
+    width: 140px; /* 모바일에서 텍스트가 안 깨지도록 너비 고정 */
+}
+
+/* 가운데 연한 구분선 */
+.family-line {
+    width: 1px;
+    height: 35px;
+    background-color: #d1d1d1;
+    margin: 0 15px; /* 양옆 여백 */
+}
+
+/* 부모님 성함 */
+.family-col .parents {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+/* 가운뎃점 */
+.family-col .parents .dot {
+    font-weight: 300;
+    margin: 0 2px;
+    color: #777;
+}
+
+/* 자녀 정보 묶음 (의 아들 + 이름) */
+.family-col .child-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* 의 아들 / 의 딸 */
+.family-col .relation {
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* 신랑 신부 이름 */
+.family-col .child-name {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}

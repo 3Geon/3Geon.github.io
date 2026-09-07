@@ -21,6 +21,7 @@
     <link rel="preload" href="photos/Model.png" as="image">
     <!-- 만약 종이 텍스처 로딩도 늦다면 아래 줄도 추가해주세요 -->
     <link rel="preload" href="photos/paper_texture.png" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -110,6 +111,29 @@
                     <img src="photos/손글씨.png" alt="초대장 손글씨">
                 </div>
                 
+<!-- 👇 새롭게 추가된 좌우 배치 혼주 및 신랑 신부 이름 👇 -->
+                <div class="family-info-horizontal text-fade-in" data-delay="400">
+                    
+                    <!-- 왼쪽: 신랑측 -->
+                    <div class="family-col">
+                        <div class="parents">김진석 <span class="dot">·</span> 오혜정<span class="relation">의 아들</span></div>
+                        <div class="child-row">
+                            <span class="child-name">김상건</span>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- 오른쪽: 신부측 -->
+                    <div class="family-col">
+                        <div class="parents">윤호성 <span class="dot">·</span> 왕미순<span class="relation">의 딸</span></div>
+                        <div class="child-row">
+                            
+                            <span class="child-name">윤기정</span>
+                        </div>
+                    </div>
+                    
+                </div>
+
             </div>
         </section>
 
