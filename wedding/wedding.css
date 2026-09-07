@@ -1,6 +1,10 @@
 /* ====== RESET & BASE ====== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { 
+    scroll-behavior: smooth; 
+    overflow-x: hidden !important; /* 🌟 모바일 화면 가로 밀림 완벽 차단 */
+    width: 100%; 
+}
 
 body {
     font-family: 'Noto Sans KR', sans-serif;
@@ -365,7 +369,14 @@ body {
 
 /* 음악 토글 버튼 */
 .music-btn {
-    position: fixed; top: 20px; right: 20px; width: 44px; height: 44px;
+    position: fixed; 
+    top: 15px; /* 위쪽 여백 살짝 조절 */
+    
+    /* 🌟 안드로이드 잘림 현상 방지를 위해 우측 여백을 15px로 줄이고 안전 영역(safe-area) 확보 */
+    right: 15px; 
+    margin-right: env(safe-area-inset-right, 0); 
+    
+    width: 44px; height: 44px;
     border-radius: 50%; background: #ffffff; border: 2px solid #1a1a1a;
     box-shadow: 3px 3px 0px #1a1a1a; font-size: 20px; cursor: pointer;
     z-index: 10001; display: flex; align-items: center; justify-content: center;
@@ -454,14 +465,21 @@ body {
     padding: 0;
 }
 
-/* 🌟 사진 확대 창의 X 닫기 버튼 스타일 변경 (동그라미 배경 삭제 및 얇은 폰트) */
+/* 🌟 사진 확대 창의 X 닫기 버튼 (항상 최상단 고정 및 그림자 추가) */
 #photoModalClose {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    font-weight: 200 !important; /* X 표시를 아주 얇게 만듭니다 */
-    font-size: 44px !important;  /* 얇아진 만큼 크기를 조금 키워 터치하기 편하게 합니다 */
+    font-weight: 200 !important; 
+    font-size: 44px !important;  
     color: #ffffff !important;
+    
+    /* 👇 새롭게 추가된 핵심 코드 👇 */
+    position: fixed !important;    /* 사진 크기와 무관하게 화면 우측 상단에 고정 */
+    top: 20px !important; 
+    right: 20px !important; 
+    z-index: 99999 !important;     /* 어떤 사진보다도 무조건 맨 위에 오도록 설정 */
+    text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4) !important; /* 하얀 사진 위에서도 잘 보이도록 그림자 추가 */
 }
 
 .photo-modal-content img {
