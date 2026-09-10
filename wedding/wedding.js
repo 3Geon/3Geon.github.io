@@ -293,22 +293,31 @@ document.addEventListener('DOMContentLoaded', function() {
             '1-03.png',
             '1-04.png',
             '1-05.png',
+            '1-06.png',
+            '1-07.png',
             '2-01.png',
             '2-02.png',
             '2-03.png',
             '2-04.png',
             '2-05.png',
+            '2-06.png',
+            '2-07.png',
+            '2-08.png',
+            '2-09.png',
+            '2-10.png',
             '3-01.png',
             '3-02.png',
             '3-03.png',
             '3-04.png',
             '3-05.png',
+            '3-06.png',
             '4-01.png',
             '4-02.png',
             '4-03.png',
             '4-04.png',
-            '4-05.png',
-            '4-06.png'
+            '5-01.png',
+            '5-02.png',
+            '5-03.png'
             // 필요한 만큼 쉼표(,)로 구분해서 계속 추가하세요
         ];
 
